@@ -162,7 +162,7 @@ export const WeatherAlertCard: React.FC = () => {
               >
                 {currentReport.alertLevel === 'verde'
                   ? 'Nivel Verde · Estable'
-                  : `Alerta ${currentReport.alertLevel.toUpperCase()}`}
+                  : `Precaución ${currentReport.alertLevel.toUpperCase()}`}
               </span>
             </div>
             <h3 className="text-sm sm:text-base font-black font-heading text-white mt-0.5">

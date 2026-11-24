@@ -30,7 +30,7 @@ export interface LiveWeatherReport {
   bomberosPhone: string;
 }
 
-const STORAGE_KEY_WEATHER = 'vortex_weather_cache_v1';
+const STORAGE_KEY_WEATHER = 'vortex_weather_cache_v2';
 const STORAGE_KEY_ADMIN_ALERT = 'vortex_admin_weather_alert_v1';
 
 /**
@@ -62,6 +62,7 @@ function translateWmoCode(code: number): string {
     case 80:
       return 'Chaparrones aislados';
     case 81:
+      return 'Chaparrones moderados';
     case 82:
       return 'Chaparrones intensos';
     case 95:
@@ -84,25 +85,27 @@ function getWindCardinal(deg: number): string {
 }
 
 /**
- * Evaluate alert level based on coastal wind gusts, rain and thunderstorms
+ * Evaluate local weather alert level calibrated to SMN Argentina thresholds
+ * for Sudoeste Bonaerense / Coronel Rosales (coastal wind zone).
+ * Note: Official SMN decrees come from smn.gob.ar/alertas or Admin Defensa Civil override.
  */
 function evaluateAlertLevel(
+  windSpeed: number,
   windGusts: number,
   weatherCode: number,
-  precipitation: number,
-  temp: number
+  precipitation: number
 ): {
   level: 'verde' | 'amarilla' | 'naranja' | 'roja';
   title: string;
   detail: string;
   recommendations: string[];
 } {
-  // 1. Extreme Hazard (Nivel Rojo)
-  if (windGusts >= 85 || weatherCode === 96 || weatherCode === 99 || precipitation >= 35) {
+  // 1. Extreme Hazard (Nivel Rojo: ráfagas >= 105 km/h, viento sostenido >= 75 km/h, granizo severo o diluvio >= 50 mm/h)
+  if (windGusts >= 105 || windSpeed >= 75 || weatherCode === 96 || weatherCode === 99 || precipitation >= 50) {
     return {
       level: 'roja',
-      title: '🚨 ALERTA ROJA · TEMPORAL SEVERO EN CORONEL ROSALES',
-      detail: `Ráfagas extremas de ${Math.round(windGusts)} km/h con tormenta severa. Riesgo inminente de caída de postes, árboles y voladura de techos en Punta Alta y Pehuen Co.`,
+      title: '🚨 RIESGO EXTREMO · TEMPORAL SEVERO EN CORONEL ROSALES',
+      detail: `Viento sostenido de ${Math.round(windSpeed)} km/h y ráfagas de ${Math.round(windGusts)} km/h con fenómeno severo. Riesgo de caída de postes, árboles y voladura de techos en Punta Alta y Pehuen Co.`,
       recommendations: [
         'Permanecé a resguardo en construcciones sólidas. No salgas a la vía pública.',
         'Desconectá artefactos eléctricos y cerrá persianas y ventanas.',
@@ -112,12 +115,12 @@ function evaluateAlertLevel(
     };
   }
 
-  // 2. High Hazard (Nivel Naranja)
-  if (windGusts >= 65 || weatherCode === 95 || precipitation >= 15) {
+  // 2. High Hazard (Nivel Naranja: ráfagas >= 90 km/h, viento sostenido >= 60 km/h o lluvia torrencial >= 30 mm/h)
+  if (windGusts >= 90 || windSpeed >= 60 || precipitation >= 30) {
     return {
       level: 'naranja',
-      title: '⚠️ ALERTA NARANJA · VIENTOS FUERTES Y TORMENTAS',
-      detail: `Ráfagas de ${Math.round(windGusts)} km/h en Punta Alta y zona costera. Se prevén lluvias intensas y probabilidad de descargas eléctricas.`,
+      title: '⚠️ ALERTA NARANJA · VIENTOS MUY FUERTES O LLUVIA INTENSA',
+      detail: `Viento sostenido de ${Math.round(windSpeed)} km/h con ráfagas de ${Math.round(windGusts)} km/h en Punta Alta y zona costera.`,
       recommendations: [
         'Asegurá chapas, macetas, carteles y objetos sueltos en patios o balcones.',
         'Mantenete alejado de árboles frondosos y cables caídos.',
@@ -127,27 +130,40 @@ function evaluateAlertLevel(
     };
   }
 
-  // 3. Moderate Hazard (Nivel Amarillo)
-  if (windGusts >= 45 || [61, 63, 65, 80, 81].includes(weatherCode)) {
+  // 3. Moderate Hazard (Nivel Amarillo SMN: viento sostenido >= 40 km/h con ráfagas >= 70 km/h, tormenta eléctrica o lluvia fuerte)
+  if (
+    (windSpeed >= 40 && windGusts >= 70) ||
+    windGusts >= 75 ||
+    weatherCode === 95 ||
+    weatherCode === 65 ||
+    weatherCode === 82 ||
+    precipitation >= 15
+  ) {
+    const hasRainOrStorm = weatherCode >= 65 || precipitation > 0;
     return {
       level: 'amarilla',
-      title: '🟡 ALERTA AMARILLA · VIENTO Y LLUVIAS EN LA CIUDAD',
-      detail: `Ráfagas de hasta ${Math.round(windGusts)} km/h en Punta Alta. Condiciones marítimas y atmosféricas con precaución moderada.`,
+      title: hasRainOrStorm
+        ? '🟡 PRECAUCIÓN AMARILLA · VIENTO Y TORMENTA EN LA REGIÓN'
+        : '🟡 PRECAUCIÓN AMARILLA · RÁFAGAS FUERTES EN PUNTA ALTA',
+      detail: `Viento de ${Math.round(windSpeed)} km/h con ráfagas de hasta ${Math.round(windGusts)} km/h${precipitation > 0 ? ` y precipitación de ${precipitation} mm` : ''}. Verificá también el mapa oficial del SMN.`,
       recommendations: [
-        'Circulá con extrema precaución y luces bajas encendidas.',
+        'Circulá con precaución, especialmente en rutas costeras y accesos abiertos.',
         'Evitá estacionar vehículos bajo ramas grandes o postes añejos.',
-        'Seguí las actualizaciones oficiales del SMN y Defensa Civil Punta Alta.'
+        'Confirmá alertas vigentes en el mapa oficial del SMN (smn.gob.ar/alertas).'
       ]
     };
   }
 
-  // 4. Stable Conditions (Nivel Verde)
+  // 4. Stable Conditions (Nivel Verde — incluye brisa costera normal en Punta Alta)
+  const hasBreezyGusts = windGusts >= 45;
   return {
     level: 'verde',
     title: '🟢 NIVEL VERDE · CONDICIONES METEOROLÓGICAS ESTABLES',
-    detail: `Sin alertas meteorológicas activas en Punta Alta, Puerto Belgrano y Pehuen Co. Vientos normales de ${Math.round(windGusts)} km/h.`,
+    detail: hasBreezyGusts
+      ? `Sin alerta meteorológica activa en Punta Alta y Pehuen Co. Viento de ${Math.round(windSpeed)} km/h con ráfagas costeras moderadas de ${Math.round(windGusts)} km/h dentro de valores habituales.`
+      : `Sin alertas meteorológicas activas en Punta Alta, Puerto Belgrano y Pehuen Co. Viento de ${Math.round(windSpeed)} km/h (ráfagas ${Math.round(windGusts)} km/h).`,
     recommendations: [
-      'Seguí los partes periódicos ante vientos del sudeste o temporales marítimos.',
+      'Condiciones normales según umbral del SMN para el Sudoeste Bonaerense.',
       'Línea 103 (Defensa Civil Punta Alta) disponible las 24 horas ante cualquier contingencia.',
       'SAME 107 y Hospital Municipal Eva Perón con guardia médica abierta.'
     ]
@@ -239,7 +255,7 @@ export async function getLiveWeatherReport(forceRefresh = false): Promise<LiveWe
       const wCode = cur.weather_code || 0;
       const isDay = cur.is_day === 1;
 
-      const evalAlert = evaluateAlertLevel(windGst, wCode, precip, temp);
+      const evalAlert = evaluateAlertLevel(windSpd, windGst, wCode, precip);
 
       const report: LiveWeatherReport = {
         temperature: temp,
@@ -259,7 +275,7 @@ export async function getLiveWeatherReport(forceRefresh = false): Promise<LiveWe
         recommendations: evalAlert.recommendations,
         lastUpdated: new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }),
         isLive: true,
-        source: 'Estación Meteorológica en vivo (Open-Meteo · SMN Sudoeste)',
+        source: 'Estación en vivo Open-Meteo (Punta Alta · estimación según umbrales SMN)',
         smnUrl: 'https://www.smn.gob.ar/alertas',
         defensaCivilPhone: '103',
         bomberosPhone: '100'

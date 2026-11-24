@@ -482,3 +482,60 @@ export async function fetchKeychainsForAdminFromFirestore(): Promise<MedicalReco
   }
 }
 
+export async function fetchRegisteredCitizenRecordsForAdminFromFirestore(): Promise<
+  Array<MedicalRecord & { ownerEmail?: string | null }>
+> {
+  if (!auth.currentUser) return [];
+  const collected: Array<MedicalRecord & { ownerEmail?: string | null }> = [];
+  const seenUserIds = new Set<string>();
+
+  try {
+    const [keychainsSnap, usersSnap] = await Promise.allSettled([
+      getDocs(collection(db, 'keychains')),
+      getDocs(collection(db, 'users'))
+    ]);
+
+    if (keychainsSnap.status === 'fulfilled') {
+      keychainsSnap.value.forEach((d) => {
+        const data = d.data() as MedicalRecord;
+        if (data?.nombre) {
+          collected.push(data);
+        }
+      });
+    }
+
+    if (usersSnap.status === 'fulfilled') {
+      const userDocs = usersSnap.value.docs.slice(0, 120);
+      const recordPromises = userDocs.map(async (uDoc) => {
+        const uData = uDoc.data() as UserProfileData;
+        const uid = uDoc.id;
+        if (seenUserIds.has(uid)) return null;
+        seenUserIds.add(uid);
+        try {
+          const recSnap = await getDoc(doc(db, 'users', uid, 'medicalRecords', 'primary'));
+          if (recSnap.exists()) {
+            return {
+              ...(recSnap.data() as MedicalRecord),
+              ownerEmail: uData?.email || null
+            };
+          }
+        } catch {
+          // skip unreadable user subdoc
+        }
+        return null;
+      });
+
+      const results = await Promise.allSettled(recordPromises);
+      for (const r of results) {
+        if (r.status === 'fulfilled' && r.value && r.value.nombre) {
+          collected.push(r.value);
+        }
+      }
+    }
+  } catch {
+    // ignore partial failures
+  }
+
+  return collected;
+}
+

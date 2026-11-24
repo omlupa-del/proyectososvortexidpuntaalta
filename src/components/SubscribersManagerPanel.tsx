@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
   UserPlus,
   Search,
@@ -134,6 +134,9 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
     null
   );
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const formSectionRef = useRef<HTMLDivElement>(null);
+  const onCountsChangeRef = useRef(onCountsChange);
+  onCountsChangeRef.current = onCountsChange;
 
   const showBanner = (type: 'ok' | 'warn' | 'err', text: string) => {
     setFeedbackMsg({ type, text });
@@ -146,12 +149,29 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
     setLoading(true);
     try {
       const res = await loadSubscribers(adminPin);
-      setSubscribers(res.subscribers);
+      let currentList = res.subscribers;
+      setSubscribers(currentList);
       setCloudSynced(res.cloudSynced);
+
+      // Carga automática de titulares registrados en la app (llaveros y cuentas Google)
+      const syncRes = await importSubscribersFromLinkedKeychains(
+        currentList,
+        systemConfig.monthlyFee,
+        adminPin,
+        systemConfig.isMembershipRequired
+      );
+      if (syncRes.importedCount > 0) {
+        currentList = syncRes.subscribers;
+        setSubscribers(currentList);
+        showBanner(
+          'ok',
+          `Se cargaron automáticamente ${syncRes.importedCount} titular${syncRes.importedCount === 1 ? '' : 'es'} desde registros de la aplicación.`
+        );
+      }
     } finally {
       setLoading(false);
     }
-  }, [adminPin]);
+  }, [adminPin, systemConfig.monthlyFee, systemConfig.isMembershipRequired]);
 
   useEffect(() => {
     fetchRoster();
@@ -187,8 +207,8 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
   }, [subscribers]);
 
   useEffect(() => {
-    onCountsChange?.(metrics.total, metrics.overdueCount);
-  }, [metrics.total, metrics.overdueCount, onCountsChange]);
+    onCountsChangeRef.current?.(metrics.total, metrics.overdueCount);
+  }, [metrics.total, metrics.overdueCount]);
 
   const filteredSubscribers = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -217,6 +237,9 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
     playChirp('click');
     setFormState(createEmptyForm(systemConfig.monthlyFee));
     setIsFormOpen(true);
+    setTimeout(() => {
+      formSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 40);
   };
 
   const handleOpenEdit = (sub: SubscriberData) => {
@@ -243,6 +266,9 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
       createdAt: sub.createdAt
     });
     setIsFormOpen(true);
+    setTimeout(() => {
+      formSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 40);
   };
 
   const handleSaveForm = async () => {
@@ -350,17 +376,18 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
       const res = await importSubscribersFromLinkedKeychains(
         subscribers,
         systemConfig.monthlyFee,
-        adminPin
+        adminPin,
+        systemConfig.isMembershipRequired
       );
       setSubscribers(res.subscribers);
       if (res.importedCount > 0) {
         playChirp('success');
         showBanner(
           'ok',
-          `Se importaron ${res.importedCount} titulares desde los llaveros SOS vinculados.`
+          `Se sincronizaron ${res.importedCount} titular${res.importedCount === 1 ? '' : 'es'} nuevos desde la aplicación.`
         );
       } else {
-        showBanner('warn', 'No hay llaveros nuevos para importar (ya figuran en el padrón).');
+        showBanner('warn', 'Padrón actualizado: no hay registros nuevos en la nube o servidor.');
       }
     } finally {
       setImporting(false);
@@ -383,58 +410,11 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
 
   return (
     <div className="space-y-4">
-      {/* KPI Metrics Strip (1px hairline border grid, tabular numerals) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3 rounded-xl bg-[#0B111E] border border-[#1C2A45]">
-          <span className="text-[11px] text-slate-400 block">Padrón Total</span>
-          <span className="text-xl font-mono tabular-nums font-bold text-white mt-0.5 block">
-            {metrics.total}
-          </span>
-          <span className="text-[11px] text-slate-500 font-mono">suscriptores</span>
-        </div>
-
-        <div className="p-3 rounded-xl bg-[#0B111E] border border-[#1C2A45]">
-          <span className="text-[11px] text-slate-400 block">Al Día (Pagaron)</span>
-          <div className="flex items-baseline justify-between gap-2 mt-0.5">
-            <span className="text-xl font-mono tabular-nums font-bold text-emerald-400">
-              {metrics.alDiaCount}
-            </span>
-            <span className="text-xs font-mono tabular-nums text-emerald-300">
-              {formatCurrency(metrics.collectedMonthly)}
-            </span>
-          </div>
-          <span className="text-[11px] text-slate-500 font-mono">cuota vigente</span>
-        </div>
-
-        <div className="p-3 rounded-xl bg-[#0B111E] border border-[#1C2A45]">
-          <span className="text-[11px] text-slate-400 block">Adeudan / Vencidos</span>
-          <div className="flex items-baseline justify-between gap-2 mt-0.5">
-            <span className="text-xl font-mono tabular-nums font-bold text-rose-400">
-              {metrics.overdueCount}
-            </span>
-            <span className="text-xs font-mono tabular-nums text-rose-300">
-              {formatCurrency(metrics.pendingDebt)}
-            </span>
-          </div>
-          <span className="text-[11px] text-slate-500 font-mono">saldo a cobrar</span>
-        </div>
-
-        <div className="p-3 rounded-xl bg-[#0B111E] border border-[#1C2A45]">
-          <span className="text-[11px] text-slate-400 block">Prueba / Baja</span>
-          <span className="text-xl font-mono tabular-nums font-bold text-cyan-300 mt-0.5 block">
-            {metrics.trialOrOffCount}
-          </span>
-          <span className="text-[11px] text-slate-500 font-mono">
-            {cloudSynced ? '● Nube sincronizada' : '▲ Solo respaldo local'}
-          </span>
-        </div>
-      </div>
-
       {/* Google Admin Cloud Sync Reminder if not connected */}
       {!isAdmin && (
         <div className="px-3.5 py-2.5 rounded-xl bg-[#0B111E] border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs">
           <span className="text-amber-300">
-            Conectá Google Admin (omlupa@gmail.com) para guardar y consultar el padrón desde Firestore en cualquier dispositivo.
+            Conectá Google Admin (omlupa@gmail.com) para sincronizar automáticamente los registros de Netlify y guardar cobranzas en la nube.
           </span>
           <button
             type="button"
@@ -446,7 +426,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
         </div>
       )}
 
-      {/* Action & Filter Toolbar */}
+      {/* Action & Filter Toolbar + Inline Alta Form First */}
       <section className="rounded-xl bg-[#0B111E] border border-[#1C2A45] overflow-hidden">
         <div className="px-4 py-3 border-b border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -454,7 +434,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               Base de Datos de Suscriptores y Cobranzas
             </h3>
             <p className="text-xs text-slate-400">
-              Control de pagos, vencimientos, dirección, celular, DNI y número de llavero QR
+              Alta directa, carga automática desde la app, pagos, vencimientos, dirección, celular y llavero QR
             </p>
           </div>
 
@@ -466,7 +446,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               className="min-h-[36px] px-3 py-1.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 disabled:opacity-50"
             >
               <DatabaseBackup className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{importing ? 'Importando…' : 'Importar Llaveros'}</span>
+              <span>{importing ? 'Sincronizando…' : 'Sincronizar App'}</span>
             </button>
 
             <button
@@ -486,54 +466,6 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
             >
               <UserPlus className="w-3.5 h-3.5" />
               <span>Nuevo Suscriptor</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Segmented Filters & Search */}
-        <div className="px-4 py-2.5 bg-[#080D18] border-b border-[#1C2A45] flex flex-col md:flex-row md:items-center justify-between gap-2.5">
-          <div className="flex items-center gap-1 p-1 bg-[#05080F] border border-[#1C2A45] rounded-lg overflow-x-auto">
-            {[
-              { id: 'all' as SubscriberFilterTab, label: `Todos (${metrics.total})` },
-              { id: 'al_dia' as SubscriberFilterTab, label: `Al Día (${metrics.alDiaCount})` },
-              { id: 'adeuda' as SubscriberFilterTab, label: `Adeudan (${metrics.overdueCount})` },
-              { id: 'prueba' as SubscriberFilterTab, label: 'Prueba' },
-              { id: 'baja' as SubscriberFilterTab, label: 'Baja' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setFilterTab(tab.id)}
-                className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 ${
-                  filterTab === tab.id
-                    ? 'bg-cyan-500/20 text-cyan-200'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1 md:w-64">
-              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar nombre, DNI, cel, dirección…"
-                className="w-full py-1.5 pl-8 pr-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
-              />
-            </div>
-            <button
-              type="button"
-              onClick={fetchRoster}
-              disabled={loading}
-              title="Recargar padrón"
-              className="p-1.5 rounded-lg bg-[#05080F] border border-[#1C2A45] text-slate-400 hover:text-white transition-colors"
-            >
-              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
           </div>
         </div>
@@ -561,9 +493,9 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
           </div>
         )}
 
-        {/* Inline Add / Edit Drawer Panel */}
+        {/* Inline Add / Edit Drawer Panel (Positioned right below toolbar for instant Alta access) */}
         {isFormOpen && (
-          <div className="p-4 bg-[#070B14] border-b border-[#1C2A45] space-y-4">
+          <div ref={formSectionRef} className="p-4 bg-[#070B14] border-b border-[#1C2A45] space-y-4">
             <div className="flex items-center justify-between gap-2">
               <h4 className="text-sm font-semibold text-cyan-300">
                 {formState.id ? `Editar Suscriptor · ${formState.fullName}` : 'Alta de Nuevo Suscriptor'}
@@ -822,6 +754,103 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
           </div>
         )}
 
+        {/* KPI Metrics Strip (1px hairline border grid, tabular numerals) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-[#1C2A45] divide-y sm:divide-y-0 sm:divide-x divide-[#1C2A45] bg-[#080D18]">
+          <div className="p-3">
+            <span className="text-[11px] text-slate-400 block">Padrón Total</span>
+            <div className="flex items-baseline justify-between gap-2 mt-0.5">
+              <span className="text-lg font-mono tabular-nums font-bold text-white">
+                {metrics.total}
+              </span>
+              <span className="text-[11px] text-slate-500 font-mono">suscriptores</span>
+            </div>
+          </div>
+
+          <div className="p-3">
+            <span className="text-[11px] text-slate-400 block">Al Día (Pagaron)</span>
+            <div className="flex items-baseline justify-between gap-2 mt-0.5">
+              <span className="text-lg font-mono tabular-nums font-bold text-emerald-400">
+                {metrics.alDiaCount}
+              </span>
+              <span className="text-xs font-mono tabular-nums text-emerald-300">
+                {formatCurrency(metrics.collectedMonthly)}
+              </span>
+            </div>
+          </div>
+
+          <div className="p-3">
+            <span className="text-[11px] text-slate-400 block">Adeudan / Vencidos</span>
+            <div className="flex items-baseline justify-between gap-2 mt-0.5">
+              <span className="text-lg font-mono tabular-nums font-bold text-rose-400">
+                {metrics.overdueCount}
+              </span>
+              <span className="text-xs font-mono tabular-nums text-rose-300">
+                {formatCurrency(metrics.pendingDebt)}
+              </span>
+            </div>
+          </div>
+
+          <div className="p-3">
+            <span className="text-[11px] text-slate-400 block">Prueba / Baja</span>
+            <div className="flex items-baseline justify-between gap-2 mt-0.5">
+              <span className="text-lg font-mono tabular-nums font-bold text-cyan-300">
+                {metrics.trialOrOffCount}
+              </span>
+              <span className="text-[11px] text-slate-500 font-mono">
+                {cloudSynced ? '● Nube OK' : '▲ Local'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Segmented Filters & Search */}
+        <div className="px-4 py-2.5 bg-[#080D18] border-b border-[#1C2A45] flex flex-col md:flex-row md:items-center justify-between gap-2.5">
+          <div className="flex items-center gap-1 p-1 bg-[#05080F] border border-[#1C2A45] rounded-lg overflow-x-auto">
+            {[
+              { id: 'all' as SubscriberFilterTab, label: `Todos (${metrics.total})` },
+              { id: 'al_dia' as SubscriberFilterTab, label: `Al Día (${metrics.alDiaCount})` },
+              { id: 'adeuda' as SubscriberFilterTab, label: `Adeudan (${metrics.overdueCount})` },
+              { id: 'prueba' as SubscriberFilterTab, label: 'Prueba' },
+              { id: 'baja' as SubscriberFilterTab, label: 'Baja' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setFilterTab(tab.id)}
+                className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 ${
+                  filterTab === tab.id
+                    ? 'bg-cyan-500/20 text-cyan-200'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1 md:w-64">
+              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar nombre, DNI, cel, dirección…"
+                className="w-full py-1.5 pl-8 pr-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={fetchRoster}
+              disabled={loading}
+              title="Recargar padrón"
+              className="p-1.5 rounded-lg bg-[#05080F] border border-[#1C2A45] text-slate-400 hover:text-white transition-colors"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+            </button>
+          </div>
+        </div>
+
         {/* High-Density Data Table */}
         <div className="overflow-x-auto bg-[#05080F]">
           {loading ? (
@@ -856,7 +885,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                     className="px-3.5 py-2 rounded-lg bg-[#0B111E] border border-[#1C2A45] text-slate-200 hover:text-white font-medium text-xs inline-flex items-center gap-1.5"
                   >
                     <DatabaseBackup className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>Importar desde Llaveros Vinculados</span>
+                    <span>Sincronizar registros de la App</span>
                   </button>
                 )}
               </div>

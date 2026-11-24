@@ -430,6 +430,127 @@ async function startServer() {
     });
   });
 
+  // --- Subscribers Roster & Billing Database Store (initialized early for auto-enrollment) ---
+  interface SubscriberPayload {
+    id: string;
+    fullName: string;
+    dni?: string;
+    phone: string;
+    altPhone?: string;
+    address?: string;
+    neighborhood?: string;
+    keychainId?: string;
+    paymentStatus: 'al_dia' | 'adeuda' | 'prueba' | 'baja';
+    planType?: 'individual' | 'familiar' | 'comercio';
+    monthlyFee: number;
+    lastPaymentAmount?: number;
+    lastPaymentDate?: string;
+    nextDueDate?: string;
+    paymentMethod?: 'mercadopago' | 'transferencia' | 'efectivo' | 'bonificado';
+    payerAliasOrName?: string;
+    activationCodeDelivered?: boolean;
+    notes?: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  const SUBSCRIBERS_FILE = path.join(__dirname, '.subscribers_db.json');
+  let subscribersList: SubscriberPayload[] = [];
+  try {
+    if (fs.existsSync(SUBSCRIBERS_FILE)) {
+      const parsed = JSON.parse(fs.readFileSync(SUBSCRIBERS_FILE, 'utf-8'));
+      if (Array.isArray(parsed)) {
+        subscribersList = parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Error loading subscribers file:', err);
+    subscribersList = [];
+  }
+
+  const persistSubscribers = () => {
+    try {
+      fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscribersList, null, 2), 'utf-8');
+    } catch (err) {
+      console.error('Error saving subscribers file:', err);
+    }
+  };
+
+  const autoUpsertSubscriberFromMedicalRecord = (record: MedicalRecordPayload) => {
+    const cleanName = String(record.nombre || '').trim();
+    if (!cleanName) return;
+
+    const cleanKey = String(record.keychainId || '').trim().toUpperCase().replace(/^#/, '');
+    const cleanDni = String(record.dni || '').trim();
+    const cleanDniDigits = cleanDni.replace(/\D/g, '');
+    const cleanPhone = String(record.tel || record.cfam || '').trim();
+    const cleanAlt = record.cfam && record.cfam !== record.tel ? String(record.cfam).trim() : '';
+    const cleanAddress = String(record.domicilio || '').trim();
+
+    if (!cleanPhone && !cleanKey && !cleanDniDigits) return;
+
+    const now = new Date().toISOString();
+    const todayDate = now.slice(0, 10);
+    const nextMonthDateObj = new Date();
+    nextMonthDateObj.setMonth(nextMonthDateObj.getMonth() + 1);
+    const nextMonthDate = nextMonthDateObj.toISOString().slice(0, 10);
+
+    const matchIdx = subscribersList.findIndex((s) => {
+      if (cleanKey && (s.keychainId || '').toUpperCase() === cleanKey) return true;
+      const sDniDigits = (s.dni || '').replace(/\D/g, '');
+      if (cleanDniDigits && sDniDigits && sDniDigits === cleanDniDigits) return true;
+      return (
+        s.fullName.trim().toLowerCase() === cleanName.toLowerCase() &&
+        Boolean(cleanPhone) &&
+        s.phone.replace(/\D/g, '') === cleanPhone.replace(/\D/g, '')
+      );
+    });
+
+    if (matchIdx >= 0) {
+      const prev = subscribersList[matchIdx];
+      subscribersList[matchIdx] = {
+        ...prev,
+        fullName: cleanName.slice(0, 140),
+        dni: cleanDni ? cleanDni.slice(0, 24) : prev.dni,
+        phone: (cleanPhone || prev.phone).slice(0, 40),
+        altPhone: cleanAlt ? cleanAlt.slice(0, 40) : prev.altPhone,
+        address: cleanAddress ? cleanAddress.slice(0, 200) : prev.address,
+        keychainId: cleanKey ? cleanKey.slice(0, 32) : prev.keychainId,
+        updatedAt: now
+      };
+    } else {
+      const generatedId = cleanKey
+        ? `sub_kc_${cleanKey.replace(/[^a-zA-Z0-9_-]/g, '')}`
+        : cleanDniDigits
+          ? `sub_dni_${cleanDniDigits}`
+          : `sub_app_${Date.now()}`;
+
+      subscribersList.unshift({
+        id: generatedId.slice(0, 128),
+        fullName: cleanName.slice(0, 140),
+        dni: cleanDni.slice(0, 24),
+        phone: (cleanPhone || 'Sin teléfono cargado').slice(0, 40),
+        altPhone: cleanAlt.slice(0, 40),
+        address: cleanAddress.slice(0, 200),
+        neighborhood: '',
+        keychainId: cleanKey.slice(0, 32),
+        paymentStatus: systemConfig.isMembershipRequired ? 'adeuda' : 'prueba',
+        planType: 'individual',
+        monthlyFee: Number(systemConfig.monthlyFee) || 3000,
+        lastPaymentAmount: 0,
+        lastPaymentDate: '',
+        nextDueDate: systemConfig.isMembershipRequired ? todayDate : nextMonthDate,
+        paymentMethod: 'mercadopago',
+        payerAliasOrName: '',
+        activationCodeDelivered: false,
+        notes: 'Cargado automáticamente al registrarse en la aplicación.',
+        createdAt: now,
+        updatedAt: now
+      });
+    }
+    persistSubscribers();
+  };
+
   // Save / Sync primary medical record (stores photo and all emergency details)
   app.post('/api/records/primary', (req: Request, res: Response) => {
     const record = req.body as MedicalRecordPayload;
@@ -451,6 +572,7 @@ async function startServer() {
     }
 
     persistDb();
+    autoUpsertSubscriberFromMedicalRecord(record);
     console.log(`[Vortex ID Sync] Primary record updated: ${record.nombre || 'Sin nombre'} (Photo: ${record.foto ? 'YES' : 'NO'}, Keychain: ${record.keychainId || 'NONE'})`);
     res.json({ success: true, record });
   });
@@ -566,57 +688,13 @@ async function startServer() {
     db.keychains[cleanId] = updatedRecord;
     db.primaryRecord = updatedRecord;
     persistDb();
+    autoUpsertSubscriberFromMedicalRecord(updatedRecord);
 
     console.log(`[Vortex ID Link] Keychain #${cleanId} linked to ${record.nombre || 'titular'}`);
     res.json({ success: true, record: updatedRecord });
   });
 
   // --- Subscribers Roster & Billing Database API (Admin PIN Protected) ---
-  interface SubscriberPayload {
-    id: string;
-    fullName: string;
-    dni?: string;
-    phone: string;
-    altPhone?: string;
-    address?: string;
-    neighborhood?: string;
-    keychainId?: string;
-    paymentStatus: 'al_dia' | 'adeuda' | 'prueba' | 'baja';
-    planType?: 'individual' | 'familiar' | 'comercio';
-    monthlyFee: number;
-    lastPaymentAmount?: number;
-    lastPaymentDate?: string;
-    nextDueDate?: string;
-    paymentMethod?: 'mercadopago' | 'transferencia' | 'efectivo' | 'bonificado';
-    payerAliasOrName?: string;
-    activationCodeDelivered?: boolean;
-    notes?: string;
-    createdAt: string;
-    updatedAt: string;
-  }
-
-  const SUBSCRIBERS_FILE = path.join(__dirname, '.subscribers_db.json');
-  let subscribersList: SubscriberPayload[] = [];
-  try {
-    if (fs.existsSync(SUBSCRIBERS_FILE)) {
-      const parsed = JSON.parse(fs.readFileSync(SUBSCRIBERS_FILE, 'utf-8'));
-      if (Array.isArray(parsed)) {
-        subscribersList = parsed;
-      }
-    }
-  } catch (err) {
-    console.error('Error loading subscribers file:', err);
-    subscribersList = [];
-  }
-
-  const persistSubscribers = () => {
-    try {
-      fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscribersList, null, 2), 'utf-8');
-    } catch (err) {
-      console.error('Error saving subscribers file:', err);
-    }
-  };
-
   app.get('/api/subscribers', (req: Request, res: Response) => {
     if (!isValidAdminPin(req)) {
       return res.status(401).json({ error: 'PIN de administrador requerido para consultar el padrón de suscriptores.' });

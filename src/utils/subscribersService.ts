@@ -6,7 +6,7 @@ import {
   fetchSubscribersFromFirestore,
   saveSubscriberToFirestore,
   deleteSubscriberFromFirestore,
-  fetchKeychainsForAdminFromFirestore
+  fetchRegisteredCitizenRecordsForAdminFromFirestore
 } from '../firebase/firestoreService';
 import { SystemConfig, formatAdminWhatsAppNumber, formatCurrency } from './systemConfig';
 import { logSystemEvent } from './systemTelemetry';
@@ -251,7 +251,8 @@ export async function deleteSubscriberRecord(
 export async function importSubscribersFromLinkedKeychains(
   existingSubscribers: SubscriberData[],
   defaultMonthlyFee: number,
-  adminPin: string
+  adminPin: string,
+  isMembershipRequired = false
 ): Promise<{ importedCount: number; subscribers: SubscriberData[] }> {
   const existingKeys = new Set(
     existingSubscribers
@@ -263,9 +264,14 @@ export async function importSubscribersFromLinkedKeychains(
       .map((s) => (s.dni || '').replace(/\D/g, ''))
       .filter(Boolean)
   );
+  const existingNamePhones = new Set(
+    existingSubscribers
+      .map((s) => `${s.fullName.trim().toLowerCase()}|${s.phone.replace(/\D/g, '')}`)
+      .filter((k) => !k.endsWith('|'))
+  );
 
-  const [cloudKeychains, serverData] = await Promise.all([
-    fetchKeychainsForAdminFromFirestore(),
+  const [cloudCitizenRecords, serverData] = await Promise.all([
+    fetchRegisteredCitizenRecordsForAdminFromFirestore(),
     fetch('/api/records/all?includeRecords=true', {
       headers: adminPin ? { 'x-admin-pin': adminPin } : {}
     })
@@ -280,7 +286,8 @@ export async function importSubscribersFromLinkedKeychains(
     domicilio?: string;
     tel?: string;
     cfam?: string;
-  }> = [...cloudKeychains];
+    ownerEmail?: string | null;
+  }> = [...cloudCitizenRecords];
 
   if (serverData?.keychains && typeof serverData.keychains === 'object') {
     for (const [kcId, rec] of Object.entries(serverData.keychains)) {
@@ -300,16 +307,25 @@ export async function importSubscribersFromLinkedKeychains(
     const cleanPhone = (cand.tel || cand.cfam || '').trim();
     const cleanKey = (cand.keychainId || '').trim().toUpperCase().replace(/^#/, '');
     const cleanDniDigits = (cand.dni || '').replace(/\D/g, '');
+    const namePhoneKey = `${cleanName.toLowerCase()}|${cleanPhone.replace(/\D/g, '')}`;
 
-    if (!cleanName || (!cleanPhone && !cleanKey)) continue;
+    if (!cleanName || (!cleanPhone && !cleanKey && !cleanDniDigits)) continue;
     if (cleanKey && existingKeys.has(cleanKey)) continue;
     if (cleanDniDigits && existingDnis.has(cleanDniDigits)) continue;
+    if (cleanPhone && existingNamePhones.has(namePhoneKey)) continue;
 
     if (cleanKey) existingKeys.add(cleanKey);
     if (cleanDniDigits) existingDnis.add(cleanDniDigits);
+    if (cleanPhone) existingNamePhones.add(namePhoneKey);
+
+    const newId = cleanKey
+      ? `sub_kc_${cleanKey.replace(/[^a-zA-Z0-9_-]/g, '')}`
+      : cleanDniDigits
+        ? `sub_dni_${cleanDniDigits}`
+        : `sub_${Date.now()}_${importedCount}`;
 
     const newSub: SubscriberData = {
-      id: cleanKey ? `sub_kc_${cleanKey}` : `sub_${Date.now()}_${importedCount}`,
+      id: newId,
       fullName: cleanName,
       dni: (cand.dni || '').trim(),
       phone: cleanPhone || 'Sin teléfono cargado',
@@ -317,16 +333,16 @@ export async function importSubscribersFromLinkedKeychains(
       address: (cand.domicilio || '').trim(),
       neighborhood: '',
       keychainId: cleanKey,
-      paymentStatus: 'prueba',
+      paymentStatus: isMembershipRequired ? 'adeuda' : 'prueba',
       planType: 'individual',
       monthlyFee: defaultMonthlyFee,
       lastPaymentAmount: 0,
       lastPaymentDate: '',
-      nextDueDate: addOneMonthIsoDate(today),
+      nextDueDate: isMembershipRequired ? today : addOneMonthIsoDate(today),
       paymentMethod: 'mercadopago',
-      payerAliasOrName: '',
+      payerAliasOrName: cand.ownerEmail ? String(cand.ownerEmail).trim() : '',
       activationCodeDelivered: false,
-      notes: 'Importado automáticamente desde Llavero SOS vinculado.',
+      notes: 'Cargado automáticamente desde ficha registrada en la app.',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };

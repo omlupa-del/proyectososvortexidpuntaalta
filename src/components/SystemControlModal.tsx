@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
   X,
   DollarSign,
@@ -175,6 +175,19 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
     total: 0,
     overdue: 0
   });
+  const mainViewportRef = useRef<HTMLDivElement>(null);
+
+  const handleSubscriberCountsChange = useCallback((total: number, overdue: number) => {
+    setSubscriberCounts((prev) =>
+      prev.total === total && prev.overdue === overdue ? prev : { total, overdue }
+    );
+  }, []);
+
+  useEffect(() => {
+    if (isUnlocked) {
+      mainViewportRef.current?.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [activeModule, isUnlocked]);
 
   const runTelemetryProbe = useCallback(async (force = false) => {
     setProbing(true);
@@ -229,7 +242,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
       window.removeEventListener('vortex_system_logs_cleared', handleLogsCleared);
       if (probeTimer) clearInterval(probeTimer);
     };
-  }, [isOpen, isUnlocked, autoProbe, runTelemetryProbe]);
+  }, [isOpen, isUnlocked, autoProbe, runTelemetryProbe, verifiedAdminPin]);
 
   useEffect(() => {
     if (isOpen) {
@@ -851,10 +864,10 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
           {/* 2. Asymmetric Split Console */}
           <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] flex-1 min-h-0 overflow-hidden">
             {/* Left Modular Navigation & Live Instrument Readout */}
-            <aside className="bg-[#080D18] border-b lg:border-b-0 lg:border-r border-[#1C2A45] p-3 lg:p-4 flex flex-col justify-between gap-4 shrink-0 overflow-x-auto lg:overflow-y-auto">
+            <aside className="bg-[#080D18] border-b lg:border-b-0 lg:border-r border-[#1C2A45] p-3 lg:p-4 flex flex-col justify-between gap-4 shrink-0 lg:overflow-y-auto">
               <nav
                 aria-label="Módulos del Control de Misión"
-                className="flex lg:flex-col gap-1.5 min-w-max lg:min-w-0"
+                className="flex flex-wrap lg:flex-col gap-1.5"
               >
                 {[
                   { id: 'telemetria' as MissionModuleTab, label: 'Telemetría y Logs', icon: Terminal },
@@ -953,91 +966,93 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
             </aside>
 
             {/* Main Viewport Stage */}
-            <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-5 bg-[#060911]">
-              {/* Always-Visible Compact Server Telemetry Strip */}
-              <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
-                {(telemetry?.nodes || [
-                  {
-                    id: 'firestore' as const,
-                    name: 'Firebase Firestore',
-                    status: 'checking' as ServiceHealthState,
-                    statusLabel: 'Verificando…',
-                    latencyMs: null,
-                    detail: 'Midiendo enlace con base en la nube…',
-                    endpoint: 'systemSettings/public',
-                    checkedAt: ''
-                  },
-                  {
-                    id: 'gemini' as const,
-                    name: 'Google Gemini API',
-                    status: 'checking' as ServiceHealthState,
-                    statusLabel: 'Verificando…',
-                    latencyMs: null,
-                    detail: 'Consultando estado de endpoint…',
-                    endpoint: 'generativelanguage.googleapis.com',
-                    checkedAt: ''
-                  },
-                  {
-                    id: 'backend' as const,
-                    name: 'API Backend Express',
-                    status: 'checking' as ServiceHealthState,
-                    statusLabel: 'Verificando…',
-                    latencyMs: null,
-                    detail: 'Sondeando /api/telemetry/status…',
-                    endpoint: '/api/telemetry/status',
-                    checkedAt: ''
-                  },
-                  {
-                    id: 'gps_sw' as const,
-                    name: 'GPS & Caché Offline',
-                    status: 'checking' as ServiceHealthState,
-                    statusLabel: 'Verificando…',
-                    latencyMs: null,
-                    detail: 'Evaluando sensores y Service Worker…',
-                    endpoint: 'navigator.geolocation',
-                    checkedAt: ''
-                  }
-                ]).map((node) => {
-                  const vis = getStatusVisual(node.status);
-                  const NodeIcon =
-                    node.id === 'firestore'
-                      ? Database
-                      : node.id === 'gemini'
-                        ? Cpu
-                        : node.id === 'backend'
-                          ? Server
-                          : Satellite;
-                  return (
-                    <div
-                      key={node.id}
-                      className={`p-3.5 rounded-xl bg-[#0B111E] border ${vis.borderClass} flex flex-col justify-between gap-2`}
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-[11px] font-medium text-slate-400 truncate">
-                          {node.name}
-                        </span>
-                        <NodeIcon className="w-3.5 h-3.5 text-slate-500 shrink-0" aria-hidden="true" />
-                      </div>
-                      <div className="flex items-baseline justify-between gap-2">
-                        <span className={`text-xs font-semibold ${vis.textClass} truncate`}>
-                          {vis.glyph} {node.statusLabel}
-                        </span>
-                        <span className="text-lg font-mono tabular-nums font-bold text-white whitespace-nowrap">
-                          {node.latencyMs !== null
-                            ? node.id === 'gps_sw'
-                              ? `±${node.latencyMs}m`
-                              : `${node.latencyMs} ms`
-                            : '—'}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
+            <div
+              ref={mainViewportRef}
+              className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-5 bg-[#060911]"
+            >
               {/* MODULE 1: TELEMETRÍA EN VIVO & CONSOLA DE LOGS */}
               {activeModule === 'telemetria' && (
                 <div className="space-y-5">
+                  {/* Live Server Telemetry Strip (scoped to Telemetría so other modules jump straight to top) */}
+                  <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
+                    {(telemetry?.nodes || [
+                      {
+                        id: 'firestore' as const,
+                        name: 'Firebase Firestore',
+                        status: 'checking' as ServiceHealthState,
+                        statusLabel: 'Verificando…',
+                        latencyMs: null,
+                        detail: 'Midiendo enlace con base en la nube…',
+                        endpoint: 'systemSettings/public',
+                        checkedAt: ''
+                      },
+                      {
+                        id: 'gemini' as const,
+                        name: 'Google Gemini API',
+                        status: 'checking' as ServiceHealthState,
+                        statusLabel: 'Verificando…',
+                        latencyMs: null,
+                        detail: 'Consultando estado de endpoint…',
+                        endpoint: 'generativelanguage.googleapis.com',
+                        checkedAt: ''
+                      },
+                      {
+                        id: 'backend' as const,
+                        name: 'API Backend Express',
+                        status: 'checking' as ServiceHealthState,
+                        statusLabel: 'Verificando…',
+                        latencyMs: null,
+                        detail: 'Sondeando /api/telemetry/status…',
+                        endpoint: '/api/telemetry/status',
+                        checkedAt: ''
+                      },
+                      {
+                        id: 'gps_sw' as const,
+                        name: 'GPS & Caché Offline',
+                        status: 'checking' as ServiceHealthState,
+                        statusLabel: 'Verificando…',
+                        latencyMs: null,
+                        detail: 'Evaluando sensores y Service Worker…',
+                        endpoint: 'navigator.geolocation',
+                        checkedAt: ''
+                      }
+                    ]).map((node) => {
+                      const vis = getStatusVisual(node.status);
+                      const NodeIcon =
+                        node.id === 'firestore'
+                          ? Database
+                          : node.id === 'gemini'
+                            ? Cpu
+                            : node.id === 'backend'
+                              ? Server
+                              : Satellite;
+                      return (
+                        <div
+                          key={node.id}
+                          className={`p-3.5 rounded-xl bg-[#0B111E] border ${vis.borderClass} flex flex-col justify-between gap-2`}
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-[11px] font-medium text-slate-400 truncate">
+                              {node.name}
+                            </span>
+                            <NodeIcon className="w-3.5 h-3.5 text-slate-500 shrink-0" aria-hidden="true" />
+                          </div>
+                          <div className="flex items-baseline justify-between gap-2">
+                            <span className={`text-xs font-semibold ${vis.textClass} truncate`}>
+                              {vis.glyph} {node.statusLabel}
+                            </span>
+                            <span className="text-lg font-mono tabular-nums font-bold text-white whitespace-nowrap">
+                              {node.latencyMs !== null
+                                ? node.id === 'gps_sw'
+                                  ? `±${node.latencyMs}m`
+                                  : `${node.latencyMs} ms`
+                                : '—'}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                   {/* Detailed API & Cloud Diagnostics Table */}
                   <section className="rounded-xl bg-[#0B111E] border border-[#1C2A45] overflow-hidden">
                     <div className="px-4 py-3 border-b border-[#1C2A45] flex flex-wrap items-center justify-between gap-2">
@@ -1263,9 +1278,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                   activationCodeInput={activationCodeInput}
                   isAdmin={isAdmin}
                   onSignInGoogle={() => signInWithGoogle()}
-                  onCountsChange={(total, overdue) =>
-                    setSubscriberCounts({ total, overdue })
-                  }
+                  onCountsChange={handleSubscriberCountsChange}
                 />
               )}
 

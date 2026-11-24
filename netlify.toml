@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  NODE_VERSION = "22"
+  SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "AIzaSyCSAyUuJ5aItmfsfbnEcmDsc3BgCARoOA0"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
