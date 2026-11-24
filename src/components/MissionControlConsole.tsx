@@ -4,7 +4,7 @@ import {
   MapPin,
   QrCode,
   Link2,
-  ShieldAlert,
+  PhoneCall,
   Bell,
   Smartphone,
   Volume2,
@@ -17,7 +17,7 @@ interface MissionControlConsoleProps {
   onScrollToPharmacy?: () => void;
   onOpenQrModal?: () => void;
   onOpenKeychainModal?: () => void;
-  onOpenUnattended?: () => void;
+  onScrollToEmergencies?: () => void;
   onOpenPushModal?: () => void;
   onOpenInstallModal?: () => void;
   onOpenWelcome?: () => void;
@@ -31,7 +31,7 @@ export const MissionControlConsole: React.FC<MissionControlConsoleProps> = ({
   onScrollToPharmacy,
   onOpenQrModal,
   onOpenKeychainModal,
-  onOpenUnattended,
+  onScrollToEmergencies,
   onOpenPushModal,
   onOpenInstallModal,
   onOpenWelcome,
@@ -132,23 +132,23 @@ export const MissionControlConsole: React.FC<MissionControlConsoleProps> = ({
           </button>
         )}
 
-        {onOpenUnattended && (
+        {onScrollToEmergencies && (
           <button
             type="button"
-            onClick={onOpenUnattended}
-            aria-label="Abrir Modo Desatendido de auxilio automático"
+            onClick={onScrollToEmergencies}
+            aria-label="Ir a teléfonos de emergencia y aviso GPS por WhatsApp"
             className="min-h-[64px] p-3 bg-[#060f23] hover:bg-[#1a0d18] active:bg-[#241020] text-left transition-colors duration-150 flex items-start gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-rose-400"
-            title="Activar o configurar Modo Desatendido (Auxilio sin confirmación)"
+            title="Llamar al 107 / 911 o enviar ubicación GPS por WhatsApp"
           >
             <div className="w-8 h-8 rounded-lg bg-rose-500/15 border border-rose-500/45 flex items-center justify-center shrink-0 mt-0.5">
-              <ShieldAlert className="w-4 h-4 text-rose-400" aria-hidden="true" />
+              <PhoneCall className="w-4 h-4 text-rose-400" aria-hidden="true" />
             </div>
             <div className="min-w-0">
               <span className="block text-xs font-bold text-white leading-tight truncate">
-                Modo Desatendido
+                Emergencias SOS
               </span>
               <span className="block text-[11px] text-rose-300/90 mt-0.5 truncate">
-                Auxilio automático
+                107 · 911 · GPS Familiar
               </span>
             </div>
           </button>

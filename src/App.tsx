@@ -22,8 +22,6 @@ import { SystemControlModal } from './components/SystemControlModal';
 import { PushAlertsModal } from './components/PushAlertsModal';
 import { WelcomeOnboardingModal } from './components/WelcomeOnboardingModal';
 import { WelcomeContext } from './utils/welcomeVoice';
-import { UnattendedModeModal } from './components/UnattendedModeModal';
-import { UnattendedModeStatusBar } from './components/UnattendedModeStatusBar';
 import { OfflineStatusBanner } from './components/OfflineStatusBanner';
 import { syncEmergencyRecordToWorker } from './utils/offlineManager';
 import { BottomNav } from './components/BottomNav';
@@ -109,7 +107,6 @@ export default function App() {
   const [isPushModalOpen, setIsPushModalOpen] = useState<boolean>(false);
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState<boolean>(false);
   const [welcomeContext, setWelcomeContext] = useState<WelcomeContext>('default');
-  const [isUnattendedModalOpen, setIsUnattendedModalOpen] = useState<boolean>(false);
   const [isTriggeredByScan, setIsTriggeredByScan] = useState<boolean>(false);
   const [systemConfig, setSystemConfig] = useState<SystemConfig>(getStoredSystemConfig());
   const [isMembershipUnlocked, setIsMembershipUnlocked] = useState<boolean>(() =>
@@ -909,9 +906,6 @@ export default function App() {
         </>
       ) : (
         <>
-          {/* Unattended Mode Floating Active Status Bar */}
-          <UnattendedModeStatusBar onOpenModal={() => setIsUnattendedModalOpen(true)} />
-
           {/* Automatic PWA Install Banner (appears immediately when installable on Android/Chrome or iOS Safari) */}
           {!isInstalled && !dismissedPwaBanner && (isInstallable || isIOS) && (
             <div className="my-2.5 p-3 rounded-2xl bg-gradient-to-r from-emerald-950 via-[#0a2d29] to-[#0a1f55] border-2 border-emerald-400/90 shadow-xl flex items-center justify-between gap-2.5 animate-fade-in">
@@ -1118,7 +1112,9 @@ export default function App() {
               }}
               onOpenQrModal={() => setIsQrModalOpen(true)}
               onOpenKeychainModal={() => setIsKeychainModalOpen(true)}
-              onOpenUnattended={() => setIsUnattendedModalOpen(true)}
+              onScrollToEmergencies={() => {
+                document.getElementById('emergencias')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               onOpenPushModal={() => setIsPushModalOpen(true)}
               onOpenInstallModal={() => {
                 setInstallModalTab('qr');
@@ -1178,7 +1174,6 @@ export default function App() {
         ipFallback={ipFallbackCoords}
         onRequestCoords={requestGeolocation}
         gpsStatus={gpsStatus}
-        onOpenUnattended={() => setIsUnattendedModalOpen(true)}
       />
 
       {/* Featured Pharmacy & 24h Transport Services with Real Photos */}
@@ -1559,16 +1554,6 @@ export default function App() {
         onOpenPharmacySection={() => {
           document.getElementById('farmacias')?.scrollIntoView({ behavior: 'smooth' });
         }}
-      />
-
-      {/* Modo Desatendido: Auxilio Automático Sin Espera y Centinela */}
-      <UnattendedModeModal
-        isOpen={isUnattendedModalOpen}
-        onClose={() => setIsUnattendedModalOpen(false)}
-        record={medicalRecord}
-        coords={emergencyCoords}
-        onRequestCoords={requestGeolocation}
-        onAutoTriggered={() => setIsUnattendedModalOpen(true)}
       />
     </div>
   );

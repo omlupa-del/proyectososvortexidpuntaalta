@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, MapPin, Share2, Send, ShieldAlert, ExternalLink, RefreshCw, Edit3, X } from 'lucide-react';
+import { Phone, MapPin, Share2, Send, ExternalLink, RefreshCw, Edit3, X } from 'lucide-react';
 import { EMERGENCY_SERVICES, EmergencyContact } from '../data/puntaAltaData';
 import { triggerDirectCall, formatWhatsAppNumber, playChirp } from '../utils/callHandler';
 import {
@@ -19,7 +19,6 @@ interface EmergencyCallGridProps {
   ipFallback?: Coordinates | null;
   onRequestCoords: () => void;
   gpsStatus: string;
-  onOpenUnattended?: () => void;
 }
 
 export const EmergencyCallGrid: React.FC<EmergencyCallGridProps> = ({
@@ -27,8 +26,7 @@ export const EmergencyCallGrid: React.FC<EmergencyCallGridProps> = ({
   coords,
   ipFallback,
   onRequestCoords,
-  gpsStatus,
-  onOpenUnattended
+  gpsStatus
 }) => {
   const [manualAccidentCoords, setManualAccidentCoords] = useState<Coordinates | null>(null);
   const [showCornerPicker, setShowCornerPicker] = useState<boolean>(false);
@@ -108,37 +106,6 @@ export const EmergencyCallGrid: React.FC<EmergencyCallGridProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Modo Desatendido Quick Access Card */}
-      {onOpenUnattended && (
-        <div className="mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-red-950 via-[#260505] to-red-950 border border-red-500/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-lg shadow-red-950/60">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-red-600/30 border border-red-500 flex items-center justify-center text-red-400 shrink-0">
-              <ShieldAlert className="w-5 h-5 animate-pulse text-red-400" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-black text-white uppercase tracking-wide">
-                  Modo Desatendido · Auxilio Automático
-                </h3>
-                <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-red-600 text-white animate-pulse">
-                  SIN ESPERA
-                </span>
-              </div>
-              <p className="text-xs text-red-200/90 leading-tight">
-                Dispara GPS a tus contactos y llama al 911 sin requerir confirmación en pantalla.
-              </p>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={onOpenUnattended}
-            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-black text-xs uppercase tracking-wider shadow-md active:scale-95 transition shrink-0 text-center"
-          >
-            Activar / Configurar
-          </button>
-        </div>
-      )}
 
       {/* Emergency Grid */}
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
