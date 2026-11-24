@@ -1,0 +1,15 @@
+{
+  "monthlyFee": 3000,
+  "currency": "ARS",
+  "membershipTitle": "Membresía Oficial Vortex ID",
+  "billingDescription": "Mantenimiento del servicio 24hs, alojamiento seguro en la nube y respuesta inmediata ante accidentes en Punta Alta.",
+  "paymentAlias": "vortex.id.auxilio",
+  "paymentCbu": "0000003100049281048201",
+  "paymentHolder": "VORTEX ID · PUNTA ALTA",
+  "adminPhone": "2932420000",
+  "adminPin": "1234",
+  "isMembershipRequired": false,
+  "activationCodeHash": "0e790feb7507f71d95d3743b15b81aacee754df726f79e9c11c937bac92afb8b",
+  "customDomain": "",
+  "updatedAt": "2026-11-15T17:48:13.857Z"
+}

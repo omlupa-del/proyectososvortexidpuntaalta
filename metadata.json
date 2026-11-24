@@ -1,0 +1,10 @@
+{
+  "name": "Remix Vortex ID · Punta Alta",
+  "description": "Asistente de emergencias, ficha médica SOS, farmacias de turno en tiempo real y servicios esenciales de Punta Alta.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

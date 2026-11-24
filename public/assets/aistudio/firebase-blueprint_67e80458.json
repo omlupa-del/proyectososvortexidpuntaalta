@@ -1,0 +1,143 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile authenticated via Firebase Auth",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 512 },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "email"]
+    },
+    "MedicalRecord": {
+      "title": "MedicalRecord",
+      "description": "Emergency medical card with emergency vital data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "keychainId": { "type": "string", "maxLength": 32 },
+        "nombre": { "type": "string", "maxLength": 120 },
+        "dni": { "type": "string", "maxLength": 20 },
+        "domicilio": { "type": "string", "maxLength": 160 },
+        "sexo": { "type": "string", "maxLength": 32 },
+        "sangre": { "type": "string", "maxLength": 10 },
+        "embarazada": { "type": "boolean" },
+        "embarazoFum": { "type": "string", "maxLength": 32 },
+        "embarazoObstetra": { "type": "string", "maxLength": 160 },
+        "enf": { "type": "string", "maxLength": 400 },
+        "med": { "type": "string", "maxLength": 400 },
+        "obraSocial": { "type": "string", "maxLength": 120 },
+        "doc": { "type": "string", "maxLength": 120 },
+        "tel": { "type": "string", "maxLength": 40 },
+        "cfam": { "type": "string", "maxLength": 40 },
+        "cami": { "type": "string", "maxLength": 40 },
+        "cmed": { "type": "string", "maxLength": 40 },
+        "foto": { "type": "string" },
+        "historialClinico": { "type": "array" },
+        "cirugiasPrevias": { "type": "string", "maxLength": 400 },
+        "internacionesPrevias": { "type": "string", "maxLength": 400 },
+        "antecedentesFamiliares": { "type": "string", "maxLength": 400 },
+        "historialClinicoProtected": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId"]
+    },
+    "KeychainItem": {
+      "title": "KeychainItem",
+      "description": "Emergency responder card accessible by physical keychain ID",
+      "type": "object",
+      "properties": {
+        "keychainId": { "type": "string", "maxLength": 32 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "nombre": { "type": "string", "maxLength": 120 },
+        "dni": { "type": "string", "maxLength": 20 },
+        "domicilio": { "type": "string", "maxLength": 160 },
+        "sexo": { "type": "string", "maxLength": 32 },
+        "sangre": { "type": "string", "maxLength": 10 },
+        "embarazada": { "type": "boolean" },
+        "embarazoFum": { "type": "string", "maxLength": 32 },
+        "embarazoObstetra": { "type": "string", "maxLength": 160 },
+        "enf": { "type": "string", "maxLength": 400 },
+        "med": { "type": "string", "maxLength": 400 },
+        "obraSocial": { "type": "string", "maxLength": 120 },
+        "doc": { "type": "string", "maxLength": 120 },
+        "tel": { "type": "string", "maxLength": 40 },
+        "cfam": { "type": "string", "maxLength": 40 },
+        "cami": { "type": "string", "maxLength": 40 },
+        "cmed": { "type": "string", "maxLength": 40 },
+        "foto": { "type": "string" },
+        "historialClinico": { "type": "array" },
+        "cirugiasPrevias": { "type": "string", "maxLength": 400 },
+        "internacionesPrevias": { "type": "string", "maxLength": 400 },
+        "antecedentesFamiliares": { "type": "string", "maxLength": 400 },
+        "historialClinicoProtected": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["keychainId", "userId"]
+    },
+    "DutySchedule": {
+      "title": "DutySchedule",
+      "description": "Official pharmacy duty shifts for a specific date in Punta Alta",
+      "type": "object",
+      "properties": {
+        "dateKey": { "type": "string", "maxLength": 20 },
+        "pharmacyIds": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["dateKey", "pharmacyIds"]
+    },
+    "SystemSettings": {
+      "title": "SystemSettings",
+      "description": "Public membership pricing, payment alias, WhatsApp contact, and registration gate state",
+      "type": "object",
+      "properties": {
+        "monthlyFee": { "type": "number" },
+        "currency": { "type": "string", "maxLength": 10 },
+        "membershipTitle": { "type": "string", "maxLength": 120 },
+        "billingDescription": { "type": "string", "maxLength": 400 },
+        "paymentAlias": { "type": "string", "maxLength": 80 },
+        "paymentCbu": { "type": "string", "maxLength": 40 },
+        "paymentHolder": { "type": "string", "maxLength": 120 },
+        "adminPhone": { "type": "string", "maxLength": 32 },
+        "isMembershipRequired": { "type": "boolean" },
+        "activationCodeHash": { "type": "string", "maxLength": 128 },
+        "customDomain": { "type": "string", "maxLength": 200 },
+        "adminPinHash": { "type": "string", "maxLength": 128 },
+        "hasCustomPin": { "type": "boolean" },
+        "pharmacyAdOverride": { "type": "object" },
+        "remisAdOverride": { "type": "object" },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["monthlyFee", "paymentAlias", "isMembershipRequired", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document"
+    },
+    "/users/{userId}/medicalRecords/{recordId}": {
+      "schema": "MedicalRecord",
+      "description": "Private emergency medical record of the user"
+    },
+    "/keychains/{keychainId}": {
+      "schema": "KeychainItem",
+      "description": "Emergency responder card accessible by physical keychain ID"
+    },
+    "/dutySchedules/{dateKey}": {
+      "schema": "DutySchedule",
+      "description": "Duty pharmacy schedule for Punta Alta"
+    },
+    "/systemSettings/{settingId}": {
+      "schema": "SystemSettings",
+      "description": "Public system configuration for membership gate and payment details"
+    }
+  }
+}

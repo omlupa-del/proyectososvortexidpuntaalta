@@ -1,0 +1,230 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny-all catch-all safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == 'omlupa@gmail.com' && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidDateKey(dateKey) {
+      return dateKey is string && dateKey.matches('^\\d{4}-\\d{2}-\\d{2}$');
+    }
+
+    function isOptString(data, field, maxLen) {
+      return !(field in data) || data[field] == null || (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    function isOptBool(data, field) {
+      return !(field in data) || data[field] == null || data[field] is bool;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['userId', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['userId', 'email', 'displayName', 'photoURL', 'role', 'createdAt', 'updatedAt'])
+        && data.userId == userId
+        && isOptString(data, 'email', 160)
+        && isOptString(data, 'displayName', 160)
+        && isOptString(data, 'photoURL', 1024)
+        && (!('role' in data) || data.role in ['user', 'admin'])
+        && data.createdAt is string && data.createdAt.size() <= 64
+        && data.updatedAt is string && data.updatedAt.size() <= 64;
+    }
+
+    function isValidMedicalData(data, expectedUid) {
+      return data.keys().hasAll(['userId'])
+        && data.keys().hasOnly([
+          'id', 'userId', 'keychainId', 'nombre', 'dni', 'domicilio', 'sexo', 'sangre',
+          'embarazada', 'embarazoFum', 'embarazoObstetra',
+          'enf', 'med', 'obraSocial', 'doc', 'tel', 'cfam', 'cami', 'cmed', 'foto',
+          'historialClinico', 'cirugiasPrevias', 'internacionesPrevias',
+          'antecedentesFamiliares', 'historialClinicoProtected', 'updatedAt'
+        ])
+        && data.userId == expectedUid
+        && isOptString(data, 'id', 128)
+        && isOptString(data, 'keychainId', 32)
+        && isOptString(data, 'nombre', 160)
+        && isOptString(data, 'dni', 32)
+        && isOptString(data, 'domicilio', 200)
+        && isOptString(data, 'sexo', 32)
+        && isOptString(data, 'sangre', 16)
+        && isOptBool(data, 'embarazada')
+        && isOptString(data, 'embarazoFum', 32)
+        && isOptString(data, 'embarazoObstetra', 200)
+        && isOptString(data, 'enf', 600)
+        && isOptString(data, 'med', 600)
+        && isOptString(data, 'obraSocial', 160)
+        && isOptString(data, 'doc', 160)
+        && isOptString(data, 'tel', 48)
+        && isOptString(data, 'cfam', 48)
+        && isOptString(data, 'cami', 48)
+        && isOptString(data, 'cmed', 48)
+        && isOptString(data, 'foto', 400000)
+        && (!('historialClinico' in data) || (data.historialClinico is list && data.historialClinico.size() <= 40))
+        && isOptString(data, 'cirugiasPrevias', 600)
+        && isOptString(data, 'internacionesPrevias', 600)
+        && isOptString(data, 'antecedentesFamiliares', 600)
+        && isOptBool(data, 'historialClinicoProtected')
+        && isOptString(data, 'updatedAt', 64);
+    }
+
+    function isValidDutySchedule(data, dateKey) {
+      return data.keys().hasAll(['dateKey', 'pharmacyIds', 'updatedAt'])
+        && data.keys().hasOnly(['dateKey', 'pharmacyIds', 'updatedAt'])
+        && data.dateKey == dateKey
+        && data.pharmacyIds is list
+        && data.pharmacyIds.size() > 0
+        && data.pharmacyIds.size() <= 20
+        && data.pharmacyIds[0] is string
+        && data.updatedAt is string && data.updatedAt.size() <= 64;
+    }
+
+    function isValidFeaturedAdOverride(ad) {
+      return ad is map
+        && ad.keys().hasOnly([
+          'name', 'badge', 'tagline', 'description',
+          'address', 'hours', 'phone', 'directDial', 'whatsapp', 'image'
+        ])
+        && isOptString(ad, 'name', 120)
+        && isOptString(ad, 'badge', 160)
+        && isOptString(ad, 'tagline', 200)
+        && isOptString(ad, 'description', 1000)
+        && isOptString(ad, 'address', 200)
+        && isOptString(ad, 'hours', 240)
+        && isOptString(ad, 'phone', 48)
+        && isOptString(ad, 'directDial', 48)
+        && isOptString(ad, 'whatsapp', 48)
+        && isOptString(ad, 'image', 220000);
+    }
+
+    function isValidSystemSettings(data) {
+      return data.keys().hasAll(['monthlyFee', 'paymentAlias', 'isMembershipRequired', 'updatedAt'])
+        && data.keys().hasOnly([
+          'monthlyFee', 'currency', 'membershipTitle', 'billingDescription',
+          'paymentAlias', 'paymentCbu', 'paymentHolder', 'adminPhone',
+          'isMembershipRequired', 'activationCodeHash', 'customDomain',
+          'adminPinHash', 'hasCustomPin', 'pharmacyAdOverride', 'remisAdOverride',
+          'updatedAt'
+        ])
+        && data.monthlyFee is number && data.monthlyFee >= 0 && data.monthlyFee <= 10000000
+        && isOptString(data, 'currency', 16)
+        && isOptString(data, 'membershipTitle', 160)
+        && isOptString(data, 'billingDescription', 500)
+        && data.paymentAlias is string && data.paymentAlias.size() <= 100
+        && isOptString(data, 'paymentCbu', 64)
+        && isOptString(data, 'paymentHolder', 160)
+        && isOptString(data, 'adminPhone', 40)
+        && data.isMembershipRequired is bool
+        && isOptString(data, 'activationCodeHash', 128)
+        && isOptString(data, 'customDomain', 240)
+        && isOptString(data, 'adminPinHash', 128)
+        && isOptBool(data, 'hasCustomPin')
+        && (!('pharmacyAdOverride' in data) || data.pharmacyAdOverride == null || isValidFeaturedAdOverride(data.pharmacyAdOverride))
+        && (!('remisAdOverride' in data) || data.remisAdOverride == null || isValidFeaturedAdOverride(data.remisAdOverride))
+        && data.updatedAt is string && data.updatedAt.size() <= 64;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isValidId(userId)
+        && isOwner(userId)
+        && isValidUserProfile(incoming(), userId)
+        && (!('role' in incoming()) || incoming().role == 'user' || isAdmin());
+      allow update: if isValidId(userId)
+        && isValidUserProfile(incoming(), userId)
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && (
+          (isOwner(userId) && (!('role' in incoming()) || incoming().role == existing().role))
+          || isAdmin()
+        );
+      allow delete: if isValidId(userId) && isAdmin();
+
+      // Private Medical Records subcollection
+      match /medicalRecords/{recordId} {
+        allow get: if isValidId(userId) && isValidId(recordId) && (isOwner(userId) || isAdmin());
+        allow list: if isValidId(userId) && (isOwner(userId) || isAdmin());
+        allow create: if isValidId(userId) && isValidId(recordId)
+          && isOwner(userId)
+          && isValidMedicalData(incoming(), userId);
+        allow update: if isValidId(userId) && isValidId(recordId)
+          && (isOwner(userId) || isAdmin())
+          && isValidMedicalData(incoming(), existing().userId)
+          && incoming().userId == existing().userId;
+        allow delete: if isValidId(userId) && isValidId(recordId) && (isOwner(userId) || isAdmin());
+      }
+    }
+
+    // Public Emergency Keychains (for QR scanning by first responders and auxilio)
+    match /keychains/{keychainId} {
+      allow get: if isValidId(keychainId);
+      allow list: if isAdmin();
+      allow create: if isValidId(keychainId)
+        && isSignedIn()
+        && (
+          isValidMedicalData(incoming(), request.auth.uid)
+          || (isAdmin() && incoming().userId is string && isValidMedicalData(incoming(), incoming().userId))
+        );
+      allow update: if isValidId(keychainId)
+        && isSignedIn()
+        && (existing().userId == request.auth.uid || isAdmin())
+        && incoming().userId == existing().userId
+        && isValidMedicalData(incoming(), existing().userId);
+      allow delete: if isValidId(keychainId)
+        && isSignedIn()
+        && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    // Official Duty Pharmacy Schedules (Punta Alta 24hs shifts)
+    match /dutySchedules/{dateKey} {
+      allow get: if isValidDateKey(dateKey);
+      allow list: if true;
+      allow create, update: if isValidDateKey(dateKey)
+        && isSignedIn()
+        && isAdmin()
+        && isValidDutySchedule(incoming(), dateKey);
+      allow delete: if isValidDateKey(dateKey) && isSignedIn() && isAdmin();
+    }
+
+    // Public System Settings (Membership toggle, Alias, WhatsApp, Activation Code Hash)
+    match /systemSettings/{settingId} {
+      allow get: if settingId == 'public';
+      allow list: if isAdmin();
+      allow create, update: if settingId == 'public'
+        && isSignedIn()
+        && isAdmin()
+        && isValidSystemSettings(incoming());
+      allow delete: if settingId == 'public' && isSignedIn() && isAdmin();
+    }
+  }
+}

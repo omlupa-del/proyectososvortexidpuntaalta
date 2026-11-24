@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --font-body: 'Barlow', 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: #030816;
+    background-image:
+      radial-gradient(ellipse 80% 45% at 50% 0%, rgba(16, 46, 108, 0.35) 0%, transparent 70%),
+      linear-gradient(rgba(55, 200, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(55, 200, 255, 0.025) 1px, transparent 1px);
+    background-size: 100% 100%, 32px 32px, 32px 32px;
+    color: #eaf3ff;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sos-pulse,
+  .animate-radar,
+  .animate-pulse,
+  .animate-ping,
+  .animate-bounce {
+    animation: none !important;
+  }
+}
+
+@keyframes pulse-sos {
+  0%, 100% {
+    background-color: #ef2b3a;
+    box-shadow: 0 0 25px 6px rgba(239, 43, 58, 0.6);
+  }
+  50% {
+    background-color: #8f0e1a;
+    box-shadow: 0 0 10px 1px rgba(239, 43, 58, 0.3);
+  }
+}
+
+.animate-sos-pulse {
+  animation: pulse-sos 1.4s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.animate-radar {
+  animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #07122c;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3f8f;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #37c8ff;
+}
+
+/* Accessibility: Large Text & High Contrast Mode for Medical ID Form Entry */
+.vortex-large-text label {
+  font-size: 1rem !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+}
+.vortex-large-text input,
+.vortex-large-text select,
+.vortex-large-text textarea {
+  font-size: 1.15rem !important;
+  line-height: 1.5 !important;
+  padding: 0.8rem 0.95rem !important;
+  border-width: 2px !important;
+  border-color: #37c8ff !important;
+}
+.vortex-large-text input::placeholder,
+.vortex-large-text textarea::placeholder {
+  font-size: 1rem !important;
+  color: #9db6dd !important;
+}
+.vortex-large-text p {
+  font-size: 0.95rem !important;
+  line-height: 1.45 !important;
+}
+.vortex-large-text h3,
+.vortex-large-text h4 {
+  font-size: 1.125rem !important;
+  line-height: 1.35 !important;
+}
+.vortex-large-text button[type='submit'],
+.vortex-large-text button[type='button'] {
+  font-size: 0.95rem !important;
+}
+
+/* Print Styles for Emergency Badge & Responder Clinical History */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  nav,
+  footer,
+  header,
+  #farmacias,
+  #emergencias,
+  #salud,
+  #transporte,
+  #info,
+  #rescuer-duty-pharmacy,
+  .animate-sos-pulse,
+  .no-print {
+    display: none !important;
+  }
+  #credencial {
+    border: 2px solid #000000 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    max-width: 400px !important;
+    margin: 20px auto !important;
+    page-break-inside: avoid;
+  }
+  #credencial *,
+  #responder-clinical-report * {
+    color: #000000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  #responder-clinical-report {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  #responder-clinical-report button,
+  #responder-clinical-report a.print\:hidden,
+  #responder-clinical-report .print\:hidden {
+    display: none !important;
+  }
+  #credencial canvas {
+    box-shadow: none !important;
+    border: 1px solid #ccc;
+  }
+  #credencial button {
+    display: none !important;
+  }
+}
