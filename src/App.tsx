@@ -413,10 +413,6 @@ export default function App() {
         installQueryTimer = setTimeout(() => {
           setIsInstallModalOpen(true);
         }, 250);
-        searchParams.delete('instalar');
-        const nextSearch = searchParams.toString();
-        const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
-        window.history.replaceState({}, '', nextUrl);
       }
     } catch {
       // ignore URL cleanup errors
@@ -969,7 +965,7 @@ export default function App() {
                         ? 'Descarga directa offline 24hs en 1 clic'
                         : isIOS
                           ? 'Agregala a tu pantalla principal de iPhone / iPad'
-                          : 'Instalala en Windows / Mac para acceso directo offline 24hs'}
+                          : 'Instalala desde el ícono (↓) arriba en tu navegador o menú ⋮'}
                   </p>
                 </div>
               </div>
@@ -992,8 +988,8 @@ export default function App() {
                     {isInstallable
                       ? 'Instalar en 1 clic'
                       : isMobileUa
-                        ? 'Instalar App'
-                        : 'Instalar en PC'}
+                        ? 'Cómo instalar'
+                        : 'Cómo instalar (↓)'}
                   </button>
                 )}
                 <button
@@ -1556,7 +1552,18 @@ export default function App() {
       {/* Dedicated PWA Install & Distribution Modal Guide */}
       <InstallAppModal
         isOpen={isInstallModalOpen}
-        onClose={() => setIsInstallModalOpen(false)}
+        onClose={() => {
+          setIsInstallModalOpen(false);
+          try {
+            const searchParams = new URLSearchParams(window.location.search);
+            if (searchParams.has('instalar')) {
+              searchParams.delete('instalar');
+              const nextSearch = searchParams.toString();
+              const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
+              window.history.replaceState({}, '', nextUrl);
+            }
+          } catch {}
+        }}
         initialTab={installModalTab}
         onOpenWelcomePreview={() => {
           setIsTriggeredByScan(false);

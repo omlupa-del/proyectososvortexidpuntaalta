@@ -391,61 +391,97 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
               </span>
             </div>
           </div>
-        ) : (
+        ) : isInIframe ? (
           <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-green-950 border-2 border-emerald-400 shadow-xl space-y-2.5">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>
-                  {isInIframe
-                    ? 'Instalación en 1 toque (abrir pestaña directa)'
-                    : deferredPrompt
-                      ? isMobileDevice
-                        ? 'Tu celular está listo para instalación en 1 toque'
-                        : 'Tu PC / Laptop está lista para instalación en 1 toque'
-                      : isMobileDevice
-                        ? 'Descarga e instalación rápida en tu celular'
-                        : 'Descarga e instalación rápida en PC, Laptop o Celular'}
-                </span>
+            <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Instalación en 1 toque (abrir pestaña directa)</span>
+            </span>
+            <a
+              href={configuredBase + '/?instalar=1'}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => playChirp('click')}
+              className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-green-500 hover:brightness-110 text-gray-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 active:scale-[0.99] transition"
+            >
+              <ExternalLink className="w-5 h-5 shrink-0" />
+              <span>Abrir en pestaña directa para instalar en 1 toque</span>
+            </a>
+            <p className="text-[11px] text-cyan-100/90 bg-black/35 border border-cyan-400/40 rounded-xl p-2 leading-snug">
+              La vista previa embebida bloquea la descarga directa del navegador. Al abrir{' '}
+              <strong className="font-mono text-cyan-300">asistentesospuntaalta.netlify.app</strong>{' '}
+              en pestaña directa se habilita la instalación nativa.
+            </p>
+          </div>
+        ) : deferredPrompt ? (
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-green-950 border-2 border-emerald-400 shadow-xl space-y-2.5">
+            <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>
+                {isMobileDevice
+                  ? 'Tu celular está listo para instalación en 1 toque'
+                  : 'Tu PC / Laptop está lista para instalación en 1 toque'}
+              </span>
+            </span>
+
+            <button
+              type="button"
+              onClick={handleInstallClick}
+              className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-green-500 hover:brightness-110 text-gray-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 active:scale-[0.99] transition"
+            >
+              <Download className="w-5 h-5 shrink-0" />
+              <span>
+                {isMobileDevice
+                  ? 'Instalar App en este celular en 1 toque'
+                  : 'Instalar App en esta PC / Laptop en 1 toque'}
+              </span>
+            </button>
+
+            {installHint && (
+              <p className="text-[11px] text-emerald-100 bg-black/40 border border-emerald-400/40 rounded-xl p-2.5 leading-snug">
+                {installHint}
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-[#07193a] via-[#0a2352] to-[#081533] border-2 border-cyan-400/70 shadow-xl space-y-2.5">
+            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cyan-300">
+              <Monitor className="w-4 h-4 text-cyan-300 shrink-0" />
+              <span>
+                {isMobileDevice
+                  ? 'Instalá la app desde el menú de tu navegador'
+                  : 'Cómo instalar en esta PC (Chrome / Edge)'}
               </span>
             </div>
 
-            {isInIframe ? (
-              <a
-                href={configuredBase + '/?instalar=1'}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => playChirp('click')}
-                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-green-500 hover:brightness-110 text-gray-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 active:scale-[0.99] transition"
-              >
-                <ExternalLink className="w-5 h-5 shrink-0" />
-                <span>Abrir en pestaña directa para instalar en 1 toque</span>
-              </a>
+            {!isMobileDevice && !isIOS ? (
+              <div className="text-[11px] text-[#cfe0ff] space-y-2 leading-relaxed">
+                <p>
+                  {wasPromptDismissed
+                    ? 'Cerraste el aviso automático de instalación. Por seguridad del navegador, ahora debés instalarla desde la barra superior:'
+                    : 'Si no aparece el botón automático es porque Chrome/Edge ya tiene una copia instalada, estás en modo Incógnito, usás Firefox o cerraste un aviso anterior. Instalala directo así:'}
+                </p>
+                <div className="p-2.5 rounded-xl bg-black/45 border border-cyan-400/40 space-y-1">
+                  <p>
+                    <strong className="text-emerald-300">Opción 1 (barra de dirección):</strong> Mirá arriba a la derecha de la URL y tocá el ícono de{' '}
+                    <strong className="text-white">Instalar (monitor con flecha ↓)</strong>. Si dice{' '}
+                    <em>«Abrir en Vortex ID»</em>, es porque ya está instalada en tu PC.
+                  </p>
+                  <p>
+                    <strong className="text-cyan-300">Opción 2 (menú):</strong> Tocá{' '}
+                    <strong className="text-white">(⋮) → Guardar y compartir → Instalar página como aplicación</strong> (en Edge: <em>Aplicaciones → Instalar</em>).
+                  </p>
+                </div>
+              </div>
             ) : (
               <button
                 type="button"
                 onClick={handleInstallClick}
-                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-green-500 hover:brightness-110 text-gray-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 active:scale-[0.99] transition"
+                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 hover:brightness-110 text-gray-950 font-black text-xs flex items-center justify-center gap-2 shadow-md active:scale-[0.99] transition"
               >
-                <Download className="w-5 h-5 shrink-0" />
-                <span>
-                  {deferredPrompt
-                    ? isMobileDevice
-                      ? 'Instalar App en este celular en 1 toque'
-                      : 'Instalar App en esta PC / Laptop en 1 toque'
-                    : isMobileDevice
-                      ? 'Descargar / Instalar App ahora'
-                      : 'Instalar App en PC / Laptop (Chrome / Edge)'}
-                </span>
+                <Download className="w-4 h-4 shrink-0" />
+                <span>Ver pasos para instalar en este celular</span>
               </button>
-            )}
-
-            {isInIframe && (
-              <p className="text-[11px] text-cyan-100/90 bg-black/35 border border-cyan-400/40 rounded-xl p-2 leading-snug">
-                La vista previa embebida bloquea la descarga directa del navegador. Al abrir{' '}
-                <strong className="font-mono text-cyan-300">asistentesospuntaalta.netlify.app</strong>{' '}
-                en pestaña directa se habilita el botón de instalación en 1 toque.
-              </p>
             )}
 
             {installHint && (
