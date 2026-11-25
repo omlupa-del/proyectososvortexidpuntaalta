@@ -69,8 +69,8 @@ export function initPushNotifications(): Promise<ServiceWorkerRegistration | nul
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           if (!hadController) return;
           try {
-            if (sessionStorage.getItem('vortex_sw_reloaded_v40')) return;
-            sessionStorage.setItem('vortex_sw_reloaded_v40', '1');
+            if (sessionStorage.getItem('vortex_sw_reloaded_v41')) return;
+            sessionStorage.setItem('vortex_sw_reloaded_v41', '1');
           } catch {
             // ignore
           }

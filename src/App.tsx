@@ -976,7 +976,7 @@ export default function App() {
               <div className="flex items-center gap-1.5 shrink-0">
                 {isInIframe && !isInstallable ? (
                   <a
-                    href="https://proyectososvortexid.netlify.app/?instalar=1"
+                    href="https://asistentesospuntaalta.netlify.app/?instalar=1"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 hover:brightness-110 text-gray-950 font-black text-xs shadow-md active:scale-95 transition whitespace-nowrap"
@@ -1418,12 +1418,12 @@ export default function App() {
 
       {/* Official Futuristic QR & Install App Banner for Users & Families */}
       {(() => {
-        const netlifyOrigin = 'https://proyectososvortexid.netlify.app';
+        const netlifyOrigin = 'https://asistentesospuntaalta.netlify.app';
         const activeTargetBase =
           systemConfig.customDomain && systemConfig.customDomain.trim().startsWith('http')
             ? systemConfig.customDomain.trim().replace(/\/+$/, '')
             : netlifyOrigin;
-        const bannerQrSrc = '/assets/qr_vortex_id_futurista.png?v=38';
+        const bannerQrSrc = '/assets/qr_vortex_id_futurista.png?v=41';
 
         return (
           <section className="my-5 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-[#071739] via-[#07243b] to-[#0a1f55] border-2 border-cyan-400/80 shadow-2xl">

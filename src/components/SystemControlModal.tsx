@@ -1536,7 +1536,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         type="url"
                         value={config.customDomain || ''}
                         onChange={(e) => handleChange('customDomain', e.target.value)}
-                        placeholder="https://proyectososvortexid.netlify.app"
+                        placeholder="https://asistentesospuntaalta.netlify.app"
                         className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs font-mono text-cyan-300 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
                       />
                     </div>

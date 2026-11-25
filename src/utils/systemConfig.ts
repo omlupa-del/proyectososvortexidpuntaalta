@@ -73,7 +73,7 @@ export function getEffectiveOrigin(): string {
     // fallback
   }
 
-  const PUBLIC_FALLBACK_URL = 'https://proyectososvortexid.netlify.app';
+  const PUBLIC_FALLBACK_URL = 'https://asistentesospuntaalta.netlify.app';
 
   if (typeof window !== 'undefined' && window.location && window.location.origin) {
     const currentOrigin = window.location.origin;

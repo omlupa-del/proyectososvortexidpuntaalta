@@ -26,8 +26,8 @@ import {
 } from '../utils/systemConfig';
 import { usePWAInstall } from '../utils/usePWAInstall';
 
-const OFFICIAL_FUTURISTIC_QR_URL = '/assets/qr_vortex_id_futurista.png?v=38';
-const OFFICIAL_NETLIFY_URL = 'https://proyectososvortexid.netlify.app/';
+const OFFICIAL_FUTURISTIC_QR_URL = '/assets/qr_vortex_id_futurista.png?v=41';
+const OFFICIAL_NETLIFY_URL = 'https://asistentesospuntaalta.netlify.app/';
 
 interface InstallAppModalProps {
   isOpen: boolean;
@@ -176,7 +176,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
     }
     if (isInIframe) {
       setInstallHint(
-        'En esta vista previa embebida el navegador bloquea la descarga directa. Tocá el botón verde de arriba para abrir proyectososvortexid.netlify.app en una pestaña directa e instalarla en 1 toque.'
+        'En esta vista previa embebida el navegador bloquea la descarga directa. Tocá el botón verde de arriba para abrir asistentesospuntaalta.netlify.app en una pestaña directa e instalarla en 1 toque.'
       );
       return;
     }
@@ -443,7 +443,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             {isInIframe && (
               <p className="text-[11px] text-cyan-100/90 bg-black/35 border border-cyan-400/40 rounded-xl p-2 leading-snug">
                 La vista previa embebida bloquea la descarga directa del navegador. Al abrir{' '}
-                <strong className="font-mono text-cyan-300">proyectososvortexid.netlify.app</strong>{' '}
+                <strong className="font-mono text-cyan-300">asistentesospuntaalta.netlify.app</strong>{' '}
                 en pestaña directa se habilita el botón de instalación en 1 toque.
               </p>
             )}
@@ -794,7 +794,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   1
                 </span>
                 <span>
-                  Abrí <strong className="text-white font-mono">proyectososvortexid.netlify.app</strong> en <strong className="text-white">Google Chrome</strong> o <strong className="text-white">Microsoft Edge</strong> desde tu computadora o notebook.
+                  Abrí <strong className="text-white font-mono">asistentesospuntaalta.netlify.app</strong> en <strong className="text-white">Google Chrome</strong> o <strong className="text-white">Microsoft Edge</strong> desde tu computadora o notebook.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
