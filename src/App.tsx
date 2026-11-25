@@ -94,6 +94,27 @@ export default function App() {
   const [installModalTab, setInstallModalTab] = useState<'qr' | 'android' | 'iphone' | 'pc' | 'marca'>('qr');
   const [dismissedPwaBanner, setDismissedPwaBanner] = useState<boolean>(false);
   const { isInstallable, isInstalled, isIOS, install } = usePWAInstall();
+  const isInIframe =
+    typeof window !== 'undefined' &&
+    (() => {
+      try {
+        return window.self !== window.top;
+      } catch {
+        return true;
+      }
+    })();
+  const isMobileUa =
+    typeof navigator !== 'undefined' &&
+    /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
+  const defaultInstallTab: 'android' | 'iphone' | 'pc' = isIOS ? 'iphone' : isMobileUa ? 'android' : 'pc';
+  const handleQuickInstallOrOpenModal = () => {
+    if (isInstallable) {
+      install();
+    } else {
+      setInstallModalTab(defaultInstallTab);
+      setIsInstallModalOpen(true);
+    }
+  };
   const [isSystemControlOpen, setIsSystemControlOpen] = useState<boolean>(false);
   const [operatorSessionActive, setOperatorSessionActive] = useState<boolean>(() => {
     try {
@@ -928,8 +949,8 @@ export default function App() {
         </>
       ) : (
         <>
-          {/* Automatic PWA Install Banner (appears immediately when installable on Android/Chrome or iOS Safari) */}
-          {!isInstalled && !dismissedPwaBanner && (isInstallable || isIOS) && (
+          {/* Automatic PWA Install Banner (visible on PC, Android & iPhone whenever not installed) */}
+          {!isInstalled && !dismissedPwaBanner && (
             <div className="my-2.5 p-3 rounded-2xl bg-gradient-to-r from-emerald-950 via-[#0a2d29] to-[#0a1f55] border-2 border-emerald-400/90 shadow-xl flex items-center justify-between gap-2.5 animate-fade-in">
               <div className="flex items-center gap-2.5 min-w-0">
                 <span className="p-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-400 shrink-0">
@@ -937,33 +958,44 @@ export default function App() {
                 </span>
                 <div className="min-w-0">
                   <p className="text-xs font-black text-white truncate">
-                    {typeof navigator !== 'undefined' && /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent)
+                    {isMobileUa
                       ? 'Instalá Vortex ID en tu celular'
                       : 'Instalá Vortex ID en tu PC / Laptop'}
                   </p>
                   <p className="text-[11px] text-emerald-200/90 truncate">
-                    Acceso directo offline 24hs en 1 clic
+                    {isInIframe
+                      ? 'Vista previa: abrí el sitio directo para instalar en 1 clic'
+                      : isInstallable
+                        ? 'Descarga directa offline 24hs en 1 clic'
+                        : isIOS
+                          ? 'Agregala a tu pantalla principal de iPhone / iPad'
+                          : 'Instalala en Windows / Mac para acceso directo offline 24hs'}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (isInstallable) {
-                      install();
-                    } else {
-                      const isMobileUa =
-                        typeof navigator !== 'undefined' &&
-                        /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
-                      setInstallModalTab(isIOS ? 'iphone' : isMobileUa ? 'android' : 'pc');
-                      setIsInstallModalOpen(true);
-                    }
-                  }}
-                  className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 hover:brightness-110 text-gray-950 font-black text-xs shadow-md active:scale-95 transition"
-                >
-                  {isInstallable ? 'Instalar' : 'Cómo instalar'}
-                </button>
+                {isInIframe && !isInstallable ? (
+                  <a
+                    href="https://proyectososvortexid.netlify.app/?instalar=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 hover:brightness-110 text-gray-950 font-black text-xs shadow-md active:scale-95 transition whitespace-nowrap"
+                  >
+                    Instalar en 1 clic
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleQuickInstallOrOpenModal}
+                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 hover:brightness-110 text-gray-950 font-black text-xs shadow-md active:scale-95 transition whitespace-nowrap"
+                  >
+                    {isInstallable
+                      ? 'Instalar en 1 clic'
+                      : isMobileUa
+                        ? 'Instalar App'
+                        : 'Instalar en PC'}
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => setDismissedPwaBanner(true)}
@@ -980,6 +1012,9 @@ export default function App() {
           <Header
             onOpenCommand={() => setIsSystemControlOpen(true)}
             showCommandButton={isAdmin || operatorSessionActive}
+            onInstallApp={handleQuickInstallOrOpenModal}
+            isInstallable={isInstallable}
+            isInstalled={isInstalled}
           />
 
           {/* Exclusive Operator Command HUD (Never visible to citizens) */}
@@ -1142,7 +1177,7 @@ export default function App() {
               }}
               onOpenPushModal={() => setIsPushModalOpen(true)}
               onOpenInstallModal={() => {
-                setInstallModalTab('qr');
+                setInstallModalTab(defaultInstallTab);
                 setIsInstallModalOpen(true);
               }}
               onOpenWelcome={() => {
@@ -1395,7 +1430,10 @@ export default function App() {
             <div className="flex items-center gap-3.5 w-full">
               <button
                 type="button"
-                onClick={() => setIsInstallModalOpen(true)}
+                onClick={() => {
+                  setInstallModalTab('qr');
+                  setIsInstallModalOpen(true);
+                }}
                 className="w-24 h-24 rounded-2xl bg-white p-1.5 border-2 border-cyan-400 shadow-lg shadow-cyan-950/70 shrink-0 hover:scale-105 active:scale-95 transition"
                 title="Ampliar y compartir QR Oficial Vortex ID"
               >
@@ -1419,7 +1457,10 @@ export default function App() {
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setIsInstallModalOpen(true)}
+                    onClick={() => {
+                      setInstallModalTab('qr');
+                      setIsInstallModalOpen(true);
+                    }}
                     className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-gray-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition"
                   >
                     <QrCode className="w-3.5 h-3.5" />

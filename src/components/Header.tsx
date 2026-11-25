@@ -1,14 +1,23 @@
 import React, { useRef } from 'react';
-import { LogOut, ShieldCheck } from 'lucide-react';
+import { Download, LogOut, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { playChirp } from '../utils/callHandler';
 
 interface HeaderProps {
   onOpenCommand?: () => void;
   showCommandButton?: boolean;
+  onInstallApp?: () => void;
+  isInstallable?: boolean;
+  isInstalled?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenCommand, showCommandButton = false }) => {
+export const Header: React.FC<HeaderProps> = ({
+  onOpenCommand,
+  showCommandButton = false,
+  onInstallApp,
+  isInstallable = false,
+  isInstalled = false
+}) => {
   const { user, loading, isAdmin, signInWithGoogle, logout } = useAuth();
   const tapTimestampsRef = useRef<number[]>([]);
 
@@ -57,8 +66,27 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCommand, showCommandButton
         </div>
       </div>
 
-      {/* Right Zone: Auth + Exclusive Admin Command Trigger (Invisible to Citizens) */}
+      {/* Right Zone: Install App + Auth + Exclusive Admin Command Trigger */}
       <div className="shrink-0 flex items-center gap-1.5">
+        {!isInstalled && onInstallApp && (
+          <button
+            type="button"
+            onClick={() => {
+              playChirp('click');
+              onInstallApp();
+            }}
+            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-[11px] font-black transition active:scale-95 shrink-0 ${
+              isInstallable
+                ? 'bg-emerald-400 hover:bg-emerald-300 border-emerald-300 text-gray-950 shadow-md shadow-emerald-950/40'
+                : 'bg-emerald-500/15 hover:bg-emerald-500/25 border-emerald-400/70 text-emerald-200'
+            }`}
+            title={isInstallable ? 'Instalar Vortex ID en 1 toque' : 'Descargar / Instalar Vortex ID en PC o Celular'}
+          >
+            <Download className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+            <span className="hidden min-[430px]:inline">Instalar</span>
+          </button>
+        )}
+
         {(isAdmin || showCommandButton) && onOpenCommand && (
           <button
             type="button"
