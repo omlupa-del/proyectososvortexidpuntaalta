@@ -1,14 +1,15 @@
 /**
  * Vortex ID Punta Alta - Enhanced Life-Saving Service Worker
- * Guarantees offline access to:
+ * Guarantees reliable PWA updates on Netlify and offline access to:
  * 1. Ficha Médica SOS and Verified Identity Photo
  * 2. Direct Emergency Call Grid (SAME 107, Policía 911, Bomberos 100, Defensa Civil 103, HNPB, Hosp. Eva Perón)
  * 3. 20 Punta Alta Pharmacies Directory and 24h Duty Shift Schedules
  * 4. Web Push Notifications for Critical Alerts
  */
 
-const STATIC_CACHE_NAME = 'vortexid-static-v41';
-const EMERGENCY_CACHE_NAME = 'vortexid-emergency-offline-v41';
+const SW_VERSION = 'v42';
+const STATIC_CACHE_NAME = `vortexid-static-${SW_VERSION}`;
+const EMERGENCY_CACHE_NAME = `vortexid-emergency-offline-${SW_VERSION}`;
 
 const PRECACHE_STATIC_ASSETS = [
   '/',
@@ -28,6 +29,15 @@ const PRECACHE_EMERGENCY_APIS = [
   '/api/push/history'
 ];
 
+const MUTABLE_PUBLIC_PATHS = new Set([
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/apple-touch-icon.png',
+  '/assets/qr_vortex_id_futurista.png',
+  '/qr.html'
+]);
+
 // Fallback emergency dataset embedded in SW for instant zero-network availability
 const EMBEDDED_EMERGENCY_FALLBACK = {
   success: true,
@@ -45,47 +55,80 @@ const EMBEDDED_EMERGENCY_FALLBACK = {
   dutyShiftActive: true
 };
 
-// 1. Install Event: Cache app shell & prime emergency data caches
+function isHtmlContentType(response) {
+  const ct = response?.headers?.get('content-type') || '';
+  return ct.toLowerCase().includes('text/html');
+}
+
+function isExpectedAssetResponse(pathname, response) {
+  if (!response || !response.ok) return false;
+  // HTML documents are valid for shell/html routes only
+  if (pathname === '/' || pathname.endsWith('.html')) {
+    return isHtmlContentType(response);
+  }
+  // Never store Netlify SPA HTML fallback (/* -> /index.html status 200) as JS/CSS/image/JSON
+  return !isHtmlContentType(response);
+}
+
+// 1. Install Event: Force fresh fetch (bypass HTTP cache) & prime emergency caches
 self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
-      // Cache core static assets
       const staticCache = await caches.open(STATIC_CACHE_NAME);
-      try {
-        await staticCache.addAll(PRECACHE_STATIC_ASSETS);
-      } catch (err) {
-        console.warn('[SW Install] Some static assets failed to precache:', err);
-      }
+
+      // Fetch each asset individually with cache:'reload' so stale CDN/browser cache never survives deploy
+      await Promise.allSettled(
+        PRECACHE_STATIC_ASSETS.map(async (assetUrl) => {
+          try {
+            const parsed = new URL(assetUrl, self.location.origin);
+            const res = await fetch(
+              new Request(parsed.href, {
+                cache: 'reload',
+                credentials: 'same-origin'
+              })
+            );
+            if (isExpectedAssetResponse(parsed.pathname, res)) {
+              await staticCache.put(assetUrl, res);
+            }
+          } catch (err) {
+            console.warn('[SW Install] Asset precache skipped:', assetUrl, err);
+          }
+        })
+      );
 
       // Precache critical emergency APIs (ignore Netlify HTML SPA fallback on static hosting)
       const emergencyCache = await caches.open(EMERGENCY_CACHE_NAME);
-      for (const url of PRECACHE_EMERGENCY_APIS) {
-        try {
-          const res = await fetch(url);
-          const ct = res && res.headers ? (res.headers.get('content-type') || '') : '';
-          if (res && res.status === 200 && ct.includes('application/json')) {
-            await emergencyCache.put(url, res);
-          } else {
-            const fallbackRes = new Response(JSON.stringify(EMBEDDED_EMERGENCY_FALLBACK), {
-              headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
-            });
-            await emergencyCache.put(url, fallbackRes);
+      await Promise.allSettled(
+        PRECACHE_EMERGENCY_APIS.map(async (apiUrl) => {
+          try {
+            const res = await fetch(
+              new Request(apiUrl, {
+                cache: 'no-store',
+                credentials: 'same-origin'
+              })
+            );
+            const ct = (res?.headers?.get('content-type') || '').toLowerCase();
+            if (res && res.ok && ct.includes('application/json')) {
+              await emergencyCache.put(apiUrl, res);
+              return;
+            }
+          } catch {
+            // Fall through to embedded fallback
           }
-        } catch {
-          // Store embedded fallback if offline during initial install
+
           const fallbackRes = new Response(JSON.stringify(EMBEDDED_EMERGENCY_FALLBACK), {
             headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
           });
-          await emergencyCache.put(url, fallbackRes);
-        }
-      }
+          await emergencyCache.put(apiUrl, fallbackRes);
+        })
+      );
 
       await self.skipWaiting();
     })()
   );
 });
 
-// 2. Activate Event: Clean up outdated cache versions
+// 2. Activate Event: Purge all outdated caches, claim clients & notify open tabs
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
@@ -95,15 +138,47 @@ self.addEventListener('activate', (event) => {
           .filter((key) => key !== STATIC_CACHE_NAME && key !== EMERGENCY_CACHE_NAME)
           .map((key) => caches.delete(key))
       );
+
       await self.clients.claim();
+
+      const clients = await self.clients.matchAll({
+        type: 'window',
+        includeUncontrolled: true
+      });
+      for (const client of clients) {
+        client.postMessage({
+          type: 'SW_ACTIVATED',
+          version: SW_VERSION
+        });
+      }
     })()
   );
 });
 
-// 3. Fetch Event: Multi-tiered offline strategies
+// 3. Fetch Event: Deployment-safe Network-First strategies with strict MIME validation
 self.addEventListener('fetch', (event) => {
   const request = event.request;
-  const url = new URL(request.url);
+  let url;
+  try {
+    url = new URL(request.url);
+  } catch {
+    return;
+  }
+
+  // Only handle http(s) same-origin requests (skip chrome-extension://, external CDNs, Firebase, etc.)
+  if (!url.protocol.startsWith('http') || url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Bypass SW cache for Vite dev / HMR paths and the SW script itself
+  if (
+    url.pathname === '/sw.js' ||
+    url.pathname.startsWith('/src/') ||
+    url.pathname.startsWith('/@') ||
+    url.pathname.startsWith('/node_modules/')
+  ) {
+    return;
+  }
 
   // A. Handle API Requests (Network-First with Emergency Cache Fallback)
   if (url.pathname.startsWith('/api/')) {
@@ -111,21 +186,24 @@ self.addEventListener('fetch', (event) => {
       event.respondWith(
         (async () => {
           try {
-            const networkResponse = await fetch(request);
-            const contentType = networkResponse?.headers?.get('content-type') || '';
-            if (networkResponse && networkResponse.status === 200 && contentType.includes('application/json')) {
+            const networkResponse = await fetch(
+              new Request(request.url, {
+                cache: 'no-store',
+                credentials: 'same-origin'
+              })
+            );
+            const contentType = (networkResponse?.headers?.get('content-type') || '').toLowerCase();
+            if (networkResponse && networkResponse.ok && contentType.includes('application/json')) {
               const cache = await caches.open(EMERGENCY_CACHE_NAME);
-              cache.put(request, networkResponse.clone());
+              await cache.put(request, networkResponse.clone());
             }
             return networkResponse;
-          } catch (err) {
-            // Network failed - look up in emergency cache
+          } catch {
             const cached = await caches.match(request);
             if (cached) {
               return cached;
             }
 
-            // Synthesize offline emergency response for essential endpoints
             if (url.pathname.includes('/api/emergency/') || url.pathname.includes('/api/records/')) {
               return new Response(JSON.stringify(EMBEDDED_EMERGENCY_FALLBACK), {
                 headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
@@ -133,20 +211,23 @@ self.addEventListener('fetch', (event) => {
             }
 
             if (url.pathname.includes('/api/system/config')) {
-              return new Response(JSON.stringify({
-                success: true,
-                config: {
-                  monthlyFee: 3000,
-                  currency: 'ARS',
-                  membershipTitle: 'Membresía Oficial Vortex ID',
-                  paymentAlias: 'vortex.id.auxilio',
-                  paymentHolder: 'VORTEX ID · PUNTA ALTA',
-                  hasCustomPin: false
-                },
-                offlineFallback: true
-              }), {
-                headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
-              });
+              return new Response(
+                JSON.stringify({
+                  success: true,
+                  config: {
+                    monthlyFee: 3000,
+                    currency: 'ARS',
+                    membershipTitle: 'Membresía Oficial Vortex ID',
+                    paymentAlias: 'vortex.id.auxilio',
+                    paymentHolder: 'VORTEX ID · PUNTA ALTA',
+                    hasCustomPin: false
+                  },
+                  offlineFallback: true
+                }),
+                {
+                  headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
+                }
+              );
             }
 
             return new Response(JSON.stringify({ offline: true, error: 'Modo sin conexión activo' }), {
@@ -159,52 +240,85 @@ self.addEventListener('fetch', (event) => {
       return;
     }
 
-    // For POST requests while offline: only gracefully accept record/push syncs, never fake admin/auth endpoints
+    // For POST requests while offline: gracefully accept record/push syncs
     if (request.method === 'POST') {
       event.respondWith(
         fetch(request).catch(async () => {
           if (url.pathname.startsWith('/api/records/') || url.pathname.startsWith('/api/push/')) {
-            return new Response(JSON.stringify({
-              success: true,
-              offlineSaved: true,
-              message: 'Datos guardados en modo offline en tu dispositivo.'
-            }), {
-              status: 200,
-              headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
-            });
+            return new Response(
+              JSON.stringify({
+                success: true,
+                offlineSaved: true,
+                message: 'Datos guardados en modo offline en tu dispositivo.'
+              }),
+              {
+                status: 200,
+                headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
+              }
+            );
           }
-          return new Response(JSON.stringify({
-            success: false,
-            offline: true,
-            error: 'Sin conexión con el servidor.'
-          }), {
-            status: 503,
-            headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
-          });
+          return new Response(
+            JSON.stringify({
+              success: false,
+              offline: true,
+              error: 'Sin conexión con el servidor.'
+            }),
+            {
+              status: 503,
+              headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
+            }
+          );
         })
       );
       return;
     }
+
+    return;
   }
 
-  // B. Handle HTML Navigation (App Shell: Network-first, fallback to /index.html)
-  if (request.mode === 'navigate' || (request.headers.get('accept') && request.headers.get('accept').includes('text/html'))) {
+  // Only cache GET requests outside /api/
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  // B. Handle HTML Navigation (App Shell: Always fetch fresh from Netlify with cache:'no-store')
+  const acceptHeader = request.headers.get('accept') || '';
+  if (request.mode === 'navigate' || acceptHeader.includes('text/html') || url.pathname === '/qr.html') {
     event.respondWith(
       (async () => {
         try {
-          const networkRes = await fetch(request);
-          if (networkRes && networkRes.status === 200) {
+          const networkRes = await fetch(
+            new Request(request.url, {
+              cache: 'no-store',
+              credentials: 'same-origin',
+              redirect: 'follow'
+            })
+          );
+          if (networkRes && networkRes.ok && isHtmlContentType(networkRes)) {
             const cache = await caches.open(STATIC_CACHE_NAME);
-            cache.put(request, networkRes.clone());
+            if (url.pathname === '/qr.html') {
+              await cache.put('/qr.html', networkRes.clone());
+            } else {
+              await cache.put('/index.html', networkRes.clone());
+              if (url.pathname === '/') {
+                await cache.put('/', networkRes.clone());
+              }
+            }
           }
           return networkRes;
         } catch {
-          const cached = await caches.match(request);
+          if (url.pathname === '/qr.html') {
+            const cachedQr = await caches.match('/qr.html');
+            if (cachedQr) return cachedQr;
+          }
+          const cached =
+            (await caches.match(request)) ||
+            (await caches.match('/index.html')) ||
+            (await caches.match('/'));
           if (cached) return cached;
-          const fallback = await caches.match('/index.html') || await caches.match('/');
-          if (fallback) return fallback;
+
           return new Response('Vortex ID · Modo Offline Activo', {
-            headers: { 'Content-Type': 'text/html' }
+            headers: { 'Content-Type': 'text/html; charset=utf-8' }
           });
         }
       })()
@@ -212,58 +326,89 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // B2. Handle Manifest, App Icons & Official QR: Network-First so new Vortex ID updates apply immediately
-  if (
-    url.pathname.endsWith('/manifest.json') ||
-    url.pathname.endsWith('/icon-192.png') ||
-    url.pathname.endsWith('/icon-512.png') ||
-    url.pathname.endsWith('/apple-touch-icon.png') ||
-    url.pathname.endsWith('/assets/qr_vortex_id_futurista.png') ||
-    url.pathname.endsWith('/qr.html')
-  ) {
+  // B2. Handle Mutable Public Files (Manifest, App Icons, Official QR): Always bypass HTTP cache
+  if (MUTABLE_PUBLIC_PATHS.has(url.pathname)) {
     event.respondWith(
-      fetch(request)
-        .then(async (networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
+      (async () => {
+        try {
+          const networkResponse = await fetch(
+            new Request(request.url, {
+              cache: 'no-store',
+              credentials: 'same-origin'
+            })
+          );
+          if (isExpectedAssetResponse(url.pathname, networkResponse)) {
             const cache = await caches.open(STATIC_CACHE_NAME);
-            cache.put(request, networkResponse.clone());
+            await cache.put(request, networkResponse.clone());
+            return networkResponse;
           }
-          return networkResponse;
-        })
-        .catch(() => caches.match(request))
+          // If Netlify returned SPA HTML for a missing image/manifest, prefer cached asset if available
+          const cachedFallback =
+            (await caches.match(request)) || (await caches.match(url.pathname));
+          return cachedFallback || networkResponse;
+        } catch {
+          const cached =
+            (await caches.match(request)) || (await caches.match(url.pathname));
+          return cached || Response.error();
+        }
+      })()
     );
     return;
   }
 
-  // C. Bypass SW cache for Vite dev / HMR module paths so edits reflect instantaneously
-  if (
-    url.pathname.startsWith('/src/') ||
-    url.pathname.startsWith('/@') ||
-    url.pathname.startsWith('/node_modules/')
-  ) {
-    return;
-  }
-
-  // D. Handle Static Assets (JS, CSS, SVGs, Fonts, Images): Network-First with Cache Fallback
+  // C. Handle Static Build Assets (JS, CSS, SVGs, Fonts, Images): Network-First + strict MIME check
   event.respondWith(
     (async () => {
       try {
-        const networkResponse = await fetch(request);
-        if (networkResponse && networkResponse.status === 200) {
+        const networkResponse = await fetch(
+          new Request(request.url, {
+            cache: 'no-cache',
+            credentials: 'same-origin'
+          })
+        );
+        if (networkResponse && networkResponse.ok && !isHtmlContentType(networkResponse)) {
           const cache = await caches.open(STATIC_CACHE_NAME);
-          cache.put(request, networkResponse.clone());
+          await cache.put(request, networkResponse.clone());
+          return networkResponse;
         }
+
+        // Prevent poisoning cache or returning HTML fallback for stale/missing hashed JS/CSS chunks
+        if (networkResponse && isHtmlContentType(networkResponse)) {
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          return new Response('', { status: 404, statusText: 'Asset Not Found' });
+        }
+
         return networkResponse;
       } catch {
-        return caches.match(request);
+        const cached = await caches.match(request);
+        return cached || Response.error();
       }
     })()
   );
 });
 
-// 4. Message Event: Sync medical records & handle offline cache management
+// 4. Message Event: Sync medical records, forced updates & offline cache management
 self.addEventListener('message', (event) => {
   if (!event.data) return;
+
+  // Allow client to immediately activate a waiting Service Worker version
+  if (event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+    return;
+  }
+
+  if (event.data.type === 'GET_SW_VERSION') {
+    event.ports?.[0]?.postMessage({ version: SW_VERSION });
+    return;
+  }
+
+  if (event.data.type === 'CLEAR_ALL_CACHES') {
+    event.waitUntil(
+      caches.keys().then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+    );
+    return;
+  }
 
   // Cache updated medical record directly into SW emergency cache
   if (event.data.type === 'CACHE_EMERGENCY_DATA') {
@@ -294,6 +439,7 @@ self.addEventListener('message', (event) => {
       const hasEmergencyBundle = keys.some((k) => k.url.includes('/api/emergency/offline-bundle'));
       event.ports?.[0]?.postMessage({
         offlineReady: true,
+        version: SW_VERSION,
         cachedEndpointsCount: keys.length,
         hasEmergencyBundle
       });

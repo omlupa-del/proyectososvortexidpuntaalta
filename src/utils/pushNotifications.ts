@@ -38,6 +38,18 @@ let swRegistration: ServiceWorkerRegistration | null = null;
 let swRegistrationPromise: Promise<ServiceWorkerRegistration | null> | null = null;
 
 let swListenersBound = false;
+let lastSwUpdateCheckAt = 0;
+
+function reloadOnceForNewSw() {
+  try {
+    const lastReload = Number(sessionStorage.getItem('vortex_sw_last_reload_ts') || '0');
+    if (Date.now() - lastReload < 15000) return;
+    sessionStorage.setItem('vortex_sw_last_reload_ts', String(Date.now()));
+  } catch {
+    // ignore storage errors
+  }
+  window.location.reload();
+}
 
 /**
  * Register Service Worker and initialize push notification listener
@@ -59,7 +71,23 @@ export function initPushNotifications(): Promise<ServiceWorkerRegistration | nul
       });
       swRegistration = reg;
 
+      // If a newer worker is already waiting, promote it immediately
+      if (reg.waiting) {
+        reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+
+      reg.addEventListener('updatefound', () => {
+        const installing = reg.installing;
+        if (!installing) return;
+        installing.addEventListener('statechange', () => {
+          if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+            installing.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
+      });
+
       // Force immediate check for newer Service Worker builds (prevents stale Netlify versions)
+      lastSwUpdateCheckAt = Date.now();
       reg.update().catch(() => {});
 
       if (!swListenersBound) {
@@ -68,16 +96,21 @@ export function initPushNotifications(): Promise<ServiceWorkerRegistration | nul
         // Auto-reload once when a new Service Worker takes over an existing session
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           if (!hadController) return;
-          try {
-            if (sessionStorage.getItem('vortex_sw_reloaded_v41')) return;
-            sessionStorage.setItem('vortex_sw_reloaded_v41', '1');
-          } catch {
-            // ignore
-          }
-          window.location.reload();
+          reloadOnceForNewSw();
         });
 
-        // Listen for messages from SW (e.g. notification clicks)
+        // Re-check for Netlify SW updates when returning to the app or regaining connectivity
+        const checkForUpdates = () => {
+          if (document.visibilityState === 'hidden') return;
+          const now = Date.now();
+          if (now - lastSwUpdateCheckAt < 30000) return;
+          lastSwUpdateCheckAt = now;
+          reg.update().catch(() => {});
+        };
+        document.addEventListener('visibilitychange', checkForUpdates);
+        window.addEventListener('online', checkForUpdates);
+
+        // Listen for messages from SW (e.g. notification clicks or forced activation)
         navigator.serviceWorker.addEventListener('message', (event) => {
           if (event.data && event.data.type === 'PUSH_NOTIFICATION_CLICKED') {
             window.dispatchEvent(new CustomEvent('vortex_notification_opened', { detail: event.data.payload }));
