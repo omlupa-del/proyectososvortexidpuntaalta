@@ -21,6 +21,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <script>
+      (function () {
+        window.__vortexDeferredInstallPrompt = null;
+        window.__vortexAppInstalled = false;
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault();
+          window.__vortexDeferredInstallPrompt = e;
+          window.dispatchEvent(new CustomEvent('vortex_beforeinstallprompt_ready'));
+        });
+        window.addEventListener('appinstalled', function () {
+          window.__vortexAppInstalled = true;
+          window.__vortexDeferredInstallPrompt = null;
+          window.dispatchEvent(new CustomEvent('vortex_native_app_installed'));
+        });
+      })();
+    </script>
   </head>
   <body class="bg-[#030816] text-[#eaf3ff] antialiased selection:bg-[#37c8ff]/30 selection:text-white min-h-screen">
     <div id="root"></div>

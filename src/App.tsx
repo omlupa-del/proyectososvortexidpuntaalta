@@ -380,6 +380,27 @@ export default function App() {
       }
     }
 
+    // If opened with ?instalar=1 from preview or direct link, open the Install modal on the matching platform tab
+    let installQueryTimer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get('instalar') === '1' && !isStandaloneLaunch) {
+        const ua = window.navigator.userAgent.toLowerCase();
+        const isIosUa = /iphone|ipad|ipod/.test(ua);
+        const isMobileUa = /android|mobile/.test(ua);
+        setInstallModalTab(isIosUa ? 'iphone' : isMobileUa ? 'android' : 'pc');
+        installQueryTimer = setTimeout(() => {
+          setIsInstallModalOpen(true);
+        }, 250);
+        searchParams.delete('instalar');
+        const nextSearch = searchParams.toString();
+        const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
+        window.history.replaceState({}, '', nextUrl);
+      }
+    } catch {
+      // ignore URL cleanup errors
+    }
+
     const dutyTimer = setInterval(() => {
       setDutyClockTick((t) => t + 1);
     }, 60000);
@@ -407,6 +428,7 @@ export default function App() {
       window.removeEventListener('vortex_voice_state', handleVoiceState);
       window.removeEventListener('vortex_app_installed', handleAppInstalled);
       if (standaloneTimer) clearTimeout(standaloneTimer);
+      if (installQueryTimer) clearTimeout(installQueryTimer);
       clearInterval(dutyTimer);
     };
   }, []);
@@ -931,7 +953,10 @@ export default function App() {
                     if (isInstallable) {
                       install();
                     } else {
-                      setInstallModalTab('iphone');
+                      const isMobileUa =
+                        typeof navigator !== 'undefined' &&
+                        /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
+                      setInstallModalTab(isIOS ? 'iphone' : isMobileUa ? 'android' : 'pc');
                       setIsInstallModalOpen(true);
                     }
                   }}

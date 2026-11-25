@@ -7,8 +7,8 @@
  * 4. Web Push Notifications for Critical Alerts
  */
 
-const STATIC_CACHE_NAME = 'vortexid-static-v39';
-const EMERGENCY_CACHE_NAME = 'vortexid-emergency-offline-v39';
+const STATIC_CACHE_NAME = 'vortexid-static-v40';
+const EMERGENCY_CACHE_NAME = 'vortexid-emergency-offline-v40';
 
 const PRECACHE_STATIC_ASSETS = [
   '/',
@@ -57,13 +57,19 @@ self.addEventListener('install', (event) => {
         console.warn('[SW Install] Some static assets failed to precache:', err);
       }
 
-      // Precache critical emergency APIs
+      // Precache critical emergency APIs (ignore Netlify HTML SPA fallback on static hosting)
       const emergencyCache = await caches.open(EMERGENCY_CACHE_NAME);
       for (const url of PRECACHE_EMERGENCY_APIS) {
         try {
           const res = await fetch(url);
-          if (res && res.status === 200) {
+          const ct = res && res.headers ? (res.headers.get('content-type') || '') : '';
+          if (res && res.status === 200 && ct.includes('application/json')) {
             await emergencyCache.put(url, res);
+          } else {
+            const fallbackRes = new Response(JSON.stringify(EMBEDDED_EMERGENCY_FALLBACK), {
+              headers: { 'Content-Type': 'application/json', 'X-Vortex-Offline': 'true' }
+            });
+            await emergencyCache.put(url, fallbackRes);
           }
         } catch {
           // Store embedded fallback if offline during initial install
@@ -106,7 +112,8 @@ self.addEventListener('fetch', (event) => {
         (async () => {
           try {
             const networkResponse = await fetch(request);
-            if (networkResponse && networkResponse.status === 200) {
+            const contentType = networkResponse?.headers?.get('content-type') || '';
+            if (networkResponse && networkResponse.status === 200 && contentType.includes('application/json')) {
               const cache = await caches.open(EMERGENCY_CACHE_NAME);
               cache.put(request, networkResponse.clone());
             }

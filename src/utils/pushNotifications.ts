@@ -35,56 +35,64 @@ export const DEFAULT_PUSH_PREFERENCES: PushPreferences = {
 };
 
 let swRegistration: ServiceWorkerRegistration | null = null;
+let swRegistrationPromise: Promise<ServiceWorkerRegistration | null> | null = null;
 
 let swListenersBound = false;
 
 /**
  * Register Service Worker and initialize push notification listener
  */
-export async function initPushNotifications(): Promise<ServiceWorkerRegistration | null> {
+export function initPushNotifications(): Promise<ServiceWorkerRegistration | null> {
   if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
-    return null;
+    return Promise.resolve(null);
+  }
+  if (swRegistrationPromise) {
+    return swRegistrationPromise;
   }
 
-  try {
-    const hadController = Boolean(navigator.serviceWorker.controller);
-    const reg = await navigator.serviceWorker.register('/sw.js', {
-      scope: '/',
-      updateViaCache: 'none'
-    });
-    swRegistration = reg;
-
-    // Force immediate check for newer Service Worker builds (prevents stale Netlify versions)
-    reg.update().catch(() => {});
-
-    if (!swListenersBound) {
-      swListenersBound = true;
-
-      // Auto-reload once when a new Service Worker takes over an existing session
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!hadController) return;
-        try {
-          if (sessionStorage.getItem('vortex_sw_reloaded_v39')) return;
-          sessionStorage.setItem('vortex_sw_reloaded_v39', '1');
-        } catch {
-          // ignore
-        }
-        window.location.reload();
+  swRegistrationPromise = (async () => {
+    try {
+      const hadController = Boolean(navigator.serviceWorker.controller);
+      const reg = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/',
+        updateViaCache: 'none'
       });
+      swRegistration = reg;
 
-      // Listen for messages from SW (e.g. notification clicks)
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'PUSH_NOTIFICATION_CLICKED') {
-          window.dispatchEvent(new CustomEvent('vortex_notification_opened', { detail: event.data.payload }));
-        }
-      });
+      // Force immediate check for newer Service Worker builds (prevents stale Netlify versions)
+      reg.update().catch(() => {});
+
+      if (!swListenersBound) {
+        swListenersBound = true;
+
+        // Auto-reload once when a new Service Worker takes over an existing session
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!hadController) return;
+          try {
+            if (sessionStorage.getItem('vortex_sw_reloaded_v40')) return;
+            sessionStorage.setItem('vortex_sw_reloaded_v40', '1');
+          } catch {
+            // ignore
+          }
+          window.location.reload();
+        });
+
+        // Listen for messages from SW (e.g. notification clicks)
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          if (event.data && event.data.type === 'PUSH_NOTIFICATION_CLICKED') {
+            window.dispatchEvent(new CustomEvent('vortex_notification_opened', { detail: event.data.payload }));
+          }
+        });
+      }
+
+      return reg;
+    } catch (err) {
+      console.warn('Service worker registration failed:', err);
+      return null;
     }
+  })();
 
-    return reg;
-  } catch (err) {
-    console.warn('Service worker registration failed:', err);
-    return null;
-  }
+  return swRegistrationPromise;
 }
 
 /**

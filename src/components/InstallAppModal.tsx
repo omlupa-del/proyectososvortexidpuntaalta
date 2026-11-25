@@ -47,7 +47,14 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
   const [customKeychainNum, setCustomKeychainNum] = useState<string>('0001');
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [generatingPoster, setGeneratingPoster] = useState<boolean>(false);
-  const { deferredPrompt, isInstalled, isIOS, install } = usePWAInstall();
+  const {
+    deferredPrompt,
+    isInstalled,
+    alreadyInstalledInBrowser,
+    wasPromptDismissed,
+    isIOS,
+    install
+  } = usePWAInstall();
   const [installHint, setInstallHint] = useState<string>('');
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [copiedAlias, setCopiedAlias] = useState<boolean>(false);
@@ -150,12 +157,26 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
       if (accepted) {
         playChirp('success');
         setInstallHint('');
+      } else {
+        setActiveTab(isMobileDevice ? 'android' : 'pc');
+        setInstallHint(
+          isMobileDevice
+            ? 'Cancelaste el cuadro automático. Tocá los 3 puntitos (⋮) de Chrome arriba a la derecha → "Instalar aplicación".'
+            : 'Cancelaste el cuadro automático. Hacé clic en el ícono de Instalar (monitor con flecha ↓) en la barra de direcciones arriba a la derecha, o en el menú (⋮) → Guardar y compartir / Aplicaciones → Instalar.'
+        );
       }
+      return;
+    }
+    if (alreadyInstalledInBrowser) {
+      setActiveTab(isMobileDevice ? 'android' : 'pc');
+      setInstallHint(
+        'Vortex ID ya figura instalada en este navegador. Abrila desde el acceso directo de tu Escritorio / Menú Inicio o tocá el ícono "Abrir en aplicación" en la barra de direcciones.'
+      );
       return;
     }
     if (isInIframe) {
       setInstallHint(
-        'En esta vista previa embebida el navegador bloquea la descarga directa. Tocá el botón «Abrir en pestaña directa para instalar» acá arriba o entrá a proyectososvortexid.netlify.app desde Chrome, Edge o Safari.'
+        'En esta vista previa embebida el navegador bloquea la descarga directa. Tocá el botón verde de arriba para abrir proyectososvortexid.netlify.app en una pestaña directa e instalarla en 1 toque.'
       );
       return;
     }
@@ -170,7 +191,9 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
     setInstallHint(
       isMobileDevice
         ? 'Tocá los 3 puntitos (⋮) de Chrome arriba a la derecha → "Instalar aplicación".'
-        : 'Hacé clic en el ícono de Instalar (monitor con flecha ↓) en la barra de direcciones arriba a la derecha, o en el menú (⋮) → Instalar.'
+        : wasPromptDismissed
+          ? 'El navegador ocultó temporalmente el botón automático porque se cerró antes. Hacé clic en el ícono de Instalar (monitor con flecha ↓) arriba a la derecha de la barra de direcciones o menú (⋮) → Instalar.'
+          : 'Hacé clic en el ícono de Instalar (monitor con flecha ↓) en la barra de direcciones arriba a la derecha, o en el menú (⋮) → Guardar y compartir → Instalar página como aplicación.'
     );
   };
 
@@ -354,7 +377,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
         </div>
 
         {/* Direct Install Button (Always visible right below the 30-second banner) */}
-        {isInstalled ? (
+        {isInstalled || alreadyInstalledInBrowser ? (
           <div className="p-3.5 rounded-2xl bg-emerald-950/80 border-2 border-emerald-400/80 flex items-center gap-2.5 text-xs">
             <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
             <div>
@@ -362,7 +385,9 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                 ¡Vortex ID ya está instalada en este dispositivo!
               </strong>
               <span className="text-emerald-100/80">
-                Podés abrirla desde tu pantalla principal o escritorio incluso sin internet.
+                {isInstalled
+                  ? 'Podés abrirla desde tu pantalla principal o escritorio incluso sin internet.'
+                  : 'Ya figura instalada en tu navegador: podés abrirla desde tu Escritorio, Menú Inicio o el ícono "Abrir en aplicación" en la barra de direcciones.'}
               </span>
             </div>
           </div>
@@ -372,44 +397,55 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
               <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>
-                  {deferredPrompt
-                    ? isMobileDevice
-                      ? 'Tu celular está listo para instalación directa'
-                      : 'Tu PC / Laptop está lista para instalación directa'
-                    : isMobileDevice
-                      ? 'Descarga e instalación rápida en tu celular'
-                      : 'Descarga e instalación rápida en PC, Laptop o Celular'}
+                  {isInIframe
+                    ? 'Instalación en 1 toque (abrir pestaña directa)'
+                    : deferredPrompt
+                      ? isMobileDevice
+                        ? 'Tu celular está listo para instalación en 1 toque'
+                        : 'Tu PC / Laptop está lista para instalación en 1 toque'
+                      : isMobileDevice
+                        ? 'Descarga e instalación rápida en tu celular'
+                        : 'Descarga e instalación rápida en PC, Laptop o Celular'}
                 </span>
               </span>
             </div>
 
-            <button
-              type="button"
-              onClick={handleInstallClick}
-              className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-green-500 hover:brightness-110 text-gray-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 active:scale-[0.99] transition"
-            >
-              <Download className="w-5 h-5 shrink-0" />
-              <span>
-                {deferredPrompt
-                  ? isMobileDevice
-                    ? 'Instalar App en este celular ahora'
-                    : 'Instalar App en esta PC / Laptop ahora'
-                  : isMobileDevice
-                    ? 'Descargar / Instalar App ahora'
-                    : 'Descargar / Instalar App en PC, Laptop o Celular'}
-              </span>
-            </button>
-
-            {isInIframe && (
+            {isInIframe ? (
               <a
-                href={configuredBase + '/'}
+                href={configuredBase + '/?instalar=1'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2.5 px-3 rounded-xl bg-[#07142b] hover:bg-[#0d2450] border border-cyan-400/70 text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition"
+                onClick={() => playChirp('click')}
+                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-green-500 hover:brightness-110 text-gray-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 active:scale-[0.99] transition"
               >
-                <ExternalLink className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
-                <span>Abrir en pestaña directa para instalar (proyectososvortexid.netlify.app)</span>
+                <ExternalLink className="w-5 h-5 shrink-0" />
+                <span>Abrir en pestaña directa para instalar en 1 toque</span>
               </a>
+            ) : (
+              <button
+                type="button"
+                onClick={handleInstallClick}
+                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-green-500 hover:brightness-110 text-gray-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/60 active:scale-[0.99] transition"
+              >
+                <Download className="w-5 h-5 shrink-0" />
+                <span>
+                  {deferredPrompt
+                    ? isMobileDevice
+                      ? 'Instalar App en este celular en 1 toque'
+                      : 'Instalar App en esta PC / Laptop en 1 toque'
+                    : isMobileDevice
+                      ? 'Descargar / Instalar App ahora'
+                      : 'Instalar App en PC / Laptop (Chrome / Edge)'}
+                </span>
+              </button>
+            )}
+
+            {isInIframe && (
+              <p className="text-[11px] text-cyan-100/90 bg-black/35 border border-cyan-400/40 rounded-xl p-2 leading-snug">
+                La vista previa embebida bloquea la descarga directa del navegador. Al abrir{' '}
+                <strong className="font-mono text-cyan-300">proyectososvortexid.netlify.app</strong>{' '}
+                en pestaña directa se habilita el botón de instalación en 1 toque.
+              </p>
             )}
 
             {installHint && (

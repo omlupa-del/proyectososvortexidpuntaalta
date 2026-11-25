@@ -862,9 +862,9 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
           </div>
 
           {/* 2. Asymmetric Split Console */}
-          <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] flex-1 min-h-0 overflow-hidden">
+          <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] lg:grid-rows-[minmax(0,1fr)] lg:grid-cols-[248px_1fr] flex-1 min-h-0 overflow-hidden">
             {/* Left Modular Navigation & Live Instrument Readout */}
-            <aside className="bg-[#080D18] border-b lg:border-b-0 lg:border-r border-[#1C2A45] p-3 lg:p-4 flex flex-col justify-between gap-4 shrink-0 lg:overflow-y-auto">
+            <aside className="bg-[#080D18] border-b lg:border-b-0 lg:border-r border-[#1C2A45] p-3 lg:p-4 flex flex-col justify-between gap-4 shrink-0 max-h-[38vh] lg:max-h-none overflow-y-auto">
               <nav
                 aria-label="Módulos del Control de Misión"
                 className="flex flex-wrap lg:flex-col gap-1.5"
@@ -968,7 +968,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
             {/* Main Viewport Stage */}
             <div
               ref={mainViewportRef}
-              className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-5 bg-[#060911]"
+              className="h-full min-h-0 overflow-y-auto p-4 sm:p-5 space-y-5 bg-[#060911]"
             >
               {/* MODULE 1: TELEMETRÍA EN VIVO & CONSOLA DE LOGS */}
               {activeModule === 'telemetria' && (
