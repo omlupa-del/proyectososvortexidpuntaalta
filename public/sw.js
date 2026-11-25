@@ -7,7 +7,7 @@
  * 4. Web Push Notifications for Critical Alerts
  */
 
-const SW_VERSION = 'v42';
+const SW_VERSION = 'v43';
 const STATIC_CACHE_NAME = `vortexid-static-${SW_VERSION}`;
 const EMERGENCY_CACHE_NAME = `vortexid-emergency-offline-${SW_VERSION}`;
 
@@ -19,7 +19,7 @@ const PRECACHE_STATIC_ASSETS = [
   '/icon-512.png?v=36',
   '/apple-touch-icon.png?v=36',
   '/assets/aistudio/image__2__7d12aee0.png',
-  '/assets/qr_vortex_id_futurista.png?v=41'
+  '/assets/qr_vortex_id_futurista.png?v=43'
 ];
 
 const PRECACHE_EMERGENCY_APIS = [

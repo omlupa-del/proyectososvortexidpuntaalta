@@ -26,8 +26,8 @@ import {
 } from '../utils/systemConfig';
 import { usePWAInstall } from '../utils/usePWAInstall';
 
-const OFFICIAL_FUTURISTIC_QR_URL = '/assets/qr_vortex_id_futurista.png?v=41';
-const OFFICIAL_NETLIFY_URL = 'https://asistentesospuntaalta.netlify.app/';
+const OFFICIAL_FUTURISTIC_QR_URL = '/assets/qr_vortex_id_futurista.png?v=43';
+const OFFICIAL_NETLIFY_URL = 'https://proyectososvortexid.netlify.app/';
 
 interface InstallAppModalProps {
   isOpen: boolean;
@@ -82,7 +82,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
   const currentOriginRoot =
     typeof window !== 'undefined' ? window.location.origin : OFFICIAL_NETLIFY_URL.replace(/\/+$/, '');
   const currentOriginHost =
-    typeof window !== 'undefined' ? window.location.host : 'asistentesospuntaalta.netlify.app';
+    typeof window !== 'undefined' ? window.location.host : 'proyectososvortexid.netlify.app';
   const directTabInstallUrl = `${currentOriginRoot}/?instalar=1`;
 
   const netlifyOriginClean = OFFICIAL_NETLIFY_URL.replace(/\/+$/, '');

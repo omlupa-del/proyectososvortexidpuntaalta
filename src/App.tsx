@@ -110,7 +110,7 @@ export default function App() {
   const directInstallUrl =
     typeof window !== 'undefined'
       ? `${window.location.origin}/?instalar=1`
-      : 'https://asistentesospuntaalta.netlify.app/?instalar=1';
+      : 'https://proyectososvortexid.netlify.app/?instalar=1';
   const handleQuickInstallOrOpenModal = async () => {
     if (isInstallable) {
       const accepted = await install();
@@ -1422,12 +1422,12 @@ export default function App() {
 
       {/* Official Futuristic QR & Install App Banner for Users & Families */}
       {(() => {
-        const netlifyOrigin = 'https://asistentesospuntaalta.netlify.app';
+        const netlifyOrigin = 'https://proyectososvortexid.netlify.app';
         const activeTargetBase =
           systemConfig.customDomain && systemConfig.customDomain.trim().startsWith('http')
             ? systemConfig.customDomain.trim().replace(/\/+$/, '')
             : netlifyOrigin;
-        const bannerQrSrc = '/assets/qr_vortex_id_futurista.png?v=41';
+        const bannerQrSrc = '/assets/qr_vortex_id_futurista.png?v=43';
 
         return (
           <section className="my-5 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-[#071739] via-[#07243b] to-[#0a1f55] border-2 border-cyan-400/80 shadow-2xl">
