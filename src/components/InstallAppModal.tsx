@@ -74,6 +74,17 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
     typeof navigator !== 'undefined' &&
     /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
 
+  const isFirefoxDesktop =
+    typeof navigator !== 'undefined' &&
+    !isMobileDevice &&
+    /firefox/i.test(navigator.userAgent);
+
+  const currentOriginRoot =
+    typeof window !== 'undefined' ? window.location.origin : OFFICIAL_NETLIFY_URL.replace(/\/+$/, '');
+  const currentOriginHost =
+    typeof window !== 'undefined' ? window.location.host : 'asistentesospuntaalta.netlify.app';
+  const directTabInstallUrl = `${currentOriginRoot}/?instalar=1`;
+
   const netlifyOriginClean = OFFICIAL_NETLIFY_URL.replace(/\/+$/, '');
 
   const configuredBase =
@@ -176,7 +187,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
     }
     if (isInIframe) {
       setInstallHint(
-        'En esta vista previa embebida el navegador bloquea la descarga directa. Tocá el botón verde de arriba para abrir asistentesospuntaalta.netlify.app en una pestaña directa e instalarla en 1 toque.'
+        `En esta vista previa embebida el navegador bloquea la descarga directa. Tocá el botón verde de arriba para abrir ${currentOriginHost} en una pestaña directa e instalarla en 1 clic.`
       );
       return;
     }
@@ -398,7 +409,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
               <span>Instalación en 1 toque (abrir pestaña directa)</span>
             </span>
             <a
-              href={configuredBase + '/?instalar=1'}
+              href={directTabInstallUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => playChirp('click')}
@@ -409,8 +420,8 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             </a>
             <p className="text-[11px] text-cyan-100/90 bg-black/35 border border-cyan-400/40 rounded-xl p-2 leading-snug">
               La vista previa embebida bloquea la descarga directa del navegador. Al abrir{' '}
-              <strong className="font-mono text-cyan-300">asistentesospuntaalta.netlify.app</strong>{' '}
-              en pestaña directa se habilita la instalación nativa.
+              <strong className="font-mono text-cyan-300">{currentOriginHost}</strong>{' '}
+              en pestaña directa se habilita la instalación nativa en Chrome / Edge.
             </p>
           </div>
         ) : deferredPrompt ? (
@@ -450,16 +461,20 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
               <span>
                 {isMobileDevice
                   ? 'Instalá la app desde el menú de tu navegador'
-                  : 'Cómo instalar en esta PC (Chrome / Edge)'}
+                  : isFirefoxDesktop
+                    ? 'Firefox PC no instala PWAs · Abrila en Chrome o Edge'
+                    : 'Cómo instalar en esta PC (Chrome / Edge)'}
               </span>
             </div>
 
             {!isMobileDevice && !isIOS ? (
               <div className="text-[11px] text-[#cfe0ff] space-y-2 leading-relaxed">
                 <p>
-                  {wasPromptDismissed
-                    ? 'Cerraste el aviso automático de instalación. Por seguridad del navegador, ahora debés instalarla desde la barra superior:'
-                    : 'Si no aparece el botón automático es porque Chrome/Edge ya tiene una copia instalada, estás en modo Incógnito, usás Firefox o cerraste un aviso anterior. Instalala directo así:'}
+                  {isFirefoxDesktop
+                    ? 'Firefox de escritorio no admite instalar aplicaciones web (PWA). Copiá el enlace de abajo y abrilo en Google Chrome o Microsoft Edge para instalarla en 1 clic:'
+                    : wasPromptDismissed
+                      ? 'Cerraste el aviso automático de instalación. Por seguridad del navegador, ahora debés instalarla desde la barra superior:'
+                      : 'Si no aparece el botón automático es porque Chrome/Edge ya tiene una copia instalada, estás en modo Incógnito o cerraste un aviso anterior. Instalala directo así:'}
                 </p>
                 <div className="p-2.5 rounded-xl bg-black/45 border border-cyan-400/40 space-y-1">
                   <p>
@@ -472,6 +487,19 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                     <strong className="text-white">(⋮) → Guardar y compartir → Instalar página como aplicación</strong> (en Edge: <em>Aplicaciones → Instalar</em>).
                   </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    playChirp('click');
+                    navigator.clipboard.writeText(currentOriginRoot);
+                    setCopiedLink(true);
+                    setTimeout(() => setCopiedLink(false), 2500);
+                  }}
+                  className="w-full py-2 px-3 rounded-xl bg-[#0b1f50] hover:bg-[#143078] border border-cyan-400/60 text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+                >
+                  {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedLink ? '¡Enlace copiado! Pegalo en Chrome o Edge' : `Copiar enlace actual (${currentOriginHost})`}</span>
+                </button>
               </div>
             ) : (
               <button
@@ -830,7 +858,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   1
                 </span>
                 <span>
-                  Abrí <strong className="text-white font-mono">asistentesospuntaalta.netlify.app</strong> en <strong className="text-white">Google Chrome</strong> o <strong className="text-white">Microsoft Edge</strong> desde tu computadora o notebook.
+                  Abrí <strong className="text-white font-mono">{currentOriginHost}</strong> en <strong className="text-white">Google Chrome</strong> o <strong className="text-white">Microsoft Edge</strong> desde tu computadora o notebook.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">

@@ -107,9 +107,17 @@ export default function App() {
     typeof navigator !== 'undefined' &&
     /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
   const defaultInstallTab: 'android' | 'iphone' | 'pc' = isIOS ? 'iphone' : isMobileUa ? 'android' : 'pc';
-  const handleQuickInstallOrOpenModal = () => {
+  const directInstallUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}/?instalar=1`
+      : 'https://asistentesospuntaalta.netlify.app/?instalar=1';
+  const handleQuickInstallOrOpenModal = async () => {
     if (isInstallable) {
-      install();
+      const accepted = await install();
+      if (!accepted) {
+        setInstallModalTab(defaultInstallTab);
+        setIsInstallModalOpen(true);
+      }
     } else {
       setInstallModalTab(defaultInstallTab);
       setIsInstallModalOpen(true);
@@ -972,7 +980,7 @@ export default function App() {
               <div className="flex items-center gap-1.5 shrink-0">
                 {isInIframe && !isInstallable ? (
                   <a
-                    href="https://asistentesospuntaalta.netlify.app/?instalar=1"
+                    href={directInstallUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 hover:brightness-110 text-gray-950 font-black text-xs shadow-md active:scale-95 transition whitespace-nowrap"
