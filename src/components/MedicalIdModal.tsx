@@ -55,6 +55,7 @@ import { PhotoUploader } from './PhotoUploader';
 import { ClinicalHistorySection } from './ClinicalHistorySection';
 import { PregnancyFields } from './PregnancyFields';
 import { PersonalPinRecoveryBox } from './PersonalPinRecoveryBox';
+import { DailyMedicationSection } from './DailyMedicationSection';
 
 interface MedicalIdModalProps {
   isOpen: boolean;
@@ -446,6 +447,13 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               />
             </div>
 
+            <DailyMedicationSection
+              compact={true}
+              defaultExpanded={false}
+              currentSosMedText={editForm.med}
+              onSyncToSosMedField={(summary) => handleChange('med', summary)}
+            />
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
                 <label className="block text-xs text-gray-300 mb-1">Obra Social / Prepaga</label>
@@ -795,6 +803,12 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                 <p className="text-sm font-semibold text-white leading-snug">{record.med}</p>
               </div>
             )}
+
+            {/* Medicación Diaria y Recordatorios Simples */}
+            <DailyMedicationSection
+              compact={true}
+              defaultExpanded={false}
+            />
 
             {/* Obra Social & Doctor */}
             {(record?.obraSocial || record?.doc) && (

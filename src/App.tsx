@@ -8,6 +8,7 @@ import { Header } from './components/Header';
 import { SosBanner } from './components/SosBanner';
 import { MissionControlConsole } from './components/MissionControlConsole';
 import { EmergencyCallGrid } from './components/EmergencyCallGrid';
+import { TravelerModeSection } from './components/TravelerModeSection';
 import { PharmacySection } from './components/PharmacySection';
 import { WeatherAlertCard } from './components/WeatherAlertCard';
 import { ServicesSection } from './components/ServicesSection';
@@ -80,7 +81,16 @@ import {
 } from './firebase/firestoreService';
 import { usePWAInstall } from './utils/usePWAInstall';
 import { logSystemEvent } from './utils/systemTelemetry';
-import { HeartHandshake, QrCode, Link2, Tag, Settings, Download, X, ShieldCheck, Eye, Lock } from 'lucide-react';
+import { DailyMedicationSection } from './components/DailyMedicationSection';
+import {
+  DailyMedication,
+  MEDICATION_DUE_EVENT,
+  MedicationDueEventDetail,
+  markMedicationTakenToday,
+  snoozeMedicationReminder,
+  startMedicationReminderLoop
+} from './utils/medicationReminders';
+import { HeartHandshake, QrCode, Link2, Tag, Settings, Download, X, ShieldCheck, Eye, Lock, Pill, CheckCircle2, Clock } from 'lucide-react';
 
 export default function App() {
   const { user, isAdmin } = useAuth();
@@ -148,6 +158,10 @@ export default function App() {
   const [dutyClockTick, setDutyClockTick] = useState<number>(0);
   const [isSpeakingTopDuty, setIsSpeakingTopDuty] = useState<boolean>(false);
   const [topDutySpokenSubtitle, setTopDutySpokenSubtitle] = useState<string>('');
+  const [dueMedicationAlert, setDueMedicationAlert] = useState<{
+    medication: DailyMedication;
+    isTest?: boolean;
+  } | null>(null);
 
   // Real device GPS/network coordinates (never fabricated with hardcoded Colon 415)
   const [coords, setCoords] = useState<Coordinates | null>(
@@ -443,8 +457,20 @@ export default function App() {
       console.warn('Push init error:', err);
     });
 
+    // Daily Medication Reminder Scheduler
+    const stopMedicationLoop = startMedicationReminderLoop();
+    const handleMedicationDue = (e: Event) => {
+      const detail = (e as CustomEvent<MedicationDueEventDetail>).detail;
+      if (detail?.medication) {
+        setDueMedicationAlert({ medication: detail.medication, isTest: detail.isTest });
+      }
+    };
+    window.addEventListener(MEDICATION_DUE_EVENT, handleMedicationDue);
+
     return () => {
       unsubscribe();
+      stopMedicationLoop();
+      window.removeEventListener(MEDICATION_DUE_EVENT, handleMedicationDue);
       window.removeEventListener('vortex_config_updated', handleConfigUpdated);
       window.removeEventListener('vortex_membership_unlocked', handleMembershipUpdated);
       window.removeEventListener('vortex_origin_changed', handleOriginChanged);
@@ -1101,6 +1127,90 @@ export default function App() {
             </div>
           )}
 
+          {/* Daily Medication Reminder Banner */}
+          {dueMedicationAlert && !isFromLink && (
+            <div className="sticky top-2 z-40 my-3 p-3.5 rounded-2xl bg-gradient-to-r from-[#08224a] via-[#0a2f5a] to-[#083344] border-2 border-cyan-400 shadow-2xl text-white animate-fade-in">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-2.5 min-w-0">
+                  <div className="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-300 shrink-0 mt-0.5">
+                    <Pill className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[11px] font-black uppercase tracking-wider text-cyan-300">
+                        {dueMedicationAlert.isTest
+                          ? 'Recordatorio de prueba'
+                          : 'Recordatorio de medicación'}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-cyan-500/40 text-cyan-200 font-mono text-[10px] font-bold">
+                        {dueMedicationAlert.medication.time} hs
+                      </span>
+                    </div>
+                    <p className="text-sm sm:text-base font-black text-white mt-0.5">
+                      {dueMedicationAlert.medication.name}
+                      {dueMedicationAlert.medication.dose
+                        ? ` · ${dueMedicationAlert.medication.dose}`
+                        : ''}
+                    </p>
+                    {dueMedicationAlert.medication.notes && (
+                      <p className="text-xs text-cyan-100/90">
+                        {dueMedicationAlert.medication.notes}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setDueMedicationAlert(null)}
+                  className="p-1 rounded-lg text-cyan-200 hover:text-white hover:bg-white/10 transition shrink-0"
+                  aria-label="Cerrar recordatorio"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="mt-2.5 flex items-center gap-2 flex-wrap">
+                {!dueMedicationAlert.isTest && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        playChirp('success');
+                        markMedicationTakenToday(dueMedicationAlert.medication.id, true);
+                        setDueMedicationAlert(null);
+                      }}
+                      className="flex-1 min-w-[140px] py-2 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-[#050b1f] font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Ya la tomé</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        playChirp('click');
+                        snoozeMedicationReminder(dueMedicationAlert.medication.id, 10);
+                        setDueMedicationAlert(null);
+                      }}
+                      className="py-2 px-3 rounded-xl bg-[#07122c] hover:bg-[#0f275e] border border-cyan-400/50 text-cyan-200 font-bold text-xs flex items-center gap-1.5 transition active:scale-95"
+                    >
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>Posponer 10 min</span>
+                    </button>
+                  </>
+                )}
+                {dueMedicationAlert.isTest && (
+                  <button
+                    type="button"
+                    onClick={() => setDueMedicationAlert(null)}
+                    className="py-1.5 px-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-[#050b1f] font-bold text-xs transition"
+                  >
+                    Entendido
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Unlinked Keychain Detected Prompt Banner */}
           {scannedUnlinkedId && (
             <div className="my-3 p-4 rounded-2xl bg-gradient-to-r from-amber-950 via-[#1e1b0a] to-[#0d2252] border-2 border-amber-400 shadow-xl flex items-center justify-between gap-3 animate-fade-in">
@@ -1240,6 +1350,16 @@ export default function App() {
         gpsStatus={gpsStatus}
       />
 
+      {/* Modo Viajero (Ruta, Vacaciones y Emergencias fuera de Punta Alta) */}
+      <TravelerModeSection
+        coords={emergencyCoords}
+        ipFallback={ipFallbackCoords}
+        onRequestCoords={requestGeolocation}
+        gpsStatus={gpsStatus}
+        medicalRecord={medicalRecord}
+        onOpenQrModal={() => setIsQrModalOpen(true)}
+      />
+
       {/* Featured Pharmacy & 24h Transport Services with Real Photos */}
       <ServicesSection
         coords={effectivePharmacyOrigin.coords || coords}
@@ -1314,6 +1434,14 @@ export default function App() {
             >
               <span>Abrir Ficha SOS</span>
             </button>
+          </div>
+
+          {/* Medicación Diaria y Recordatorios Simples */}
+          <div id="medicacion-diaria" className="mt-3.5">
+            <DailyMedicationSection
+              compact={true}
+              defaultExpanded={false}
+            />
           </div>
 
           {/* Dedicated Physical Keychain Link Action Banner */}

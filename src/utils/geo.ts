@@ -1182,4 +1182,50 @@ export function relativeBearingToClockFace(
   return { clockLabel: sideHint, relativeDeg: rawDiff };
 }
 
+const anyLocationCache = new Map<string, string | null>();
+
+/**
+ * Reverse-geocodes GPS coordinates anywhere (highways, other cities, coast) for Modo Viajero.
+ */
+export async function reverseGeocodeAnyLocation(coords: Coordinates | null): Promise<string | null> {
+  if (!coords || typeof fetch === 'undefined') return null;
+  const cacheKey = `${coords.lat.toFixed(3)},${coords.lng.toFixed(3)}`;
+  if (anyLocationCache.has(cacheKey)) {
+    return anyLocationCache.get(cacheKey) ?? null;
+  }
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 3200);
+    const url =
+      `https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&zoom=14` +
+      `&lat=${encodeURIComponent(String(coords.lat))}&lon=${encodeURIComponent(String(coords.lng))}`;
+    const resp = await fetch(url, {
+      signal: controller.signal,
+      headers: { Accept: 'application/json' }
+    });
+    clearTimeout(timer);
+    if (resp.ok) {
+      const data = await resp.json();
+      const addr = data?.address;
+      if (addr) {
+        const locality = addr.city || addr.town || addr.village || addr.municipality || addr.county || '';
+        const road = addr.road || '';
+        const state = addr.state || '';
+        const parts = [road, locality, state].filter(Boolean);
+        const formatted = parts.slice(0, 2).join(' · ') || (typeof data.display_name === 'string' ? data.display_name.split(',').slice(0, 2).join(', ') : '');
+        if (formatted) {
+          anyLocationCache.set(cacheKey, formatted);
+          return formatted;
+        }
+      }
+    }
+  } catch {
+    // ignore offline/timeout
+  }
+
+  anyLocationCache.set(cacheKey, null);
+  return null;
+}
+
 

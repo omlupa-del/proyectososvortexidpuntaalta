@@ -43,6 +43,7 @@ import { PregnancyFields } from './PregnancyFields';
 import { SystemConfig, getStoredSystemConfig, isMembershipUnlockedLocally } from '../utils/systemConfig';
 import { MembershipGateCard } from './MembershipGateCard';
 import { PersonalPinRecoveryBox } from './PersonalPinRecoveryBox';
+import { DailyMedicationSection } from './DailyMedicationSection';
 
 interface MedicalIdSectionProps {
   medicalRecord: MedicalRecord | null;
@@ -437,6 +438,11 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
             </div>
           </div>
 
+          <DailyMedicationSection
+            compact={true}
+            defaultExpanded={false}
+          />
+
           <p className="text-xs text-[#9db6dd] leading-relaxed">
             🛡️ Los datos están guardados de forma segura en este celular. Nadie puede ver el formulario ni alterar la información sin ingresar tu clave secreta.
           </p>
@@ -807,6 +813,14 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 />
               </div>
             </div>
+
+            {/* Gestión de Medicación Diaria y Recordatorios Simples */}
+            <DailyMedicationSection
+              compact={true}
+              defaultExpanded={false}
+              currentSosMedText={formData.med}
+              onSyncToSosMedField={(summary) => handleChange('med', summary)}
+            />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
