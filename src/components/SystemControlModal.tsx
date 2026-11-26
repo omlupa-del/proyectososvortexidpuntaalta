@@ -1795,7 +1795,16 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               )}
             </div>
 
-            <div className="flex items-center gap-2.5 shrink-0">
+            <div className="flex items-center gap-2.5 flex-wrap shrink-0">
+              <a
+                href="/guia-charla-rescatistas-vortex-id.pdf"
+                download="Guia_Charla_Rescatistas_Vortex_ID.pdf"
+                className="min-h-[40px] py-2 px-3.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-cyan-500/40 text-cyan-300 hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                title="Descargar guía PDF de 4 páginas para presentación en cuartel de rescatistas"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Guía PDF Charla</span>
+              </a>
               <button
                 type="submit"
                 disabled={saving}

@@ -25,6 +25,13 @@ export interface MedicalRecord {
   dni?: string;
   domicilio?: string;
   sangre?: string;
+  sangreLaboratorio?: string; // Laboratorio, hospital o protocolo donde se tipificó el grupo sanguíneo
+  sangreCertificado?: string; // Foto comprimida de estudio de laboratorio / carnet / libreta sanitaria (NO va en QR #d=)
+  sangreTieneDoc?: boolean; // Bandera liviana solo para QR #d= indicando que existe constancia cargada
+  donanteOrganos?: 'si' | 'no' | ''; // Voluntad respecto a donación de órganos y tejidos (Ley Justina 27.447 / INCUCAI)
+  donanteRegistro?: string; // N° de acta/credencial INCUCAI / Mi Argentina o fecha de registro
+  donanteCertificado?: string; // Captura/foto comprimida de credencial Mi Argentina / acta INCUCAI (NO va en QR #d=)
+  donanteTieneDoc?: boolean; // Bandera liviana solo para QR #d= indicando que existe constancia adjunta
   enf?: string;
   med?: string;
   obraSocial?: string;
@@ -56,6 +63,11 @@ export const RECORD_LABELS: Record<string, string> = {
   dni: 'DNI / Documento',
   domicilio: 'Domicilio en Punta Alta',
   sangre: 'Grupo y Factor sanguíneo',
+  sangreLaboratorio: 'Laboratorio / Hospital que validó el grupo sanguíneo',
+  sangreCertificado: 'Constancia / estudio de laboratorio del grupo sanguíneo',
+  donanteOrganos: 'Condición de donante de órganos (INCUCAI)',
+  donanteRegistro: 'N° de acta / constancia INCUCAI o Mi Argentina',
+  donanteCertificado: 'Constancia o credencial de donante adjunta',
   enf: 'Enfermedades y Alergias',
   med: 'Medicamentos habituales',
   obraSocial: 'Obra Social / Prepaga (DIBA, IOMA, PAMI, etc.)',
@@ -825,6 +837,9 @@ export const SAMPLE_DEMO_RECORD: MedicalRecord = {
   dni: '28.452.910',
   domicilio: 'Rivadavia 350, Punta Alta',
   sangre: 'O+',
+  sangreLaboratorio: 'Hosp. Naval Puerto Belgrano · Lab. Hemoterapia',
+  donanteOrganos: 'si',
+  donanteRegistro: 'Mi Argentina / INCUCAI · Registro expreso',
   enf: 'Hipertensión controlada · Alergia a Penicilina',
   med: 'Losartán 50mg (1 comp. diario)',
   obraSocial: 'DIBA / IOSFA (Afiliado N° 48201-9)',
@@ -857,7 +872,22 @@ export function buildSosMessage(
   if (record?.sexo) lines.push(`⚧ *Sexo:* ${record.sexo}`);
   if (record?.dni) lines.push(`🪪 *DNI:* ${record.dni}`);
   if (record?.domicilio) lines.push(`🏠 *Domicilio declarado (ficha):* ${record.domicilio}`);
-  if (record?.sangre) lines.push(`🩸 *Grupo y Factor:* ${record.sangre}`);
+  if (record?.sangre) {
+    const sangreRespaldo =
+      record.sangreCertificado || record.sangreTieneDoc
+        ? ` (Con constancia adjunta${record.sangreLaboratorio ? `: ${record.sangreLaboratorio}` : ''})`
+        : record.sangreLaboratorio
+          ? ` (Validado en: ${record.sangreLaboratorio})`
+          : ' (Declarado por titular · confirmar en guardia)';
+    lines.push(`🩸 *Grupo y Factor:* ${record.sangre}${sangreRespaldo}`);
+  }
+  if (record?.donanteOrganos === 'si') {
+    const regNote = record.donanteRegistro ? ` · Reg: ${record.donanteRegistro}` : '';
+    const certNote = record.donanteCertificado || record.donanteTieneDoc ? ' · Con constancia adjunta' : '';
+    lines.push(`💚 *Donante de órganos:* SÍ (declaración expresa${regNote}${certNote})`);
+  } else if (record?.donanteOrganos === 'no') {
+    lines.push(`🚫 *Donante de órganos:* Manifestó NO ser donante (verificar SINTRA/INCUCAI)`);
+  }
   const pregnancy = calculatePregnancyProgress(record);
   if (pregnancy) {
     lines.push(`🤰 *EMBARAZO EN CURSO:* ${pregnancy.detailedLabel}${pregnancy.dueDateFormatted ? ` · FPP: ${pregnancy.dueDateFormatted}` : ''}`);
@@ -960,7 +990,18 @@ export function generateKeychainUrl(record: MedicalRecord): string {
     ...(ev.details ? { details: ev.details.slice(0, 65) } : {})
   }));
 
-  const { fotoQr: _dropQr, foto: _rawFoto, ...recordWithoutPhoto } = record;
+  const {
+    fotoQr: _dropQr,
+    foto: _rawFoto,
+    sangreCertificado: _dropSangreCert,
+    donanteCertificado: _dropDonanteCert,
+    ...recordBaseWithoutBlobs
+  } = record;
+  const recordWithoutPhoto: Record<string, unknown> = {
+    ...recordBaseWithoutBlobs,
+    ...(Boolean(_dropSangreCert || record.sangreTieneDoc) ? { sangreTieneDoc: true } : {}),
+    ...(Boolean(_dropDonanteCert || record.donanteTieneDoc) ? { donanteTieneDoc: true } : {})
+  };
   const qrPhotoCandidate =
     record.fotoQr && record.fotoQr.startsWith('data:image/') && record.fotoQr.length <= 1750
       ? record.fotoQr
@@ -969,11 +1010,11 @@ export function generateKeychainUrl(record: MedicalRecord): string {
         : undefined;
 
   if (qrPhotoCandidate) {
-    // Step A0: Full record INCLUDING compact QR face thumbnail (HD portrait remains in Ficha & Cloud)
+    // Step A0: Full record INCLUDING compact QR face thumbnail (HD portrait & doc images remain in Ficha & Cloud)
     const withPhotoA0 = pruneEmptyFields({
       ...recordWithoutPhoto,
       foto: qrPhotoCandidate
-    } as Record<string, unknown>);
+    });
     const encodedA0 = encodeRecordToHash(withPhotoA0);
     if (encodedA0 && encodedA0.length <= maxEncodedPreferred) {
       return `${baseUrl}#${idPrefix}d=${encodedA0}`;
@@ -989,7 +1030,7 @@ export function generateKeychainUrl(record: MedicalRecord): string {
       antecedentesFamiliares: record.antecedentesFamiliares?.slice(0, 120),
       enf: record.enf?.slice(0, 150),
       med: record.med?.slice(0, 150)
-    } as Record<string, unknown>);
+    });
     const encodedA1 = encodeRecordToHash(withPhotoA1);
     if (encodedA1 && encodedA1.length <= maxEncodedWithPhoto) {
       return `${baseUrl}#${idPrefix}d=${encodedA1}`;
@@ -1009,6 +1050,11 @@ export function generateKeychainUrl(record: MedicalRecord): string {
       dni: record.dni?.slice(0, 20),
       domicilio: record.domicilio?.slice(0, 70),
       sangre: record.sangre,
+      sangreLaboratorio: record.sangreLaboratorio?.slice(0, 45),
+      ...(Boolean(_dropSangreCert || record.sangreTieneDoc) ? { sangreTieneDoc: true } : {}),
+      donanteOrganos: record.donanteOrganos,
+      donanteRegistro: record.donanteRegistro?.slice(0, 40),
+      ...(Boolean(_dropDonanteCert || record.donanteTieneDoc) ? { donanteTieneDoc: true } : {}),
       sexo: record.sexo,
       embarazada: record.embarazada,
       embarazoFum: record.embarazoFum,
@@ -1035,6 +1081,7 @@ export function generateKeychainUrl(record: MedicalRecord): string {
       nombre: record.nombre?.slice(0, 45),
       dni: record.dni?.slice(0, 18),
       sangre: record.sangre,
+      donanteOrganos: record.donanteOrganos,
       sexo: record.sexo,
       embarazada: record.embarazada,
       embarazoFum: record.embarazoFum,
@@ -1057,6 +1104,7 @@ export function generateKeychainUrl(record: MedicalRecord): string {
       nombre: record.nombre?.slice(0, 36),
       dni: record.dni?.slice(0, 16),
       sangre: record.sangre,
+      donanteOrganos: record.donanteOrganos,
       embarazada: record.embarazada,
       embarazoFum: record.embarazoFum,
       enf: record.enf?.slice(0, 40),
@@ -1110,6 +1158,11 @@ export function generateKeychainUrl(record: MedicalRecord): string {
     dni: record.dni?.slice(0, 20),
     domicilio: record.domicilio?.slice(0, 80),
     sangre: record.sangre,
+    sangreLaboratorio: record.sangreLaboratorio?.slice(0, 50),
+    ...(Boolean(_dropSangreCert || record.sangreTieneDoc) ? { sangreTieneDoc: true } : {}),
+    donanteOrganos: record.donanteOrganos,
+    donanteRegistro: record.donanteRegistro?.slice(0, 45),
+    ...(Boolean(_dropDonanteCert || record.donanteTieneDoc) ? { donanteTieneDoc: true } : {}),
     sexo: record.sexo,
     embarazada: record.embarazada,
     embarazoFum: record.embarazoFum,
@@ -1174,7 +1227,22 @@ export function buildMedicalReportSummary(record: MedicalRecord, coords?: Coordi
   }
 
   parts.push('──────────────────────────────────────────────────');
-  parts.push(`🩸 GRUPO Y FACTOR SANGUÍNEO: ${record.sangre || 'NO ESPECIFICADO'}`);
+  const bloodBackup =
+    record.sangreCertificado || record.sangreTieneDoc
+      ? ` · CONSTANCIA ADJUNTA${record.sangreLaboratorio ? ` (${record.sangreLaboratorio})` : ''}`
+      : record.sangreLaboratorio
+        ? ` · VALIDADO EN: ${record.sangreLaboratorio}`
+        : record.sangre
+          ? ' · DECLARADO POR TITULAR (CONFIRMAR PRUEBA CRUZADA EN GUARDIA)'
+          : '';
+  parts.push(`🩸 GRUPO Y FACTOR SANGUÍNEO: ${record.sangre || 'NO ESPECIFICADO'}${bloodBackup}`);
+  if (record.donanteOrganos === 'si') {
+    const donCert = record.donanteCertificado || record.donanteTieneDoc ? ' · CONSTANCIA ADJUNTA' : '';
+    const donReg = record.donanteRegistro ? ` · REG: ${record.donanteRegistro}` : '';
+    parts.push(`💚 DONANTE DE ÓRGANOS Y TEJIDOS: SÍ (EXPRESO${donReg}${donCert} · VERIFICAR SINTRA/INCUCAI)`);
+  } else if (record.donanteOrganos === 'no') {
+    parts.push('🚫 DONANTE DE ÓRGANOS Y TEJIDOS: NO DONANTE (VOLUNTAD DECLARADA · VERIFICAR SINTRA/INCUCAI)');
+  }
   const pregnancy = calculatePregnancyProgress(record);
   if (pregnancy) {
     parts.push(`🤰 EMBARAZO EN CURSO (ACTUALIZADO HOY): ${pregnancy.detailedLabel.toUpperCase()} · ${pregnancy.trimesterLabel}`);

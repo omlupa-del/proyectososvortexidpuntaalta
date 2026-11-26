@@ -97,7 +97,12 @@ export async function saveMedicalRecordToFirestore(
   const userPath = `users/${userId}/medicalRecords/primary`;
   try {
     const userDocRef = doc(db, 'users', userId, 'medicalRecords', 'primary');
-    const { fotoQr: _omitQr, ...firestoreSafeRecord } = record;
+    const {
+      fotoQr: _omitQr,
+      donanteTieneDoc: _omitDonanteDoc,
+      sangreTieneDoc: _omitSangreDoc,
+      ...firestoreSafeRecord
+    } = record;
     const payload = stripUndefinedFields({
       ...firestoreSafeRecord,
       userId,

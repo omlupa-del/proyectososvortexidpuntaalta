@@ -423,7 +423,12 @@ export function buildCriticalTriageSpeech(record: MedicalRecord): string {
   sentences.push(`Alerta médica de ${name}.`);
 
   if (record.sangre) {
-    sentences.push(`Grupo sanguíneo: ${formatBloodTypeForSpeech(record.sangre)}.`);
+    const bloodSpeech = formatBloodTypeForSpeech(record.sangre);
+    if (record.sangreCertificado || record.sangreTieneDoc) {
+      sentences.push(`Grupo sanguíneo: ${bloodSpeech}, con constancia de laboratorio adjunta.`);
+    } else {
+      sentences.push(`Grupo sanguíneo: ${bloodSpeech}.`);
+    }
   } else {
     sentences.push('Grupo sanguíneo no especificado.');
   }
@@ -461,6 +466,16 @@ export function buildMedicalTriageSpeech(record: MedicalRecord): string {
 
   // Vital 10-second core first
   sentences.push(buildCriticalTriageSpeech(record));
+
+  if (record.donanteOrganos === 'si') {
+    const certMsg =
+      record.donanteCertificado || record.donanteTieneDoc
+        ? ' con constancia INCUCAI adjunta.'
+        : '.';
+    sentences.push(`Voluntad declarada: donante de órganos${certMsg}`);
+  } else if (record.donanteOrganos === 'no') {
+    sentences.push('Voluntad declarada: manifestó no ser donante de órganos.');
+  }
 
   if (record.embarazada && record.embarazoObstetra && record.embarazoObstetra.trim()) {
     sentences.push(`Obstetricia: ${record.embarazoObstetra.trim()}.`);

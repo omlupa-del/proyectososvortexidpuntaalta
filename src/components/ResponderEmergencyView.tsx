@@ -53,6 +53,7 @@ import {
 import { triggerDirectCall, formatWhatsAppNumber, playChirp } from '../utils/callHandler';
 import { PUNTA_ALTA_PHARMACIES, getDutyPharmaciesForDate, syncDutyScheduleFromServer } from '../data/puntaAltaData';
 import { ClinicalHistorySection } from './ClinicalHistorySection';
+import { DonorAndBloodStatusCard } from './BloodAndDonorFields';
 import {
   speakNaturalSpanish,
   stopVoiceAssistant,
@@ -521,11 +522,28 @@ export const ResponderEmergencyView: React.FC<ResponderEmergencyViewProps> = ({
                 <Heart className="w-5 h-5 text-white fill-white" />
               </div>
               <div className="min-w-0">
-                <span className="text-[11px] font-mono uppercase font-black tracking-wider text-red-100 block">
-                  Grupo Sanguíneo y Factor
-                </span>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[11px] font-mono uppercase font-black tracking-wider text-red-100 block">
+                    Grupo Sanguíneo y Factor
+                  </span>
+                  {(record.sangreCertificado || record.sangreTieneDoc) ? (
+                    <span className="px-1.5 py-0.5 rounded bg-emerald-500/25 border border-emerald-300/60 text-[9px] font-mono font-bold uppercase text-emerald-100">
+                      ✓ Con constancia
+                    </span>
+                  ) : record.sangreLaboratorio ? (
+                    <span className="px-1.5 py-0.5 rounded bg-cyan-500/25 border border-cyan-300/60 text-[9px] font-mono font-bold uppercase text-cyan-100">
+                      Lab. declarado
+                    </span>
+                  ) : (
+                    <span className="px-1.5 py-0.5 rounded bg-white/15 border border-white/25 text-[9px] font-mono font-bold uppercase text-white/90">
+                      Declarado
+                    </span>
+                  )}
+                </div>
                 <span className="text-[11px] text-white/85 block truncate">
-                  Dato crítico para guardia y transfusión
+                  {record.sangreLaboratorio
+                    ? `Validado: ${record.sangreLaboratorio}`
+                    : 'Dato crítico para guardia y transfusión'}
                 </span>
               </div>
             </div>
@@ -780,6 +798,11 @@ export const ResponderEmergencyView: React.FC<ResponderEmergencyViewProps> = ({
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{copyToast}</span>
         </div>
+      )}
+
+      {/* 3B. VALIDACIÓN SANGUÍNEA Y CONDICIÓN DE DONANTE DE ÓRGANOS (INCUCAI) */}
+      {(record.sangre || record.donanteOrganos) && (
+        <DonorAndBloodStatusCard record={record} />
       )}
 
       {/* 4. ALERTA OBSTÉTRICA AUTOMÁTICA (SI ESTÁ EMBARAZADA) */}

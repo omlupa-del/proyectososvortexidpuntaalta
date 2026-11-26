@@ -54,6 +54,7 @@ import { getEffectiveOrigin } from '../utils/systemConfig';
 import { PhotoUploader } from './PhotoUploader';
 import { ClinicalHistorySection } from './ClinicalHistorySection';
 import { PregnancyFields } from './PregnancyFields';
+import { BloodAndDonorFields, DonorAndBloodStatusCard } from './BloodAndDonorFields';
 import { PersonalPinRecoveryBox } from './PersonalPinRecoveryBox';
 import { DailyMedicationSection } from './DailyMedicationSection';
 
@@ -418,6 +419,13 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               </div>
             </div>
 
+            {/* Respaldo de Grupo Sanguíneo y Donante de Órganos */}
+            <BloodAndDonorFields
+              formData={editForm}
+              onChange={handleChange}
+              compact={true}
+            />
+
             {/* Sexo Biológico y Embarazo Auto-Actualizable */}
             <PregnancyFields
               formData={editForm}
@@ -695,6 +703,9 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                 </div>
               )}
             </div>
+
+            {/* Validación Sanguínea y Donante de Órganos */}
+            <DonorAndBloodStatusCard record={record} compact={true} />
 
             {/* CÓDIGO QR DIRECTO EN LA FICHA PARA ESCANEAR */}
             <div className="p-4 rounded-2xl bg-white text-[#050b1f] text-center shadow-xl border-4 border-[#37c8ff]">

@@ -63,6 +63,8 @@ service cloud.firestore {
       return data.keys().hasAll(['userId'])
         && data.keys().hasOnly([
           'id', 'userId', 'keychainId', 'nombre', 'dni', 'domicilio', 'sexo', 'sangre',
+          'sangreLaboratorio', 'sangreCertificado',
+          'donanteOrganos', 'donanteRegistro', 'donanteCertificado',
           'embarazada', 'embarazoFum', 'embarazoObstetra',
           'enf', 'med', 'obraSocial', 'doc', 'tel', 'cfam', 'cami', 'cmed', 'foto',
           'historialClinico', 'cirugiasPrevias', 'internacionesPrevias',
@@ -76,6 +78,11 @@ service cloud.firestore {
         && isOptString(data, 'domicilio', 200)
         && isOptString(data, 'sexo', 32)
         && isOptString(data, 'sangre', 16)
+        && isOptString(data, 'sangreLaboratorio', 160)
+        && isOptString(data, 'sangreCertificado', 160000)
+        && (!('donanteOrganos' in data) || data.donanteOrganos == null || data.donanteOrganos in ['si', 'no', ''])
+        && isOptString(data, 'donanteRegistro', 120)
+        && isOptString(data, 'donanteCertificado', 160000)
         && isOptBool(data, 'embarazada')
         && isOptString(data, 'embarazoFum', 32)
         && isOptString(data, 'embarazoObstetra', 200)

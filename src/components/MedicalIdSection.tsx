@@ -40,6 +40,7 @@ import { playChirp } from '../utils/callHandler';
 import { PhotoUploader } from './PhotoUploader';
 import { ClinicalHistorySection } from './ClinicalHistorySection';
 import { PregnancyFields } from './PregnancyFields';
+import { BloodAndDonorFields, DonorAndBloodStatusCard } from './BloodAndDonorFields';
 import { SystemConfig, getStoredSystemConfig, isMembershipUnlockedLocally } from '../utils/systemConfig';
 import { MembershipGateCard } from './MembershipGateCard';
 import { PersonalPinRecoveryBox } from './PersonalPinRecoveryBox';
@@ -372,6 +373,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
 
             {/* Medical Summary Badges */}
             <div className="pt-2 border-t border-[#1e3f8f]/40 space-y-1.5 text-xs">
+              <DonorAndBloodStatusCard record={medicalRecord} compact={true} />
               {(() => {
                 const preg = calculatePregnancyProgress(medicalRecord);
                 if (!preg) return null;
@@ -779,6 +781,12 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 </select>
               </div>
             </div>
+
+            {/* Respaldo de Grupo Sanguíneo y Donante de Órganos (INCUCAI) */}
+            <BloodAndDonorFields
+              formData={formData}
+              onChange={handleChange}
+            />
 
             {/* Selector de Sexo Biológico y Datos de Embarazo Auto-Actualizables */}
             <PregnancyFields

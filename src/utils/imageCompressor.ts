@@ -196,3 +196,158 @@ export function compressProfilePhoto(
   ];
   return processToSquareDataUrl(input, attempts, maxBytes, false);
 }
+
+/**
+ * Compresses medical document / certificate / credential screenshots (e.g. Lab blood typing report,
+ * Mi Argentina / INCUCAI organ donor credential) preserving the original aspect ratio so text stays sharp.
+ * Guarantees output <= maxBytes (~95 KB) for safe Firestore + LocalStorage persistence.
+ */
+export function compressDocumentCertificate(
+  input: File | Blob | string,
+  maxDimension = 960,
+  quality = 0.82,
+  maxBytes = 95000
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (typeof input === 'string') {
+      if (input.startsWith('data:image/')) {
+        if (input.length <= maxBytes) {
+          resolve(input);
+          return;
+        }
+      } else {
+        reject(new Error('Formato de constancia no válido'));
+        return;
+      }
+    }
+
+    let objectUrl: string | null = null;
+    const cleanup = () => {
+      if (objectUrl) {
+        try {
+          URL.revokeObjectURL(objectUrl);
+        } catch {
+          // ignore
+        }
+        objectUrl = null;
+      }
+    };
+
+    const processImage = (imgSrc: string) => {
+      const img = new Image();
+      if (imgSrc.startsWith('http://') || imgSrc.startsWith('https://')) {
+        img.crossOrigin = 'anonymous';
+      }
+
+      img.onload = () => {
+        try {
+          const origW = img.naturalWidth || img.width || 800;
+          const origH = img.naturalHeight || img.height || 600;
+
+          const renderScaled = (maxDim: number, q: number): string => {
+            const scale = Math.min(1, maxDim / Math.max(origW, origH));
+            const targetW = Math.max(1, Math.round(origW * scale));
+            const targetH = Math.max(1, Math.round(origH * scale));
+
+            const canvas = document.createElement('canvas');
+            canvas.width = targetW;
+            canvas.height = targetH;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return '';
+
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            // White backdrop prevents transparent PNG screenshots turning black in JPEG
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, targetW, targetH);
+            ctx.drawImage(img, 0, 0, targetW, targetH);
+
+            const jpeg = canvas.toDataURL('image/jpeg', q);
+            try {
+              const webp = canvas.toDataURL('image/webp', Math.min(0.88, q + 0.04));
+              if (webp && webp.startsWith('data:image/webp') && webp.length < jpeg.length) {
+                return webp;
+              }
+            } catch {
+              // Safari fallback
+            }
+            return jpeg;
+          };
+
+          const attempts: Array<[number, number]> = [
+            [maxDimension, quality],
+            [860, 0.78],
+            [760, 0.72],
+            [680, 0.66],
+            [580, 0.58],
+            [480, 0.50]
+          ];
+
+          let result = '';
+          for (const [dim, q] of attempts) {
+            const candidate = renderScaled(dim, q);
+            if (candidate) {
+              if (!result || candidate.length < result.length) {
+                result = candidate;
+              }
+              if (candidate.length <= maxBytes) {
+                result = candidate;
+                break;
+              }
+            }
+          }
+
+          cleanup();
+          if (result && result.startsWith('data:image/')) {
+            resolve(result);
+          } else {
+            reject(new Error('No se pudo procesar la constancia'));
+          }
+        } catch (err) {
+          cleanup();
+          reject(err instanceof Error ? err : new Error('Error procesando el documento'));
+        }
+      };
+
+      img.onerror = () => {
+        cleanup();
+        reject(new Error('No se pudo abrir la imagen del certificado'));
+      };
+
+      img.src = imgSrc;
+    };
+
+    if (typeof input === 'string') {
+      processImage(input);
+    } else if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+      try {
+        objectUrl = URL.createObjectURL(input);
+        processImage(objectUrl);
+      } catch {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target?.result as string;
+          if (!result) {
+            reject(new Error('Archivo de certificado vacío'));
+            return;
+          }
+          processImage(result);
+        };
+        reader.onerror = () => reject(new Error('No se pudo leer el certificado'));
+        reader.readAsDataURL(input);
+      }
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        if (!result) {
+          reject(new Error('Archivo de certificado vacío'));
+          return;
+        }
+        processImage(result);
+      };
+      reader.onerror = () => reject(new Error('No se pudo leer el certificado'));
+      reader.readAsDataURL(input);
+    }
+  });
+}
