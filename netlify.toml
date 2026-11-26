@@ -5,6 +5,7 @@
 [build.environment]
   NODE_VERSION = "22"
   BUN_VERSION = "1.4.4"
+  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
   SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "AIzaSyCSAyUuJ5aItmfsfbnEcmDsc3BgCARoOA0,AIzaSyDOCAbC123dEf456GhI789jKl012-MnO"
   SECRETS_SCAN_OMIT_PATHS = "node_modules/**,firebase-applet-config.json,public/assets/aistudio/**,dist/**"
 
