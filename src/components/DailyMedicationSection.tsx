@@ -206,7 +206,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
 
   return (
     <div
-      className={`rounded-2xl bg-[#07122c] border border-cyan-500/40 shadow-md overflow-hidden ${
+      className={`rounded-2xl bg-white dark:bg-[#07122c] border border-cyan-500/40 shadow-md overflow-hidden ${
         compact ? 'p-3' : 'p-4'
       }`}
     >
@@ -220,27 +220,27 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
           }}
           className="flex-1 min-w-[200px] flex items-center gap-2.5 text-left group"
         >
-          <div className="w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-400/50 flex items-center justify-center text-cyan-300 shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-sky-100 dark:bg-cyan-500/15 border border-cyan-400/50 flex items-center justify-center text-sky-700 dark:text-cyan-300 shrink-0">
             <Pill className="w-4 h-4" />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-200 transition">
+              <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-cyan-200 transition">
                 Medicación Diaria y Recordatorios
               </span>
               {medications.length > 0 && (
                 <span
                   className={`px-2 py-0.5 rounded-full text-[10px] font-black border ${
                     takenCount === medications.length
-                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50'
-                      : 'bg-cyan-500/20 text-cyan-200 border-cyan-500/40'
+                      ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/50'
+                      : 'bg-sky-100 dark:bg-cyan-500/20 text-sky-800 dark:text-cyan-200 border-cyan-500/40'
                   }`}
                 >
                   {takenCount}/{medications.length} hoy
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-[#9db6dd] truncate">
+            <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] truncate">
               {medications.length === 0
                 ? 'Registrá tus medicamentos diarios y horarios para recibir avisos simples.'
                 : nextPending
@@ -256,7 +256,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
           <button
             type="button"
             onClick={handleOpenAddForm}
-            className="px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/60 text-cyan-200 hover:text-white text-[11px] font-bold flex items-center gap-1 transition active:scale-95"
+            className="px-2.5 py-1.5 rounded-xl bg-sky-100 dark:bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/60 text-sky-800 dark:text-cyan-200 hover:text-white text-[11px] font-bold flex items-center gap-1 transition active:scale-95"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Agregar</span>
@@ -267,7 +267,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
               playChirp('click');
               setIsExpanded((v) => !v);
             }}
-            className="p-1.5 rounded-xl bg-[#0b1d46] hover:bg-[#122e7a] border border-[#1e3f8f] text-cyan-300 transition"
+            className="p-1.5 rounded-xl bg-sky-50 dark:bg-[#0b1d46] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-slate-300 dark:border-[#1e3f8f] text-sky-700 dark:text-cyan-300 transition"
             aria-label={isExpanded ? 'Contraer medicación diaria' : 'Expandir medicación diaria'}
           >
             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -276,19 +276,19 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
       </div>
 
       {feedback && (
-        <div className="mt-2.5 px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-200 text-[11px] font-semibold">
+        <div className="mt-2.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-500/50 text-emerald-800 dark:text-emerald-200 text-[11px] font-semibold">
           {feedback}
         </div>
       )}
 
       {isExpanded && (
-        <div className="mt-3 pt-3 border-t border-[#1e3f8f]/60 space-y-3 animate-fade-in">
+        <div className="mt-3 pt-3 border-t border-slate-300 dark:border-[#1e3f8f]/60 space-y-3 animate-fade-in">
           {/* Simple Reminder Controls Bar */}
-          <div className="p-2.5 rounded-xl bg-[#050b1f] border border-[#1e3f8f]/70 flex items-center justify-between gap-2 flex-wrap text-[11px]">
-            <div className="flex items-center gap-1.5 text-[#9db6dd]">
-              <AlarmClock className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+          <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f]/70 flex items-center justify-between gap-2 flex-wrap text-[11px]">
+            <div className="flex items-center gap-1.5 text-slate-600 dark:text-[#9db6dd]">
+              <AlarmClock className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-300 shrink-0" />
               {permState === 'granted' ? (
-                <span className="text-emerald-300 font-semibold">
+                <span className="text-emerald-700 dark:text-emerald-300 font-semibold">
                   Avisos activos (en pantalla + navegador)
                 </span>
               ) : permState === 'denied' ? (
@@ -311,7 +311,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
               <button
                 type="button"
                 onClick={handleTestReminder}
-                className="px-2.5 py-1 rounded-lg bg-[#0b1d46] hover:bg-[#122e7a] border border-cyan-500/40 text-cyan-200 font-semibold text-[11px] flex items-center gap-1 transition active:scale-95"
+                className="px-2.5 py-1 rounded-lg bg-sky-50 dark:bg-[#0b1d46] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-sky-300 dark:border-cyan-500/40 text-sky-800 dark:text-cyan-200 font-semibold text-[11px] flex items-center gap-1 transition active:scale-95"
               >
                 <Bell className="w-3 h-3" />
                 <span>Probar aviso</span>
@@ -323,10 +323,10 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
           {isFormOpen && (
             <form
               onSubmit={handleSubmitForm}
-              className="p-3 rounded-xl bg-[#0a1838] border border-cyan-400/60 space-y-2.5 animate-fade-in"
+              className="p-3 rounded-xl bg-white dark:bg-[#0a1838] border border-sky-300 dark:border-cyan-400/60 space-y-2.5 animate-fade-in"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-cyan-200">
+                <span className="text-xs font-bold text-sky-800 dark:text-cyan-200">
                   {editingId ? 'Editar medicamento diario' : 'Nuevo medicamento diario'}
                 </span>
                 <button
@@ -335,7 +335,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                     resetForm();
                     setIsFormOpen(false);
                   }}
-                  className="p-1 rounded-lg text-gray-400 hover:text-white"
+                  className="p-1 rounded-lg text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white"
                   aria-label="Cerrar formulario"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -344,7 +344,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <div className="sm:col-span-2">
-                  <label className="block text-[11px] text-[#9db6dd] mb-1">
+                  <label className="block text-[11px] text-slate-600 dark:text-[#9db6dd] mb-1">
                     Nombre del medicamento *
                   </label>
                   <input
@@ -355,18 +355,18 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                       setName(e.target.value);
                       if (formError) setFormError('');
                     }}
-                    className="w-full py-2 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-xs text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-[#9db6dd] mb-1">Horario diario *</label>
+                  <label className="block text-[11px] text-slate-600 dark:text-[#9db6dd] mb-1">Horario diario *</label>
                   <input
                     type="time"
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
-                    className="w-full py-2 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-xs text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                     required
                   />
                 </div>
@@ -374,7 +374,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-[11px] text-[#9db6dd] mb-1">
+                  <label className="block text-[11px] text-slate-600 dark:text-[#9db6dd] mb-1">
                     Dosis / cantidad (opcional)
                   </label>
                   <input
@@ -382,33 +382,33 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                     placeholder="Ej: 50 mg · 1 comprimido"
                     value={dose}
                     onChange={(e) => setDose(e.target.value)}
-                    className="w-full py-2 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-xs text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-[#9db6dd] mb-1">Nota breve (opcional)</label>
+                  <label className="block text-[11px] text-slate-600 dark:text-[#9db6dd] mb-1">Nota breve (opcional)</label>
                   <input
                     type="text"
                     placeholder="Ej: En ayunas / Con el almuerzo"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    className="w-full py-2 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-xs text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                   />
                 </div>
               </div>
 
-              <label className="flex items-center gap-2 text-xs text-white cursor-pointer select-none pt-0.5">
+              <label className="flex items-center gap-2 text-xs text-slate-900 dark:text-white cursor-pointer select-none pt-0.5">
                 <input
                   type="checkbox"
                   checked={reminderEnabled}
                   onChange={(e) => setReminderEnabled(e.target.checked)}
-                  className="rounded border-[#1e3f8f] bg-[#050b1f] text-cyan-400 focus:ring-cyan-400"
+                  className="rounded border-slate-300 dark:border-[#1e3f8f] bg-slate-50 dark:bg-[#050b1f] text-sky-700 dark:text-cyan-400 focus:ring-cyan-400"
                 />
                 <span>Activar recordatorio diario a las {time} hs</span>
               </label>
 
-              {formError && <p className="text-[11px] text-red-400 font-semibold">{formError}</p>}
+              {formError && <p className="text-[11px] text-red-700 dark:text-red-400 font-semibold">{formError}</p>}
 
               <div className="flex items-center gap-2 pt-1">
                 <button
@@ -423,7 +423,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                     resetForm();
                     setIsFormOpen(false);
                   }}
-                  className="py-2 px-3 rounded-xl bg-[#050b1f] border border-gray-700 text-gray-300 text-xs font-semibold"
+                  className="py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-300 text-xs font-semibold"
                 >
                   Cancelar
                 </button>
@@ -433,15 +433,15 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
 
           {/* Medications List */}
           {medications.length === 0 ? (
-            <div className="p-3.5 rounded-xl bg-[#050b1f]/80 border border-dashed border-[#1e3f8f] text-center space-y-2">
-              <p className="text-xs text-[#9db6dd]">
+            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#050b1f]/80 border border-dashed border-slate-300 dark:border-[#1e3f8f] text-center space-y-2">
+              <p className="text-xs text-slate-600 dark:text-[#9db6dd]">
                 Todavía no agregaste medicamentos diarios en este dispositivo.
               </p>
               {!isFormOpen && (
                 <button
                   type="button"
                   onClick={handleOpenAddForm}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-200 text-xs font-bold transition active:scale-95"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-100 dark:bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-sky-800 dark:text-cyan-200 text-xs font-bold transition active:scale-95"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Cargar mi primer medicamento</span>
@@ -457,8 +457,8 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                     key={med.id}
                     className={`p-2.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-2 transition ${
                       isTaken
-                        ? 'bg-emerald-950/35 border-emerald-500/40'
-                        : 'bg-[#0a1838] border-[#1e3f8f]'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/35 border-emerald-300 dark:border-emerald-500/40'
+                        : 'bg-white dark:bg-[#0a1838] border-slate-300 dark:border-[#1e3f8f]'
                     }`}
                   >
                     <div className="flex items-start gap-2.5 min-w-0">
@@ -466,7 +466,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                         type="button"
                         onClick={() => handleToggleTaken(med)}
                         className={`mt-0.5 shrink-0 transition active:scale-90 ${
-                          isTaken ? 'text-emerald-400' : 'text-cyan-300 hover:text-white'
+                          isTaken ? 'text-emerald-700 dark:text-emerald-400' : 'text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white'
                         }`}
                         title={isTaken ? 'Desmarcar toma de hoy' : 'Marcar como tomada hoy'}
                         aria-label={isTaken ? 'Desmarcar toma de hoy' : 'Marcar como tomada hoy'}
@@ -480,25 +480,25 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#050b1f] border border-cyan-500/40 text-cyan-300 font-mono font-bold text-[11px]">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 dark:bg-[#050b1f] border border-sky-300 dark:border-cyan-500/40 text-sky-700 dark:text-cyan-300 font-mono font-bold text-[11px]">
                             <Clock className="w-3 h-3" />
                             <span>{med.time} hs</span>
                           </span>
                           <span
                             className={`text-xs sm:text-sm font-bold ${
-                              isTaken ? 'line-through text-emerald-200/80' : 'text-white'
+                              isTaken ? 'line-through text-emerald-800 dark:text-emerald-200/80' : 'text-slate-900 dark:text-white'
                             }`}
                           >
                             {med.name}
                           </span>
                           {med.dose && (
-                            <span className="text-[11px] text-cyan-200/90 font-medium">
+                            <span className="text-[11px] text-sky-800 dark:text-cyan-200/90 font-medium">
                               · {med.dose}
                             </span>
                           )}
                         </div>
                         {med.notes && (
-                          <p className="text-[11px] text-[#9db6dd] mt-0.5">{med.notes}</p>
+                          <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] mt-0.5">{med.notes}</p>
                         )}
                       </div>
                     </div>
@@ -509,8 +509,8 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                         onClick={() => handleToggleTaken(med)}
                         className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition active:scale-95 ${
                           isTaken
-                            ? 'bg-emerald-500/20 border border-emerald-400/50 text-emerald-200'
-                            : 'bg-[#050b1f] hover:bg-emerald-950/60 border border-[#1e3f8f] text-gray-200'
+                            ? 'bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-400/50 text-emerald-800 dark:text-emerald-200'
+                            : 'bg-slate-50 dark:bg-[#050b1f] hover:bg-emerald-100 dark:hover:bg-emerald-950/60 border border-slate-300 dark:border-[#1e3f8f] text-slate-700 dark:text-gray-200'
                         }`}
                       >
                         {isTaken ? '✓ Tomada' : 'Marcar tomada'}
@@ -521,8 +521,8 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                         onClick={() => handleToggleReminder(med)}
                         className={`p-1.5 rounded-lg border transition ${
                           med.reminderEnabled
-                            ? 'bg-cyan-500/15 border-cyan-400/50 text-cyan-300'
-                            : 'bg-[#050b1f] border-gray-700 text-gray-500'
+                            ? 'bg-sky-100 dark:bg-cyan-500/15 border-cyan-400/50 text-sky-700 dark:text-cyan-300'
+                            : 'bg-slate-50 dark:bg-[#050b1f] border-slate-300 dark:border-gray-700 text-slate-500 dark:text-gray-500'
                         }`}
                         title={
                           med.reminderEnabled
@@ -541,7 +541,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                       <button
                         type="button"
                         onClick={() => handleStartEdit(med)}
-                        className="p-1.5 rounded-lg bg-[#050b1f] hover:bg-[#122e7a] border border-[#1e3f8f] text-[#9db6dd] hover:text-white transition"
+                        className="p-1.5 rounded-lg bg-slate-50 dark:bg-[#050b1f] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-slate-300 dark:border-[#1e3f8f] text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white transition"
                         title="Editar medicamento"
                         aria-label="Editar medicamento"
                       >
@@ -551,7 +551,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
                       <button
                         type="button"
                         onClick={() => handleDelete(med)}
-                        className="p-1.5 rounded-lg bg-[#050b1f] hover:bg-red-950/80 border border-red-500/30 text-red-300 transition"
+                        className="p-1.5 rounded-lg bg-slate-50 dark:bg-[#050b1f] hover:bg-red-100 dark:hover:bg-red-950/80 border border-red-300 dark:border-red-500/30 text-red-700 dark:text-red-300 transition"
                         title="Eliminar medicamento"
                         aria-label="Eliminar medicamento"
                       >
@@ -570,7 +570,7 @@ export const DailyMedicationSection: React.FC<DailyMedicationSectionProps> = ({
               <button
                 type="button"
                 onClick={handleCopyToSosField}
-                className="w-full py-2 px-3 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-cyan-400/50 text-cyan-200 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95"
+                className="w-full py-2 px-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-sky-300 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200 hover:text-slate-950 dark:hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95"
               >
                 <ClipboardCheck className="w-3.5 h-3.5" />
                 <span>

@@ -92,28 +92,28 @@ function getStatusVisual(status: ServiceHealthState): {
     case 'nominal':
       return {
         glyph: '●',
-        textClass: 'text-emerald-400',
-        borderClass: 'border-[#1C2A45]'
+        textClass: 'text-emerald-700 dark:text-emerald-400',
+        borderClass: 'border-slate-200 dark:border-[#1C2A45]'
       };
     case 'degraded':
     case 'unconfigured':
       return {
         glyph: '▲',
-        textClass: 'text-amber-400',
-        borderClass: 'border-amber-500/40'
+        textClass: 'text-amber-700 dark:text-amber-400',
+        borderClass: 'border-amber-300 dark:border-amber-500/40'
       };
     case 'error':
     case 'offline':
       return {
         glyph: '✖',
-        textClass: 'text-rose-400',
-        borderClass: 'border-rose-500/50'
+        textClass: 'text-rose-700 dark:text-rose-400',
+        borderClass: 'border-rose-300 dark:border-rose-500/50'
       };
     default:
       return {
         glyph: '◌',
-        textClass: 'text-cyan-400',
-        borderClass: 'border-[#1C2A45]'
+        textClass: 'text-sky-700 dark:text-cyan-400',
+        borderClass: 'border-slate-200 dark:border-[#1C2A45]'
       };
   }
 }
@@ -613,27 +613,27 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#03050A]/90 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/70 dark:bg-[#03050A]/90 backdrop-blur-sm overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-label="Control de Misión · Vortex ID"
     >
       {/* LOCKED AUTH GATE OR RECOVERY VIEW */}
       {!isUnlocked ? (
-        <div className="w-full max-w-md bg-[#060911] border border-[#1C2A45] rounded-2xl shadow-2xl my-auto text-slate-100 overflow-hidden">
-          <div className="px-5 py-3.5 bg-[#090E1A] border-b border-[#1C2A45] flex items-center justify-between gap-3">
+        <div className="w-full max-w-md bg-slate-50 dark:bg-[#060911] border border-slate-200 dark:border-[#1C2A45] rounded-2xl shadow-2xl my-auto text-slate-900 dark:text-slate-100 overflow-hidden">
+          <div className="px-5 py-3.5 bg-white dark:bg-[#090E1A] border-b border-slate-200 dark:border-[#1C2A45] flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <h2 className="text-base sm:text-lg font-bold font-heading tracking-wide text-white truncate">
+              <h2 className="text-base sm:text-lg font-bold font-heading tracking-wide text-slate-900 dark:text-white truncate">
                 Control de Misión · Vortex ID
               </h2>
-              <p className="text-[11px] font-mono text-slate-400 truncate">
+              <p className="text-[11px] font-mono text-slate-600 dark:text-slate-400 truncate">
                 Acceso administrativo restringido
               </p>
             </div>
             <button
               type="button"
               onClick={handleCloseModal}
-              className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg hover:bg-slate-800/80 text-slate-400 hover:text-white transition-colors"
+              className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white transition-colors"
               aria-label="Cerrar panel de control"
             >
               <X className="w-5 h-5" />
@@ -643,16 +643,16 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
           <div className="p-5">
             {!showRecoveryMode ? (
               <form onSubmit={handleUnlock} className="space-y-4">
-                <div className="flex items-center gap-2 text-amber-400 text-xs font-semibold">
+                <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 text-xs font-semibold">
                   <Lock className="w-4 h-4 shrink-0" />
                   <span>Verificación de Operador</span>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Ingresá el PIN maestro para abrir telemetría de servidores, consola de errores, cuotas de membresía y difusión comunitaria.
                 </p>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                     PIN de Administrador {!config.hasCustomPin ? '(Por defecto: 1234)' : ''}
                   </label>
                   <div className="relative">
@@ -666,19 +666,19 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         if (pinError) setPinError('');
                       }}
                       placeholder="••••"
-                      className="w-full py-2.5 pl-11 pr-11 rounded-lg bg-[#0B111E] border border-[#1C2A45] text-lg text-white font-mono tracking-widest text-center focus:outline-none focus:border-cyan-400"
+                      className="w-full py-2.5 pl-11 pr-11 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] text-lg text-slate-900 dark:text-white font-mono tracking-widest text-center focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                       autoFocus
                     />
                     <button
                       type="button"
                       onClick={() => setShowUnlockPin((prev) => !prev)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-slate-400 hover:text-cyan-300 transition-colors"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-sky-800 dark:hover:text-cyan-300 transition-colors"
                       aria-label={showUnlockPin ? 'Ocultar clave' : 'Visualizar clave'}
                     >
                       {showUnlockPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
-                  {pinError && <p className="text-xs text-rose-400 font-medium mt-1.5">{pinError}</p>}
+                  {pinError && <p className="text-xs text-rose-700 dark:text-rose-400 font-medium mt-1.5">{pinError}</p>}
                 </div>
 
                 <button
@@ -698,7 +698,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                       setPinError('');
                       setShowRecoveryMode(true);
                     }}
-                    className="text-xs text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1.5 underline underline-offset-4 transition-colors"
+                    className="text-xs text-sky-700 dark:text-cyan-400 hover:text-sky-800 dark:hover:text-cyan-300 font-medium flex items-center gap-1.5 underline underline-offset-4 transition-colors"
                   >
                     <HelpCircle className="w-3.5 h-3.5" />
                     <span>¿Olvidaste tu clave? Recuperar o restablecer PIN</span>
@@ -708,7 +708,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
             ) : (
               <form onSubmit={handleRecoverPin} className="space-y-4">
                 <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 text-cyan-400 font-semibold text-sm">
+                  <div className="flex items-center gap-2 text-sky-700 dark:text-cyan-400 font-semibold text-sm">
                     <KeyRound className="w-4 h-4 shrink-0" />
                     <span>Recuperar Clave de Administrador</span>
                   </div>
@@ -719,26 +719,26 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                       setRecoveryError('');
                       setRecoverySuccess('');
                     }}
-                    className="text-xs text-slate-400 hover:text-white flex items-center gap-1"
+                    className="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white flex items-center gap-1"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Volver</span>
                   </button>
                 </div>
 
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Verificá tu identidad con Google Admin o con tu correo/WhatsApp registrado para definir un nuevo PIN (vacío restablece a <code className="text-amber-400">1234</code>).
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Verificá tu identidad con Google Admin o con tu correo/WhatsApp registrado para definir un nuevo PIN (vacío restablece a <code className="text-amber-700 dark:text-amber-400">1234</code>).
                 </p>
 
-                <div className="p-3 rounded-lg bg-[#0B111E] border border-[#1C2A45] flex items-center justify-between gap-2 flex-wrap">
+                <div className="p-3 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] flex items-center justify-between gap-2 flex-wrap">
                   {isAdmin ? (
-                    <span className="text-xs text-emerald-400 font-medium flex items-center gap-1.5">
+                    <span className="text-xs text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4 shrink-0" />
                       <span>Google Admin verificado ({user?.email})</span>
                     </span>
                   ) : (
                     <>
-                      <span className="text-[11px] text-slate-300">
+                      <span className="text-[11px] text-slate-700 dark:text-slate-300">
                         Verificación rápida con Google Admin:
                       </span>
                       <button
@@ -753,7 +753,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
                     Correo de administrador o WhatsApp registrado
                   </label>
                   <input
@@ -764,13 +764,13 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                       if (recoveryError) setRecoveryError('');
                     }}
                     placeholder={isAdmin ? (user?.email || 'omlupa@gmail.com') : 'Ej: tu@correo.com o 2932420000'}
-                    className="w-full py-2.5 px-3 rounded-lg bg-[#0B111E] border border-[#1C2A45] text-sm text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full py-2.5 px-3 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                     autoFocus
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
                     Nueva Clave PIN (4 a 8 caracteres)
                   </label>
                   <div className="relative">
@@ -784,12 +784,12 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         if (recoveryError) setRecoveryError('');
                       }}
                       placeholder="Vacío = restablecer a 1234"
-                      className="w-full py-2.5 pl-3 pr-10 rounded-lg bg-[#0B111E] border border-[#1C2A45] text-sm font-mono text-white focus:outline-none focus:border-cyan-400"
+                      className="w-full py-2.5 pl-3 pr-10 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] text-sm font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                     />
                     <button
                       type="button"
                       onClick={() => setShowRecoveryPin((prev) => !prev)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-slate-400 hover:text-cyan-300"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-sky-800 dark:hover:text-cyan-300"
                       aria-label={showRecoveryPin ? 'Ocultar nueva clave' : 'Ver nueva clave'}
                     >
                       {showRecoveryPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -798,13 +798,13 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                 </div>
 
                 {recoveryError && (
-                  <p className="text-xs text-rose-400 font-medium bg-rose-950/40 border border-rose-500/40 rounded-lg p-2.5">
+                  <p className="text-xs text-rose-700 dark:text-rose-400 font-medium bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-500/40 rounded-lg p-2.5">
                     {recoveryError}
                   </p>
                 )}
 
                 {recoverySuccess && (
-                  <p className="text-xs text-emerald-400 font-medium bg-emerald-950/40 border border-emerald-500/40 rounded-lg p-2.5">
+                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/40 rounded-lg p-2.5">
                     {recoverySuccess}
                   </p>
                 )}
@@ -825,17 +825,17 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
         /* UNLOCKED: MODULAR NASA MISSION CONTROL WORKSPACE */
         <form
           onSubmit={handleSave}
-          className="w-full max-w-5xl bg-[#060911] border border-[#1C2A45] rounded-2xl shadow-2xl text-slate-100 overflow-hidden flex flex-col max-h-[92vh]"
+          className="w-full max-w-5xl bg-slate-50 dark:bg-[#060911] border border-slate-200 dark:border-[#1C2A45] rounded-2xl shadow-2xl text-slate-900 dark:text-slate-100 overflow-hidden flex flex-col max-h-[92vh]"
         >
           {/* 1. Top Telemetry Ribbon */}
-          <div className="px-4 py-2.5 bg-[#090E1A] border-b border-[#1C2A45] flex flex-wrap items-center justify-between gap-3 shrink-0">
+          <div className="px-4 py-2.5 bg-white dark:bg-[#090E1A] border-b border-slate-200 dark:border-[#1C2A45] flex flex-wrap items-center justify-between gap-3 shrink-0">
             <div className="flex items-center gap-3 min-w-0">
-              <Activity className="w-4 h-4 text-cyan-400 shrink-0" aria-hidden="true" />
+              <Activity className="w-4 h-4 text-sky-700 dark:text-cyan-400 shrink-0" aria-hidden="true" />
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 min-w-0">
-                <h2 className="text-base sm:text-lg font-bold font-heading tracking-wide text-white whitespace-nowrap">
+                <h2 className="text-base sm:text-lg font-bold font-heading tracking-wide text-slate-900 dark:text-white whitespace-nowrap">
                   Control de Misión · Vortex ID
                 </h2>
-                <span className="text-xs text-slate-400 font-mono tabular-nums whitespace-nowrap">
+                <span className="text-xs text-slate-600 dark:text-slate-400 font-mono tabular-nums whitespace-nowrap">
                   Punta Alta · {clockText}
                 </span>
               </div>
@@ -846,7 +846,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                 type="button"
                 onClick={() => runTelemetryProbe(true)}
                 disabled={probing}
-                className="min-h-[36px] px-3 py-1.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-xs font-medium text-cyan-300 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 disabled:opacity-50"
+                className="min-h-[36px] px-3 py-1.5 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-xs font-medium text-sky-700 dark:text-cyan-300 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 disabled:opacity-50"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${probing ? 'animate-spin' : ''}`} />
                 <span>{probing ? 'Sondeando…' : 'Sondear API'}</span>
@@ -854,7 +854,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               <button
                 type="button"
                 onClick={handleCloseModal}
-                className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg hover:bg-slate-800/80 text-slate-400 hover:text-white transition-colors"
+                className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white transition-colors"
                 aria-label="Cerrar panel de control"
               >
                 <X className="w-5 h-5" />
@@ -865,7 +865,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
           {/* 2. Asymmetric Split Console */}
           <div className="grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] lg:grid-rows-[minmax(0,1fr)] lg:grid-cols-[248px_1fr] flex-1 min-h-0 overflow-hidden">
             {/* Left Modular Navigation & Live Instrument Readout */}
-            <aside className="bg-[#080D18] border-b lg:border-b-0 lg:border-r border-[#1C2A45] p-3 lg:p-4 flex flex-col justify-between gap-4 shrink-0 max-h-[38vh] lg:max-h-none overflow-y-auto">
+            <aside className="bg-white dark:bg-[#080D18] border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-[#1C2A45] p-3 lg:p-4 flex flex-col justify-between gap-4 shrink-0 max-h-[38vh] lg:max-h-none overflow-y-auto">
               <nav
                 aria-label="Módulos del Control de Misión"
                 className="flex flex-wrap lg:flex-col gap-1.5"
@@ -889,21 +889,21 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                       }}
                       className={`px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-between gap-2 transition-colors whitespace-nowrap shrink-0 ${
                         active
-                          ? 'bg-cyan-500/15 border border-cyan-400/50 text-cyan-200'
-                          : 'border border-transparent text-slate-400 hover:text-white hover:bg-[#0E1627]'
+                          ? 'bg-sky-100 dark:bg-cyan-500/15 border border-cyan-400/50 text-sky-800 dark:text-cyan-200'
+                          : 'border border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#0E1627]'
                       }`}
                     >
                       <span className="flex items-center gap-2">
-                        <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-cyan-400' : 'text-slate-500'}`} />
+                        <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-sky-700 dark:text-cyan-400' : 'text-slate-500'}`} />
                         <span>{item.label}</span>
                       </span>
                       {item.id === 'telemetria' && errorLogCount > 0 && (
-                        <span className="font-mono tabular-nums text-[11px] text-rose-400 font-bold">
+                        <span className="font-mono tabular-nums text-[11px] text-rose-700 dark:text-rose-400 font-bold">
                           {errorLogCount}
                         </span>
                       )}
                       {item.id === 'suscriptores' && subscriberCounts.overdue > 0 && (
-                        <span className="font-mono tabular-nums text-[11px] text-amber-400 font-bold">
+                        <span className="font-mono tabular-nums text-[11px] text-amber-700 dark:text-amber-400 font-bold">
                           {subscriberCounts.overdue}
                         </span>
                       )}
@@ -913,52 +913,52 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               </nav>
 
               {/* Desktop Live Parameter Readouts (Unboxed Tabular Discipline) */}
-              <div className="hidden lg:block pt-3 border-t border-[#1C2A45] space-y-2.5 text-xs">
-                <div className="text-[11px] font-medium text-slate-400">
+              <div className="hidden lg:block pt-3 border-t border-slate-200 dark:border-[#1C2A45] space-y-2.5 text-xs">
+                <div className="text-[11px] font-medium text-slate-600 dark:text-slate-400">
                   Resumen de Instrumentos
                 </div>
 
                 <div className="space-y-2 font-mono tabular-nums">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-slate-400">Firestore</span>
-                    <span className={firestoreNode ? getStatusVisual(firestoreNode.status).textClass : 'text-slate-400'}>
+                    <span className="text-slate-600 dark:text-slate-400">Firestore</span>
+                    <span className={firestoreNode ? getStatusVisual(firestoreNode.status).textClass : 'text-slate-600 dark:text-slate-400'}>
                       {firestoreNode
                         ? `${getStatusVisual(firestoreNode.status).glyph} ${firestoreNode.latencyMs !== null ? `${firestoreNode.latencyMs} ms` : firestoreNode.statusLabel}`
                         : '◌ —'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-slate-400">Gemini API</span>
-                    <span className={geminiNode ? getStatusVisual(geminiNode.status).textClass : 'text-slate-400'}>
+                    <span className="text-slate-600 dark:text-slate-400">Gemini API</span>
+                    <span className={geminiNode ? getStatusVisual(geminiNode.status).textClass : 'text-slate-600 dark:text-slate-400'}>
                       {geminiNode
                         ? `${getStatusVisual(geminiNode.status).glyph} ${geminiNode.latencyMs !== null ? `${geminiNode.latencyMs} ms` : geminiNode.statusLabel}`
                         : '◌ —'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-slate-400">Registro</span>
-                    <span className={config.isMembershipRequired ? 'text-rose-400' : 'text-emerald-400'}>
+                    <span className="text-slate-600 dark:text-slate-400">Registro</span>
+                    <span className={config.isMembershipRequired ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'}>
                       {config.isMembershipRequired ? 'Bloqueo ON' : 'Prueba libre'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-slate-400">Cuota</span>
-                    <span className="text-white">{formatCurrency(config.monthlyFee)}</span>
+                    <span className="text-slate-600 dark:text-slate-400">Cuota</span>
+                    <span className="text-slate-900 dark:text-white">{formatCurrency(config.monthlyFee)}</span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-slate-400">Suscriptores</span>
-                    <span className="text-cyan-300">
+                    <span className="text-slate-600 dark:text-slate-400">Suscriptores</span>
+                    <span className="text-sky-700 dark:text-cyan-300">
                       {subscriberCounts.total}
                       {subscriberCounts.overdue > 0 ? ` (${subscriberCounts.overdue} debe)` : ''}
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-slate-400">Llaveros</span>
-                    <span className="text-cyan-300">{keychainCount}</span>
+                    <span className="text-slate-600 dark:text-slate-400">Llaveros</span>
+                    <span className="text-sky-700 dark:text-cyan-300">{keychainCount}</span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-slate-400">Errores Log</span>
-                    <span className={errorLogCount > 0 ? 'text-rose-400' : 'text-emerald-400'}>
+                    <span className="text-slate-600 dark:text-slate-400">Errores Log</span>
+                    <span className={errorLogCount > 0 ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'}>
                       {errorLogCount}
                     </span>
                   </div>
@@ -969,7 +969,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
             {/* Main Viewport Stage */}
             <div
               ref={mainViewportRef}
-              className="h-full min-h-0 overflow-y-auto p-4 sm:p-5 space-y-5 bg-[#060911]"
+              className="h-full min-h-0 overflow-y-auto p-4 sm:p-5 space-y-5 bg-slate-50 dark:bg-[#060911]"
             >
               {/* MODULE 1: TELEMETRÍA EN VIVO & CONSOLA DE LOGS */}
               {activeModule === 'telemetria' && (
@@ -1030,10 +1030,10 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                       return (
                         <div
                           key={node.id}
-                          className={`p-3.5 rounded-xl bg-[#0B111E] border ${vis.borderClass} flex flex-col justify-between gap-2`}
+                          className={`p-3.5 rounded-xl bg-white dark:bg-[#0B111E] border ${vis.borderClass} flex flex-col justify-between gap-2`}
                         >
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-[11px] font-medium text-slate-400 truncate">
+                            <span className="text-[11px] font-medium text-slate-600 dark:text-slate-400 truncate">
                               {node.name}
                             </span>
                             <NodeIcon className="w-3.5 h-3.5 text-slate-500 shrink-0" aria-hidden="true" />
@@ -1042,7 +1042,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                             <span className={`text-xs font-semibold ${vis.textClass} truncate`}>
                               {vis.glyph} {node.statusLabel}
                             </span>
-                            <span className="text-lg font-mono tabular-nums font-bold text-white whitespace-nowrap">
+                            <span className="text-lg font-mono tabular-nums font-bold text-slate-900 dark:text-white whitespace-nowrap">
                               {node.latencyMs !== null
                                 ? node.id === 'gps_sw'
                                   ? `±${node.latencyMs}m`
@@ -1055,18 +1055,18 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                     })}
                   </div>
                   {/* Detailed API & Cloud Diagnostics Table */}
-                  <section className="rounded-xl bg-[#0B111E] border border-[#1C2A45] overflow-hidden">
-                    <div className="px-4 py-3 border-b border-[#1C2A45] flex flex-wrap items-center justify-between gap-2">
+                  <section className="rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] overflow-hidden">
+                    <div className="px-4 py-3 border-b border-slate-200 dark:border-[#1C2A45] flex flex-wrap items-center justify-between gap-2">
                       <div>
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                           Estado en Tiempo Real · Servidores y APIs
                         </h3>
-                        <p className="text-xs text-slate-400">
+                        <p className="text-xs text-slate-600 dark:text-slate-400">
                           Medición directa de latencia y conectividad hacia Firestore, Gemini API, Backend y GPS
                         </p>
                       </div>
                       <div className="flex items-center gap-3 text-xs">
-                        <label className="inline-flex items-center gap-1.5 text-slate-300 cursor-pointer select-none">
+                        <label className="inline-flex items-center gap-1.5 text-slate-700 dark:text-slate-300 cursor-pointer select-none">
                           <input
                             type="checkbox"
                             checked={autoProbe}
@@ -1076,7 +1076,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           <span>Auto-sondeo 15s</span>
                         </label>
                         {telemetry?.backendUptimeSec !== null && telemetry?.backendUptimeSec !== undefined && (
-                          <span className="font-mono tabular-nums text-slate-400">
+                          <span className="font-mono tabular-nums text-slate-600 dark:text-slate-400">
                             Uptime {formatUptime(telemetry.backendUptimeSec)}
                             {telemetry.backendMemoryMb ? ` · ${telemetry.backendMemoryMb} MB` : ''}
                           </span>
@@ -1084,7 +1084,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                       </div>
                     </div>
 
-                    <div className="divide-y divide-[#1C2A45]">
+                    <div className="divide-y divide-slate-200 dark:divide-[#1C2A45]">
                       {(telemetry?.nodes || []).map((node) => {
                         const vis = getStatusVisual(node.status);
                         return (
@@ -1094,19 +1094,19 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           >
                             <div className="min-w-0 space-y-0.5">
                               <div className="flex flex-wrap items-center gap-2">
-                                <span className="font-semibold text-white">{node.name}</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">{node.name}</span>
                                 <span className="text-slate-500">·</span>
-                                <span className="font-mono text-[11px] text-slate-400 truncate">
+                                <span className="font-mono text-[11px] text-slate-600 dark:text-slate-400 truncate">
                                   {node.endpoint}
                                 </span>
                               </div>
-                              <p className="text-slate-400 leading-snug">{node.detail}</p>
+                              <p className="text-slate-600 dark:text-slate-400 leading-snug">{node.detail}</p>
                             </div>
                             <div className="flex items-center gap-4 shrink-0 font-mono tabular-nums">
                               <span className={`font-semibold ${vis.textClass}`}>
                                 {vis.glyph} {node.statusLabel}
                               </span>
-                              <span className="text-slate-200 w-16 text-right">
+                              <span className="text-slate-700 dark:text-slate-200 w-16 text-right">
                                 {node.latencyMs !== null
                                   ? node.id === 'gps_sw'
                                     ? `±${node.latencyMs} m`
@@ -1121,13 +1121,13 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                   </section>
 
                   {/* System Event Log Console */}
-                  <section className="rounded-xl bg-[#0B111E] border border-[#1C2A45] overflow-hidden">
-                    <div className="px-4 py-3 border-b border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
+                  <section className="rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] overflow-hidden">
+                    <div className="px-4 py-3 border-b border-slate-200 dark:border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
                       <div>
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                           Consola de Logs de Eventos del Sistema
                         </h3>
-                        <p className="text-xs text-slate-400 font-mono tabular-nums">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 font-mono tabular-nums">
                           {logs.length} registros · {errorLogCount} errores capturados
                         </p>
                       </div>
@@ -1137,7 +1137,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           type="button"
                           onClick={handleRunGpsDiagnostic}
                           disabled={testingGps}
-                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-xs font-medium text-cyan-300 flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-xs font-medium text-sky-700 dark:text-cyan-300 flex items-center gap-1.5 transition-colors disabled:opacity-50"
                         >
                           <Satellite className="w-3.5 h-3.5" />
                           <span>{testingGps ? 'Probando GPS…' : 'Probar GPS'}</span>
@@ -1146,15 +1146,15 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           type="button"
                           onClick={handleCopyLogs}
                           disabled={filteredLogs.length === 0}
-                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors disabled:opacity-40"
+                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-xs font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors disabled:opacity-40"
                         >
-                          {copiedLogs ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copiedLogs ? <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                           <span>{copiedLogs ? 'Copiado' : 'Copiar'}</span>
                         </button>
                         <button
                           type="button"
                           onClick={handleExportLogs}
-                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors"
+                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-xs font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors"
                         >
                           <Download className="w-3.5 h-3.5" />
                           <span>Exportar</span>
@@ -1166,7 +1166,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                             playChirp('click');
                           }}
                           disabled={logs.length === 0}
-                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-[#0E1627] hover:bg-rose-950/60 border border-[#1C2A45] hover:border-rose-500/40 text-xs font-medium text-rose-300 flex items-center gap-1.5 transition-colors disabled:opacity-40"
+                          className="min-h-[34px] px-2.5 py-1 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-rose-100 dark:hover:bg-rose-950/60 border border-slate-200 dark:border-[#1C2A45] hover:border-rose-500 dark:hover:border-rose-500/40 text-xs font-medium text-rose-700 dark:text-rose-300 flex items-center gap-1.5 transition-colors disabled:opacity-40"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                           <span>Limpiar</span>
@@ -1175,8 +1175,8 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                     </div>
 
                     {/* Filter & Search Bar */}
-                    <div className="px-4 py-2.5 bg-[#080D18] border-b border-[#1C2A45] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                      <div className="flex items-center gap-1 p-1 bg-[#05080F] border border-[#1C2A45] rounded-lg overflow-x-auto">
+                    <div className="px-4 py-2.5 bg-white dark:bg-[#080D18] border-b border-slate-200 dark:border-[#1C2A45] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                      <div className="flex items-center gap-1 p-1 bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] rounded-lg overflow-x-auto">
                         {[
                           { id: 'all' as LogFilterScope, label: 'Todos' },
                           { id: 'errors' as LogFilterScope, label: 'Errores y Avisos' },
@@ -1190,8 +1190,8 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                             onClick={() => setLogFilter(tab.id)}
                             className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 ${
                               logFilter === tab.id
-                                ? 'bg-cyan-500/20 text-cyan-200'
-                                : 'text-slate-400 hover:text-white'
+                                ? 'bg-sky-100 dark:bg-cyan-500/20 text-sky-800 dark:text-cyan-200'
+                                : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
                             }`}
                           >
                             {tab.label}
@@ -1206,22 +1206,22 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           value={logSearch}
                           onChange={(e) => setLogSearch(e.target.value)}
                           placeholder="Buscar evento o módulo…"
-                          className="w-full py-1.5 pl-8 pr-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
+                          className="w-full py-1.5 pl-8 pr-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                         />
                       </div>
                     </div>
 
                     {/* Terminal Log Feed */}
-                    <div className="bg-[#05080F] max-h-72 overflow-y-auto divide-y divide-[#131C30] font-mono text-xs">
+                    <div className="bg-slate-50 dark:bg-[#05080F] max-h-72 overflow-y-auto divide-y divide-slate-200 dark:divide-[#131C30] font-mono text-xs">
                       {filteredLogs.length === 0 ? (
                         <div className="p-6 text-center space-y-2">
-                          <p className="text-slate-400">
+                          <p className="text-slate-600 dark:text-slate-400">
                             Sin eventos registrados para este filtro. El sistema opera en estado nominal.
                           </p>
                           <button
                             type="button"
                             onClick={() => runTelemetryProbe(true)}
-                            className="px-3 py-1.5 rounded-lg bg-[#0B111E] border border-[#1C2A45] text-cyan-300 hover:text-white text-xs font-sans font-medium transition-colors"
+                            className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white text-xs font-sans font-medium transition-colors"
                           >
                             Ejecutar sondeo completo ahora
                           </button>
@@ -1233,10 +1233,10 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           });
                           const lvlStyle =
                             entry.level === 'error'
-                              ? 'text-rose-400'
+                              ? 'text-rose-700 dark:text-rose-400'
                               : entry.level === 'warn'
-                                ? 'text-amber-400'
-                                : 'text-emerald-400';
+                                ? 'text-amber-700 dark:text-amber-400'
+                                : 'text-emerald-700 dark:text-emerald-400';
                           const lvlText =
                             entry.level === 'error'
                               ? 'ERROR'
@@ -1247,17 +1247,17 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           return (
                             <div
                               key={entry.id}
-                              className="px-3.5 py-2.5 hover:bg-[#0A101E] transition-colors flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3"
+                              className="px-3.5 py-2.5 hover:bg-slate-100 dark:hover:bg-[#0A101E] transition-colors flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3"
                             >
                               <div className="flex items-center gap-2 shrink-0 tabular-nums">
                                 <span className="text-slate-500">{timeStr}</span>
                                 <span className={`font-bold ${lvlStyle}`}>{lvlText}</span>
-                                <span className="text-cyan-400">{entry.source}</span>
+                                <span className="text-sky-700 dark:text-cyan-400">{entry.source}</span>
                               </div>
                               <div className="min-w-0 flex-1 font-sans">
-                                <span className="text-slate-200">{entry.message}</span>
+                                <span className="text-slate-700 dark:text-slate-200">{entry.message}</span>
                                 {entry.detail && (
-                                  <span className="block font-mono text-[11px] text-slate-400 break-all mt-0.5">
+                                  <span className="block font-mono text-[11px] text-slate-600 dark:text-slate-400 break-all mt-0.5">
                                     {entry.detail}
                                   </span>
                                 )}
@@ -1287,19 +1287,19 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               {activeModule === 'membresia' && (
                 <div className="space-y-4">
                   {/* Modo de Acceso */}
-                  <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] space-y-3">
+                  <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] space-y-3">
                     <div className="flex items-start justify-between gap-3 flex-wrap">
                       <div>
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                           Modo de Acceso al Registro (QR de Alta)
                         </h3>
-                        <p className="text-xs text-slate-400 mt-0.5">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                           Elegí si la carga de ficha médica es libre para pruebas o requiere pago y código de alta
                         </p>
                       </div>
                       <span
                         className={`text-xs font-mono font-semibold ${
-                          config.isMembershipRequired ? 'text-rose-400' : 'text-emerald-400'
+                          config.isMembershipRequired ? 'text-rose-700 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'
                         }`}
                       >
                         {config.isMembershipRequired ? '● Bloqueo Activo' : '● Prueba Abierta'}
@@ -1315,15 +1315,15 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         }}
                         className={`p-3 rounded-lg border text-left transition-colors ${
                           !config.isMembershipRequired
-                            ? 'bg-emerald-500/10 border-emerald-400/60 text-white'
-                            : 'bg-[#080D18] border-[#1C2A45] text-slate-400 hover:text-white'
+                            ? 'bg-emerald-100 dark:bg-emerald-500/10 border-emerald-400/60 text-white'
+                            : 'bg-white dark:bg-[#080D18] border-slate-200 dark:border-[#1C2A45] text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-emerald-400">Prueba Abierta</span>
-                          {!config.isMembershipRequired && <CheckCircle2 className="w-4 h-4 text-emerald-400" />}
+                          <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">Prueba Abierta</span>
+                          {!config.isMembershipRequired && <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />}
                         </div>
-                        <p className="text-[11px] text-slate-400 mt-1 leading-snug">
+                        <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-snug">
                           Carga libre de datos y generación de QR sin solicitar código de activación.
                         </p>
                       </button>
@@ -1336,24 +1336,24 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         }}
                         className={`p-3 rounded-lg border text-left transition-colors ${
                           config.isMembershipRequired
-                            ? 'bg-rose-500/10 border-rose-400/60 text-white'
-                            : 'bg-[#080D18] border-[#1C2A45] text-slate-400 hover:text-white'
+                            ? 'bg-rose-100 dark:bg-rose-500/10 border-rose-400/60 text-white'
+                            : 'bg-white dark:bg-[#080D18] border-slate-200 dark:border-[#1C2A45] text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-rose-400">Bloqueado (Pago + WhatsApp)</span>
-                          {config.isMembershipRequired && <CheckCircle2 className="w-4 h-4 text-rose-400" />}
+                          <span className="text-xs font-semibold text-rose-700 dark:text-rose-400">Bloqueado (Pago + WhatsApp)</span>
+                          {config.isMembershipRequired && <CheckCircle2 className="w-4 h-4 text-rose-700 dark:text-rose-400" />}
                         </div>
-                        <p className="text-[11px] text-slate-400 mt-1 leading-snug">
+                        <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-snug">
                           Solicita transferencia al Alias, comprobante por WhatsApp e ingreso del Código de Alta.
                         </p>
                       </button>
                     </div>
 
                     {/* Código de Alta */}
-                    <div className="pt-2 border-t border-[#1C2A45] space-y-2">
+                    <div className="pt-2 border-t border-slate-200 dark:border-[#1C2A45] space-y-2">
                       <div className="flex items-center justify-between flex-wrap gap-2">
-                        <label className="text-xs font-medium text-slate-300">
+                        <label className="text-xs font-medium text-slate-700 dark:text-slate-300">
                           Código de Alta para clientes verificados
                         </label>
                         <button
@@ -1364,7 +1364,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                             setSuccessMessage('Se reinició la activación en este navegador para probar el bloqueo.');
                             setTimeout(() => setSuccessMessage(''), 3500);
                           }}
-                          className="text-[11px] text-cyan-400 hover:text-cyan-300 underline"
+                          className="text-[11px] text-sky-700 dark:text-cyan-400 hover:text-sky-800 dark:hover:text-cyan-300 underline"
                         >
                           Probar bloqueo en este equipo
                         </button>
@@ -1377,7 +1377,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           value={activationCodeInput}
                           onChange={(e) => setActivationCodeInput(e.target.value.toUpperCase())}
                           placeholder="VORTEXPA"
-                          className="flex-1 py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-sm font-mono font-bold tracking-widest text-amber-300 uppercase text-center focus:outline-none focus:border-cyan-400"
+                          className="flex-1 py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-sm font-mono font-bold tracking-widest text-amber-700 dark:text-amber-300 uppercase text-center focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                         />
                         <button
                           type="button"
@@ -1391,15 +1391,15 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                     </div>
 
                     {/* Google Admin Sync Status */}
-                    <div className="pt-2 border-t border-[#1C2A45] flex items-center justify-between gap-2 flex-wrap text-xs">
+                    <div className="pt-2 border-t border-slate-200 dark:border-[#1C2A45] flex items-center justify-between gap-2 flex-wrap text-xs">
                       {isAdmin ? (
-                        <span className="text-emerald-400 flex items-center gap-1.5">
+                        <span className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
                           <ShieldCheck className="w-4 h-4 shrink-0" />
                           <span>Nube conectada ({user?.email}): los cambios impactan en Netlify al instante.</span>
                         </span>
                       ) : (
                         <>
-                          <span className="text-amber-300">
+                          <span className="text-amber-700 dark:text-amber-300">
                             Conectate como Google Admin para sincronizar los cambios en Netlify:
                           </span>
                           <button
@@ -1415,31 +1415,31 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                   </section>
 
                   {/* Cuota Mensual */}
-                  <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] space-y-3">
+                  <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] space-y-3">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <DollarSign className="w-4 h-4 text-amber-400" />
-                        <h3 className="text-sm font-semibold text-white">Cuota de Membresía Mensual</h3>
+                        <DollarSign className="w-4 h-4 text-amber-700 dark:text-amber-400" />
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Cuota de Membresía Mensual</h3>
                       </div>
-                      <span className="text-sm font-mono tabular-nums font-bold text-amber-300">
+                      <span className="text-sm font-mono tabular-nums font-bold text-amber-700 dark:text-amber-300">
                         {formatCurrency(config.monthlyFee)} / mes
                       </span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-3 items-end">
                       <div>
-                        <label className="block text-xs text-slate-400 mb-1">
+                        <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
                           Monto ($ ARS)
                         </label>
                         <div className="relative">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-mono text-amber-400">$</span>
+                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-mono text-amber-700 dark:text-amber-400">$</span>
                           <input
                             type="number"
                             min={0}
                             step={100}
                             value={config.monthlyFee}
                             onChange={(e) => handleChange('monthlyFee', Number(e.target.value) || 0)}
-                            className="w-full py-2 pl-7 pr-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-base font-mono tabular-nums font-bold text-white focus:outline-none focus:border-cyan-400"
+                            className="w-full py-2 pl-7 pr-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-base font-mono tabular-nums font-bold text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                             required
                           />
                         </div>
@@ -1453,8 +1453,8 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                             onClick={() => handleQuickFeeSelect(amt)}
                             className={`py-2 px-1 rounded-lg text-xs font-mono tabular-nums font-semibold transition-colors border ${
                               config.monthlyFee === amt
-                                ? 'bg-amber-400 text-slate-950 border-amber-300'
-                                : 'bg-[#080D18] text-slate-300 border-[#1C2A45] hover:border-cyan-400/50'
+                                ? 'bg-amber-400 text-slate-950 border-amber-400 dark:border-amber-300'
+                                : 'bg-white dark:bg-[#080D18] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-[#1C2A45] hover:border-sky-500 dark:hover:border-cyan-400/50'
                             }`}
                           >
                             ${amt.toLocaleString('es-AR')}
@@ -1465,72 +1465,72 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                   </section>
 
                   {/* Datos de Cobro */}
-                  <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] space-y-3">
-                    <h3 className="text-sm font-semibold text-white">
+                  <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] space-y-3">
+                    <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                       Datos de Cobro (Mercado Pago / Banco / WhatsApp)
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs text-slate-400 mb-1">Alias Mercado Pago / CVU</label>
+                        <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Alias Mercado Pago / CVU</label>
                         <div className="relative">
                           <input
                             type="text"
                             value={config.paymentAlias || ''}
                             onChange={(e) => handleChange('paymentAlias', e.target.value)}
                             placeholder="vortex.id.auxilio"
-                            className="w-full py-2 pl-3 pr-9 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs font-mono text-white focus:outline-none focus:border-cyan-400"
+                            className="w-full py-2 pl-3 pr-9 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                           />
                           <button
                             type="button"
                             onClick={handleCopyAlias}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white p-1"
                             title="Copiar alias"
                           >
-                            {copiedAlias ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                            {copiedAlias ? <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                           </button>
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-xs text-slate-400 mb-1">Titular de la Cuenta</label>
+                        <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Titular de la Cuenta</label>
                         <input
                           type="text"
                           value={config.paymentHolder || ''}
                           onChange={(e) => handleChange('paymentHolder', e.target.value)}
                           placeholder="VORTEX ID PUNTA ALTA"
-                          className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs text-white focus:outline-none focus:border-cyan-400"
+                          className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs text-slate-400 mb-1">CBU / CVU Bancario</label>
+                        <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">CBU / CVU Bancario</label>
                         <input
                           type="text"
                           value={config.paymentCbu || ''}
                           onChange={(e) => handleChange('paymentCbu', e.target.value)}
                           placeholder="00000031000..."
-                          className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs font-mono text-white focus:outline-none focus:border-cyan-400"
+                          className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs text-slate-400 mb-1">WhatsApp para Comprobantes</label>
+                        <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">WhatsApp para Comprobantes</label>
                         <input
                           type="tel"
                           value={config.adminPhone || ''}
                           onChange={(e) => handleChange('adminPhone', e.target.value)}
                           placeholder="2932420000"
-                          className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs font-mono text-white focus:outline-none focus:border-cyan-400"
+                          className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                         />
                       </div>
                     </div>
                   </section>
 
                   {/* Dominio y Seguridad PIN */}
-                  <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="flex items-center gap-1.5 text-xs font-medium text-slate-300 mb-1.5">
-                        <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                      <label className="flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        <Globe className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-400" />
                         <span>Dominio de Producción (Opcional)</span>
                       </label>
                       <input
@@ -1538,13 +1538,13 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         value={config.customDomain || ''}
                         onChange={(e) => handleChange('customDomain', e.target.value)}
                         placeholder="https://proyectososvortexid.netlify.app"
-                        className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs font-mono text-cyan-300 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
+                        className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs font-mono text-sky-700 dark:text-cyan-300 placeholder:text-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                       />
                     </div>
 
                     <div>
-                      <label className="flex items-center gap-1.5 text-xs font-medium text-slate-300 mb-1.5">
-                        <KeyRound className="w-3.5 h-3.5 text-amber-400" />
+                      <label className="flex items-center gap-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        <KeyRound className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
                         <span>Clave PIN de Administrador</span>
                       </label>
                       <div className="relative">
@@ -1553,12 +1553,12 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                           maxLength={8}
                           value={pendingAdminPin}
                           onChange={(e) => setPendingAdminPin(e.target.value)}
-                          className="w-full py-2 pl-3 pr-9 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs font-mono font-bold text-amber-300 focus:outline-none focus:border-cyan-400"
+                          className="w-full py-2 pl-3 pr-9 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs font-mono font-bold text-amber-700 dark:text-amber-300 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfigPin((prev) => !prev)}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-slate-400 hover:text-white"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white"
                           aria-label={showConfigPin ? 'Ocultar PIN' : 'Visualizar PIN'}
                         >
                           {showConfigPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -1572,15 +1572,15 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               {/* MODULE 3: OPERACIONES (TURNOS FARMACIAS & SPONSORS) */}
               {activeModule === 'operaciones' && (
                 <div className="space-y-4">
-                  <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
+                  <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-cyan-400" />
-                        <h3 className="text-sm font-semibold text-white">
+                        <Calendar className="w-4 h-4 text-sky-700 dark:text-cyan-400" />
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                           Farmacias de Turno · Colegio de Farmacéuticos
                         </h3>
                       </div>
-                      <p className="text-xs text-slate-400 max-w-xl leading-relaxed">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
                         Pegá la circular mensual del Colegio de Farmacéuticos de Punta Alta para actualizar automáticamente el cronograma 24hs en la nube y en todos los llaveros.
                       </p>
                     </div>
@@ -1593,12 +1593,12 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                     </button>
                   </section>
 
-                  <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
+                  <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
                     <div className="space-y-1">
-                      <h3 className="text-sm font-semibold text-white">
+                      <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                         Publicidad Destacada (Farmacia y Remís)
                       </h3>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400">
                         Editá foto de fachada, nombre, horarios, WhatsApp o redes sociales de los comercios sponsors.
                       </p>
                     </div>
@@ -1614,7 +1614,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                             })
                           );
                         }}
-                        className="min-h-[40px] py-2 px-3.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-cyan-400/50 text-cyan-200 font-semibold text-xs transition-colors"
+                        className="min-h-[40px] py-2 px-3.5 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-sky-300 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200 font-semibold text-xs transition-colors"
                       >
                         Editar Farmacia
                       </button>
@@ -1629,19 +1629,19 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                             })
                           );
                         }}
-                        className="min-h-[40px] py-2 px-3.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-amber-400/50 text-amber-200 font-semibold text-xs transition-colors"
+                        className="min-h-[40px] py-2 px-3.5 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-amber-300 dark:border-amber-400/50 text-amber-800 dark:text-amber-200 font-semibold text-xs transition-colors"
                       >
                         Editar Remís
                       </button>
                     </div>
                   </section>
 
-                  <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-2 text-slate-300">
-                      <Users className="w-4 h-4 text-emerald-400" />
+                  <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                      <Users className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                       <span>Llaveros activos registrados en el servidor</span>
                     </div>
-                    <span className="font-mono tabular-nums text-sm font-bold text-emerald-400">
+                    <span className="font-mono tabular-nums text-sm font-bold text-emerald-700 dark:text-emerald-400">
                       {keychainCount} vinculados
                     </span>
                   </section>
@@ -1650,20 +1650,20 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
 
               {/* MODULE 4: DIFUSIÓN PUSH COMUNITARIA */}
               {activeModule === 'push' && (
-                <section className="p-4 rounded-xl bg-[#0B111E] border border-[#1C2A45] space-y-4">
+                <section className="p-4 rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] space-y-4">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div>
-                      <h3 className="text-sm font-semibold text-white">
+                      <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                         Transmisor de Alertas Push a la Comunidad
                       </h3>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400">
                         Enviá avisos prioritarios de emergencia, farmacias de guardia o alertas climáticas
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={handleResetWeatherToLive}
-                      className="text-xs text-cyan-400 hover:text-cyan-300 underline transition-colors"
+                      className="text-xs text-sky-700 dark:text-cyan-400 hover:text-sky-800 dark:hover:text-cyan-300 underline transition-colors"
                     >
                       Restablecer clima a SMN en vivo
                     </button>
@@ -1678,7 +1678,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         setPushType('emergency');
                         playChirp('click');
                       }}
-                      className="p-2.5 rounded-lg bg-[#080D18] hover:bg-rose-950/50 border border-rose-500/40 text-xs font-semibold text-rose-300 text-left transition-colors"
+                      className="p-2.5 rounded-lg bg-white dark:bg-[#080D18] hover:bg-rose-100 dark:hover:bg-rose-950/50 border border-rose-300 dark:border-rose-500/40 text-xs font-semibold text-rose-700 dark:text-rose-300 text-left transition-colors"
                     >
                       Emergencia SOS
                     </button>
@@ -1701,7 +1701,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         setPushType('pharmacy');
                         playChirp('click');
                       }}
-                      className="p-2.5 rounded-lg bg-[#080D18] hover:bg-cyan-950/50 border border-cyan-500/40 text-xs font-semibold text-cyan-300 text-left transition-colors"
+                      className="p-2.5 rounded-lg bg-white dark:bg-[#080D18] hover:bg-sky-100 dark:hover:bg-cyan-950/50 border border-sky-300 dark:border-cyan-500/40 text-xs font-semibold text-sky-700 dark:text-cyan-300 text-left transition-colors"
                     >
                       Farmacia 24hs
                     </button>
@@ -1714,7 +1714,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         setPushType('weather');
                         playChirp('click');
                       }}
-                      className="p-2.5 rounded-lg bg-[#080D18] hover:bg-amber-950/50 border border-amber-500/40 text-xs font-semibold text-amber-300 text-left transition-colors"
+                      className="p-2.5 rounded-lg bg-white dark:bg-[#080D18] hover:bg-amber-100 dark:hover:bg-amber-950/50 border border-amber-300 dark:border-amber-500/40 text-xs font-semibold text-amber-700 dark:text-amber-300 text-left transition-colors"
                     >
                       Alerta Clima
                     </button>
@@ -1729,7 +1729,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                         setPushType('general');
                         playChirp('click');
                       }}
-                      className="p-2.5 rounded-lg bg-[#080D18] hover:bg-emerald-950/50 border border-emerald-500/40 text-xs font-semibold text-emerald-300 text-left transition-colors"
+                      className="p-2.5 rounded-lg bg-white dark:bg-[#080D18] hover:bg-emerald-100 dark:hover:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-500/40 text-xs font-semibold text-emerald-700 dark:text-emerald-300 text-left transition-colors"
                     >
                       Cuota Mensual
                     </button>
@@ -1737,24 +1737,24 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
 
                   <div className="space-y-3">
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Título de la Alerta</label>
+                      <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Título de la Alerta</label>
                       <input
                         type="text"
                         value={pushTitle}
                         onChange={(e) => setPushTitle(e.target.value)}
                         placeholder="Título del aviso"
-                        className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs font-semibold text-white focus:outline-none focus:border-cyan-400"
+                        className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs text-slate-400 mb-1">Mensaje de la Alerta</label>
+                      <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Mensaje de la Alerta</label>
                       <textarea
                         rows={3}
                         value={pushBody}
                         onChange={(e) => setPushBody(e.target.value)}
                         placeholder="Escribí el texto de la alerta..."
-                        className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs text-white focus:outline-none focus:border-cyan-400 resize-none"
+                        className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400 resize-none"
                       />
                     </div>
 
@@ -1769,7 +1769,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
                     </button>
 
                     {pushBroadcastMsg && (
-                      <p className="text-xs text-emerald-400 font-medium text-center">
+                      <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium text-center">
                         {pushBroadcastMsg}
                       </p>
                     )}
@@ -1780,17 +1780,17 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
           </div>
 
           {/* 3. Persistent Bottom Action Bar */}
-          <div className="px-4 py-3 bg-[#090E1A] border-t border-[#1C2A45] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+          <div className="px-4 py-3 bg-white dark:bg-[#090E1A] border-t border-slate-200 dark:border-[#1C2A45] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
             <div className="min-w-0 text-xs">
               {saveError ? (
-                <span className="text-rose-400 font-medium">{saveError}</span>
+                <span className="text-rose-700 dark:text-rose-400 font-medium">{saveError}</span>
               ) : successMessage ? (
-                <span className="text-emerald-400 font-medium flex items-center gap-1.5">
+                <span className="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />
                   <span>{successMessage}</span>
                 </span>
               ) : (
-                <span className="text-slate-400">
+                <span className="text-slate-600 dark:text-slate-400">
                   Guardá para aplicar cambios de cuota, bloqueo, cobros o dominio en la nube.
                 </span>
               )}
@@ -1800,7 +1800,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               <a
                 href="/guia-charla-rescatistas-vortex-id.pdf"
                 download="Guia_Charla_Rescatistas_Vortex_ID.pdf"
-                className="min-h-[40px] py-2 px-3.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-cyan-500/40 text-cyan-300 hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="min-h-[40px] py-2 px-3.5 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-sky-300 dark:border-cyan-500/40 text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap"
                 title="Descargar guía PDF de 4 páginas para presentación en cuartel de rescatistas"
               >
                 <Download className="w-3.5 h-3.5" />
@@ -1809,7 +1809,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               <a
                 href="/video-redes-vortex-id.mp4"
                 download="Video_Redes_Vortex_ID.mp4"
-                className="min-h-[40px] py-2 px-3.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-rose-500/40 text-rose-300 hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                className="min-h-[40px] py-2 px-3.5 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-rose-300 dark:border-rose-500/40 text-rose-700 dark:text-rose-300 hover:text-slate-950 dark:hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap"
                 title="Descargar video vertical 1080x1920 MP4 con música para redes sociales"
               >
                 <Video className="w-3.5 h-3.5" />
@@ -1835,7 +1835,7 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               <button
                 type="button"
                 onClick={handleCloseModal}
-                className="min-h-[40px] py-2 px-4 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-slate-200 text-xs font-medium transition-colors whitespace-nowrap"
+                className="min-h-[40px] py-2 px-4 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-slate-700 dark:text-slate-200 text-xs font-medium transition-colors whitespace-nowrap"
               >
                 Cerrar
               </button>

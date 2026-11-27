@@ -13,7 +13,7 @@ export const VortexEmblem: React.FC<VortexEmblemProps> = ({
 }) => {
   return (
     <div
-      className={`relative overflow-hidden bg-[#061224] shrink-0 select-none ${className}`}
+      className={`relative overflow-hidden bg-[#061224] ring-1 ring-slate-300/70 dark:ring-cyan-400/20 shrink-0 select-none ${className}`}
     >
       <img
         src="/assets/aistudio/image__2__7d12aee0.png"

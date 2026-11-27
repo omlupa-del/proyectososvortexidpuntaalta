@@ -166,23 +166,23 @@ LUNES 30: ZANDONADI - BARRESI`;
   };
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-fade-in">
-      <div className="bg-[#030919] border-2 border-cyan-400/80 rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/70 dark:bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-fade-in">
+      <div className="bg-slate-50 dark:bg-[#030919] border-2 border-sky-300 dark:border-cyan-400/80 rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
         
         {/* Header */}
-        <div className="p-4 sm:p-5 bg-gradient-to-r from-[#071330] to-[#0a1e4a] border-b border-[#1e4594] flex items-center justify-between gap-3">
+        <div className="p-4 sm:p-5 bg-gradient-to-r from-white dark:from-[#071330] to-slate-50 dark:to-[#0a1e4a] border-b border-slate-300 dark:border-[#1e4594] flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-300">
+            <div className="w-10 h-10 rounded-xl bg-sky-100 dark:bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-sky-700 dark:text-cyan-300">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-black text-white tracking-wide flex items-center gap-2">
+              <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-wide flex items-center gap-2">
                 <span>Colegio de Farmacéuticos</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-normal">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-sky-100 dark:bg-cyan-500/20 text-sky-700 dark:text-cyan-300 border border-cyan-500/30 font-normal">
                   Punta Alta
                 </span>
               </h3>
-              <p className="text-xs text-[#9db6dd]">
+              <p className="text-xs text-slate-600 dark:text-[#9db6dd]">
                 Ingresador Automático de Guardias de 24 hs (08:30 a 08:30 hs)
               </p>
             </div>
@@ -190,7 +190,7 @@ LUNES 30: ZANDONADI - BARRESI`;
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition"
+            className="p-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -200,22 +200,22 @@ LUNES 30: ZANDONADI - BARRESI`;
         <div className="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
           
           {/* Instrucciones y Mes */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#071536] p-3.5 rounded-xl border border-cyan-500/20 text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-[#071536] p-3.5 rounded-xl border border-sky-300 dark:border-cyan-500/20 text-xs">
             <div className="flex items-start gap-2.5">
-              <Info className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+              <Info className="w-4 h-4 text-sky-700 dark:text-cyan-400 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-white">¿Cómo funciona?</span>
-                <p className="text-[#9db6dd] text-[11px] mt-0.5">
+                <span className="font-bold text-slate-900 dark:text-white">¿Cómo funciona?</span>
+                <p className="text-slate-600 dark:text-[#9db6dd] text-[11px] mt-0.5">
                   Copiá el texto del correo que te mandó el Colegio de Farmacéuticos (o escribí los días) y pegalo acá. El sistema reconocerá automáticamente los números de día y los nombres de las 20 farmacias oficiales de Punta Alta.
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-              <span className="text-gray-400 text-xs">Mes:</span>
+              <span className="text-slate-600 dark:text-gray-400 text-xs">Mes:</span>
               <select
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                className="px-2.5 py-1 bg-cyan-950 border border-cyan-400 text-cyan-200 font-bold rounded-lg text-xs focus:outline-none"
+                className="px-2.5 py-1 bg-sky-50 dark:bg-cyan-950 border border-sky-400 dark:border-cyan-400 text-sky-800 dark:text-cyan-200 font-bold rounded-lg text-xs focus:outline-none"
                 aria-label="Seleccionar mes"
               >
                 {MONTH_NAMES.map((mName, idx) => (
@@ -227,7 +227,7 @@ LUNES 30: ZANDONADI - BARRESI`;
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="px-2.5 py-1 bg-cyan-950 border border-cyan-400 text-cyan-200 font-bold rounded-lg text-xs focus:outline-none"
+                className="px-2.5 py-1 bg-sky-50 dark:bg-cyan-950 border border-sky-400 dark:border-cyan-400 text-sky-800 dark:text-cyan-200 font-bold rounded-lg text-xs focus:outline-none"
                 aria-label="Seleccionar año"
               >
                 {[2025, 2026, 2027, 2028].map((yr) => (
@@ -242,14 +242,14 @@ LUNES 30: ZANDONADI - BARRESI`;
           {/* Textarea para pegar el correo */}
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <label className="text-xs font-bold text-white flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-400" />
                 <span>Pegar acá el contenido del correo del Colegio:</span>
               </label>
               <button
                 type="button"
                 onClick={handleLoadSample}
-                className="text-[11px] text-cyan-300 hover:underline"
+                className="text-[11px] text-sky-700 dark:text-cyan-300 hover:underline"
               >
                 Cargar formato de prueba
               </button>
@@ -259,7 +259,7 @@ LUNES 30: ZANDONADI - BARRESI`;
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Ejemplo:&#10;01/11: Farmacia García y Maciel&#10;02/11: Marqués y Palavecino&#10;03/11: De Dios y Del León..."
-              className="w-full p-3 rounded-xl bg-[#040a1b] border border-[#1e4594] text-xs font-mono text-cyan-100 placeholder-gray-500 focus:outline-none focus:border-cyan-400"
+              className="w-full p-3 rounded-xl bg-slate-50 dark:bg-[#040a1b] border border-slate-300 dark:border-[#1e4594] text-xs font-mono text-sky-800 dark:text-cyan-100 placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
             />
           </div>
 
@@ -276,7 +276,7 @@ LUNES 30: ZANDONADI - BARRESI`;
             </button>
 
             {isProcessed && (
-              <span className="text-xs text-emerald-400 font-bold flex items-center gap-1">
+              <span className="text-xs text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1">
                 <CheckCircle2 className="w-4 h-4" />
                 <span>{Object.keys(parsedSchedule).length} de {daysInMonth} días asignados</span>
               </span>
@@ -285,12 +285,12 @@ LUNES 30: ZANDONADI - BARRESI`;
 
           {/* Warning de líneas no reconocidas si las hubiera */}
           {unrecognized.length > 0 && (
-            <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-500/40 text-xs text-amber-200">
+            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/40 text-xs text-amber-800 dark:text-amber-200">
               <div className="flex items-center gap-1.5 font-bold mb-1">
-                <AlertCircle className="w-4 h-4 text-amber-400" />
+                <AlertCircle className="w-4 h-4 text-amber-700 dark:text-amber-400" />
                 <span>{unrecognized.length} líneas no contenían fecha o nombre claro de farmacia:</span>
               </div>
-              <ul className="list-disc list-inside text-[11px] text-amber-300/80 max-h-24 overflow-y-auto space-y-0.5">
+              <ul className="list-disc list-inside text-[11px] text-amber-700 dark:text-amber-300/80 max-h-24 overflow-y-auto space-y-0.5">
                 {unrecognized.slice(0, 5).map((u, i) => (
                   <li key={i} className="truncate">{u}</li>
                 ))}
@@ -303,11 +303,11 @@ LUNES 30: ZANDONADI - BARRESI`;
           {isProcessed && (
             <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-cyan-400" />
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-sky-700 dark:text-cyan-400" />
                   <span>Cronograma Detectado de {selectedMonthLabel} (Revisión interactiva)</span>
                 </h4>
-                <span className="text-[11px] text-gray-400">Podés hacer clic en cualquier farmacia para añadirla o quitarla</span>
+                <span className="text-[11px] text-slate-600 dark:text-gray-400">Podés hacer clic en cualquier farmacia para añadirla o quitarla</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-80 overflow-y-auto pr-1">
@@ -322,25 +322,25 @@ LUNES 30: ZANDONADI - BARRESI`;
                       key={dateKey}
                       className={`p-2.5 rounded-xl border text-xs transition ${
                         assignedIds.length > 0
-                          ? 'bg-[#071330] border-cyan-500/40'
-                          : 'bg-black/30 border-red-500/30'
+                          ? 'bg-white dark:bg-[#071330] border-sky-300 dark:border-cyan-500/40'
+                          : 'bg-slate-100 dark:bg-black/30 border-red-300 dark:border-red-500/30'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="font-bold text-cyan-300 capitalize">
+                        <span className="font-bold text-sky-700 dark:text-cyan-300 capitalize">
                           {dayName} ({dateKey})
                         </span>
                         {assignedIds.length > 0 ? (
                           <button
                             type="button"
                             onClick={() => handleClearDay(dateKey)}
-                            className="text-gray-500 hover:text-red-400 text-[10px]"
+                            className="text-slate-500 dark:text-gray-500 hover:text-red-400 text-[10px]"
                             title="Limpiar este día"
                           >
                             <Trash2 className="w-3 h-3" />
                           </button>
                         ) : (
-                          <span className="text-[10px] text-red-400 font-bold">Sin asignar</span>
+                          <span className="text-[10px] text-red-700 dark:text-red-400 font-bold">Sin asignar</span>
                         )}
                       </div>
 
@@ -352,7 +352,7 @@ LUNES 30: ZANDONADI - BARRESI`;
                             <span
                               key={id}
                               onClick={() => handleTogglePharmacy(dateKey, id)}
-                              className="px-2 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-400 text-emerald-200 text-[11px] font-bold flex items-center gap-1 cursor-pointer hover:bg-red-500/20 hover:border-red-400 hover:text-red-200 transition"
+                              className="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-400 text-emerald-800 dark:text-emerald-200 text-[11px] font-bold flex items-center gap-1 cursor-pointer hover:bg-red-500/20 hover:border-red-400 hover:text-red-200 transition"
                               title="Hacé clic para remover"
                             >
                               {ph?.name || id}
@@ -363,11 +363,11 @@ LUNES 30: ZANDONADI - BARRESI`;
                       </div>
 
                       {/* Selector rápido de agregar farmacia a este día */}
-                      <details className="text-[10px] text-gray-400">
-                        <summary className="cursor-pointer hover:text-cyan-300 text-[10px]">
+                      <details className="text-[10px] text-slate-600 dark:text-gray-400">
+                        <summary className="cursor-pointer hover:text-sky-800 dark:hover:text-cyan-300 text-[10px]">
                           + Agregar/Cambiar farmacia en este día
                         </summary>
-                        <div className="grid grid-cols-2 gap-1 mt-1.5 p-1.5 bg-[#030919] rounded-lg max-h-32 overflow-y-auto">
+                        <div className="grid grid-cols-2 gap-1 mt-1.5 p-1.5 bg-slate-50 dark:bg-[#030919] rounded-lg max-h-32 overflow-y-auto">
                           {PUNTA_ALTA_PHARMACIES.map((p) => {
                             const isAssigned = assignedIds.includes(p.id);
                             return (
@@ -377,8 +377,8 @@ LUNES 30: ZANDONADI - BARRESI`;
                                 onClick={() => handleTogglePharmacy(dateKey, p.id)}
                                 className={`text-left p-1 rounded text-[10px] truncate transition ${
                                   isAssigned
-                                    ? 'bg-emerald-950 text-emerald-300 font-bold'
-                                    : 'hover:bg-white/10 text-gray-400'
+                                    ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold'
+                                    : 'hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-600 dark:text-gray-400'
                                 }`}
                               >
                                 {isAssigned ? '✓ ' : '+ '}{p.name.replace('Farmacia ', '')}
@@ -396,18 +396,18 @@ LUNES 30: ZANDONADI - BARRESI`;
 
           {/* Feedback message */}
           {successMessage && (
-            <div className="p-3 rounded-xl bg-emerald-950 border border-emerald-400 text-emerald-200 text-xs font-bold text-center">
+            <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950 border border-emerald-400 dark:border-emerald-400 text-emerald-800 dark:text-emerald-200 text-xs font-bold text-center">
               {successMessage}
             </div>
           )}
         </div>
 
         {/* Footer actions */}
-        <div className="p-4 bg-[#071330] border-t border-[#1e4594] flex items-center justify-between gap-3">
+        <div className="p-4 bg-white dark:bg-[#071330] border-t border-slate-300 dark:border-[#1e4594] flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="py-2 px-4 rounded-xl hover:bg-white/10 text-gray-300 text-xs"
+            className="py-2 px-4 rounded-xl hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 text-xs"
           >
             Cerrar
           </button>

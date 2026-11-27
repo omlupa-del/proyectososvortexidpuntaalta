@@ -270,18 +270,18 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
   };
 
   return (
-    <section id="ficha-medica" className="my-5 rounded-3xl bg-gradient-to-b from-[#0b1d46] to-[#07122c] border border-[#1e5bff] p-4 sm:p-5 shadow-2xl shadow-blue-950/60 scroll-mt-20">
+    <section id="ficha-medica" className="my-5 rounded-3xl bg-gradient-to-b from-white dark:from-[#0b1d46] to-slate-50 dark:to-[#07122c] border border-blue-500 dark:border-[#1e5bff] p-4 sm:p-5 shadow-2xl shadow-blue-950/60 scroll-mt-20">
       {/* Title */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#1e3f8f]/60">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-300 dark:border-[#1e3f8f]/60">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-blue-600/30 border border-blue-500 flex items-center justify-center text-xl">
+          <div className="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-600/30 border border-blue-500 flex items-center justify-center text-xl">
             🪪
           </div>
           <div>
-            <h2 className="text-2xl font-bold font-heading tracking-wide text-white">
+            <h2 className="text-2xl font-bold font-heading tracking-wide text-slate-900 dark:text-white">
               FICHA DE ASISTENCIA PERSONAL
             </h2>
-            <p className="text-xs text-[#9db6dd]">
+            <p className="text-xs text-slate-600 dark:text-[#9db6dd]">
               Tus datos en este dispositivo · Protegidos bajo clave
             </p>
           </div>
@@ -291,17 +291,17 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
           <button
             type="button"
             onClick={handleLock}
-            className="flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-[#37c8ff]/60 text-xs font-semibold text-white transition active:scale-95"
+            className="flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-[#37c8ff]/60 text-xs font-semibold text-slate-900 dark:text-white transition active:scale-95"
           >
-            <Lock className="w-3.5 h-3.5 text-[#37c8ff]" />
+            <Lock className="w-3.5 h-3.5 text-sky-700 dark:text-[#37c8ff]" />
             <span>Bloquear ahora</span>
           </button>
         )}
       </div>
 
       {statusMessage && (
-        <div className="my-3 p-3.5 rounded-xl bg-emerald-950/90 border border-emerald-500 text-emerald-300 text-xs font-semibold text-center animate-fade-in flex items-center justify-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="my-3 p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/90 border border-emerald-400 dark:border-emerald-500 text-emerald-700 dark:text-emerald-300 text-xs font-semibold text-center animate-fade-in flex items-center justify-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
           <span>{statusMessage}</span>
         </div>
       )}
@@ -309,13 +309,13 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
       {/* CASE 1: Data is loaded and form is LOCKED (Default Safe State) */}
       {hasData && !isUnlocked ? (
         <div className="mt-4 space-y-4">
-          <div className="p-4 rounded-2xl bg-[#07122c] border border-[#1e3f8f] space-y-3">
+          <div className="p-4 rounded-2xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] space-y-3">
             <div className="flex items-center justify-between flex-wrap gap-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                 <span>FICHA ACTIVA EN ESTE DISPOSITIVO</span>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#0a1f55] text-[#37c8ff] border border-[#1e5bff]/50">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-50 dark:bg-[#0a1f55] text-sky-700 dark:text-[#37c8ff] border border-blue-400 dark:border-[#1e5bff]/50">
                 🔒 Formulario oculto
               </span>
             </div>
@@ -324,7 +324,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
               <div className="flex items-center gap-3">
                 {/* Photo with security check badge */}
                 <div className="relative shrink-0">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 min-w-[96px] min-h-[96px] sm:min-w-[112px] sm:min-h-[112px] rounded-2xl overflow-hidden border-2 border-[#37c8ff] bg-[#07122c] flex items-center justify-center shadow-lg shadow-blue-950 shrink-0">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 min-w-[96px] min-h-[96px] sm:min-w-[112px] sm:min-h-[112px] rounded-2xl overflow-hidden border-2 border-sky-500 dark:border-[#37c8ff] bg-white dark:bg-[#07122c] flex items-center justify-center shadow-lg shadow-blue-950 shrink-0">
                     {medicalRecord?.foto ? (
                       <img
                         src={medicalRecord.foto}
@@ -333,7 +333,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                         loading="eager"
                       />
                     ) : (
-                      <User className="w-10 h-10 text-[#37c8ff]/60" />
+                      <User className="w-10 h-10 text-sky-700 dark:text-[#37c8ff]/60" />
                     )}
                   </div>
                   {medicalRecord?.foto && (
@@ -345,29 +345,29 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 </div>
 
                 <div>
-                  <span className="text-xs text-[#9db6dd] uppercase font-bold tracking-wider">
+                  <span className="text-xs text-slate-600 dark:text-[#9db6dd] uppercase font-bold tracking-wider">
                     Persona titular
                   </span>
-                  <div className="text-2xl font-black font-heading text-white">
+                  <div className="text-2xl font-black font-heading text-slate-900 dark:text-white">
                     {medicalRecord?.nombre}
                   </div>
                   <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
                     {medicalRecord?.dni && (
-                      <span className="text-xs text-[#37c8ff]">DNI: {medicalRecord.dni}</span>
+                      <span className="text-xs text-sky-700 dark:text-[#37c8ff]">DNI: {medicalRecord.dni}</span>
                     )}
                     {(() => {
                       const v = getMedicalValidationStatus(medicalRecord);
                       if (v.isDonorValidated) {
                         return (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-300/75 text-amber-200 text-[10px] font-black uppercase">
-                            <Award className="w-3 h-3 text-amber-300" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-400/20 border border-amber-300 dark:border-amber-300/75 text-amber-800 dark:text-amber-200 text-[10px] font-black uppercase">
+                            <Award className="w-3 h-3 text-amber-700 dark:text-amber-300" />
                             <span>Donante Validado</span>
                           </span>
                         );
                       }
                       if (v.donorState === 'si') {
                         return (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 text-[10px] font-bold uppercase">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-400/60 text-emerald-800 dark:text-emerald-200 text-[10px] font-bold uppercase">
                             <span>💚 Donante</span>
                           </span>
                         );
@@ -376,8 +376,8 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                     })()}
                   </div>
                   {medicalRecord?.domicilio && (
-                    <div className="text-xs text-gray-300 flex items-center gap-1 mt-0.5">
-                      <MapPin className="w-3 h-3 text-[#37c8ff]" />
+                    <div className="text-xs text-slate-700 dark:text-gray-300 flex items-center gap-1 mt-0.5">
+                      <MapPin className="w-3 h-3 text-sky-700 dark:text-[#37c8ff]" />
                       <span>{medicalRecord.domicilio}</span>
                     </div>
                   )}
@@ -391,8 +391,8 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                     <div
                       className={`text-center px-4 py-2 rounded-2xl bg-gradient-to-b from-red-600 to-rose-800 text-white border-2 shadow-md ${
                         v.isBloodValidated
-                          ? 'border-amber-300 ring-2 ring-emerald-400/70'
-                          : 'border-red-300'
+                          ? 'border-amber-400 dark:border-amber-300 ring-2 ring-emerald-400/70'
+                          : 'border-red-400 dark:border-red-300'
                       }`}
                     >
                       <span className="text-[10px] font-bold tracking-wider block opacity-90">GRUPO</span>
@@ -412,18 +412,18 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
             </div>
 
             {/* Medical Summary Badges */}
-            <div className="pt-2 border-t border-[#1e3f8f]/40 space-y-1.5 text-xs">
+            <div className="pt-2 border-t border-slate-300 dark:border-[#1e3f8f]/40 space-y-1.5 text-xs">
               <DonorAndBloodStatusCard record={medicalRecord} compact={true} />
               {(() => {
                 const preg = calculatePregnancyProgress(medicalRecord);
                 if (!preg) return null;
                 return (
-                  <div className="p-2.5 rounded-xl bg-pink-950/60 border border-pink-400/60 flex items-center justify-between gap-2 flex-wrap">
-                    <div className="text-pink-200 font-bold">
-                      🤰 Embarazo en curso: <span className="text-white">{preg.detailedLabel}</span>
+                  <div className="p-2.5 rounded-xl bg-pink-50 dark:bg-pink-950/60 border border-pink-300 dark:border-pink-400/60 flex items-center justify-between gap-2 flex-wrap">
+                    <div className="text-pink-800 dark:text-pink-200 font-bold">
+                      🤰 Embarazo en curso: <span className="text-slate-900 dark:text-white">{preg.detailedLabel}</span>
                     </div>
                     {preg.dueDateFormatted && (
-                      <span className="text-[11px] text-pink-300 font-semibold">
+                      <span className="text-[11px] text-pink-700 dark:text-pink-300 font-semibold">
                         FPP: {preg.dueDateFormatted}
                       </span>
                     )}
@@ -431,36 +431,36 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 );
               })()}
               {medicalRecord?.enf && (
-                <div className="flex items-start gap-1.5 text-amber-300">
+                <div className="flex items-start gap-1.5 text-amber-700 dark:text-amber-300">
                   <span className="font-bold shrink-0">Alergias / Enfermedad:</span>
-                  <span className="text-white">{medicalRecord.enf}</span>
+                  <span className="text-slate-900 dark:text-white">{medicalRecord.enf}</span>
                 </div>
               )}
               {medicalRecord?.med && (
-                <div className="flex items-start gap-1.5 text-cyan-300">
+                <div className="flex items-start gap-1.5 text-sky-700 dark:text-cyan-300">
                   <span className="font-bold shrink-0">Medicación:</span>
-                  <span className="text-white">{medicalRecord.med}</span>
+                  <span className="text-slate-900 dark:text-white">{medicalRecord.med}</span>
                 </div>
               )}
               {medicalRecord?.tel && (
-                <div className="flex items-center gap-1.5 text-emerald-300">
+                <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-300">
                   <Phone className="w-3.5 h-3.5 shrink-0" />
                   <span className="font-bold">Contacto de auxilio:</span>
-                  <span className="text-white font-mono">{medicalRecord.tel}</span>
+                  <span className="text-slate-900 dark:text-white font-mono">{medicalRecord.tel}</span>
                 </div>
               )}
 
               {/* Physical Keychain Link Status */}
-              <div className="pt-2 border-t border-[#1e3f8f]/40 flex items-center justify-between gap-2 flex-wrap">
+              <div className="pt-2 border-t border-slate-300 dark:border-[#1e3f8f]/40 flex items-center justify-between gap-2 flex-wrap">
                 <div className="flex items-center gap-1.5">
-                  <Tag className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="text-[#9db6dd]">Llavero Físico:</span>
+                  <Tag className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
+                  <span className="text-slate-600 dark:text-[#9db6dd]">Llavero Físico:</span>
                   {medicalRecord?.keychainId ? (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 font-mono">
                       #{medicalRecord.keychainId} ACTIVO
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40">
                       Sin vincular
                     </span>
                   )}
@@ -470,7 +470,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   <button
                     type="button"
                     onClick={onOpenKeychainModal}
-                    className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-amber-600/30 hover:from-amber-500/30 hover:to-amber-600/40 border border-amber-400 text-xs font-bold text-amber-300 hover:text-white flex items-center gap-1 transition active:scale-95"
+                    className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-amber-600/30 hover:from-amber-500/30 hover:to-amber-600/40 border border-amber-400 dark:border-amber-400 text-xs font-bold text-amber-700 dark:text-amber-300 hover:text-slate-950 dark:hover:text-white flex items-center gap-1 transition active:scale-95"
                   >
                     <Link2 className="w-3 h-3" />
                     <span>{medicalRecord?.keychainId ? 'Gestionar' : 'Vincular Llavero'}</span>
@@ -485,7 +485,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
             defaultExpanded={false}
           />
 
-          <p className="text-xs text-[#9db6dd] leading-relaxed">
+          <p className="text-xs text-slate-600 dark:text-[#9db6dd] leading-relaxed">
             🛡️ Los datos están guardados de forma segura en este celular. Nadie puede ver el formulario ni alterar la información sin ingresar tu clave secreta.
           </p>
 
@@ -497,7 +497,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 onClick={onOpenQrModal}
                 className="py-3 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-[#1e5bff] hover:opacity-95 text-white font-bold text-xs sm:text-sm tracking-wide transition active:scale-95 flex items-center justify-center gap-2 shadow-md shadow-blue-950"
               >
-                <QrCode className="w-4 h-4 text-[#37c8ff]" />
+                <QrCode className="w-4 h-4 text-sky-700 dark:text-[#37c8ff]" />
                 <span>Ver / Descargar QR</span>
               </button>
             )}
@@ -518,9 +518,9 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 setPinError('');
                 setPinInput('');
               }}
-              className="flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-[#37c8ff] text-white font-bold text-xs sm:text-sm tracking-wide transition active:scale-95 shadow-md"
+              className="flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-sky-500 dark:border-[#37c8ff] text-slate-900 dark:text-white font-bold text-xs sm:text-sm tracking-wide transition active:scale-95 shadow-md"
             >
-              <KeyRound className="w-4 h-4 text-[#37c8ff]" />
+              <KeyRound className="w-4 h-4 text-sky-700 dark:text-[#37c8ff]" />
               <span>Modificar (PIN)</span>
             </button>
           </div>
@@ -533,20 +533,20 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 setShowClearConfirm(true);
                 setShowPinDialog(false);
               }}
-              className="text-xs text-red-300 hover:text-red-200 py-1.5 px-3 rounded-xl bg-red-950/40 hover:bg-red-950/80 border border-red-500/40 flex items-center gap-1.5 transition active:scale-95"
+              className="text-xs text-red-700 dark:text-red-300 hover:text-red-800 dark:hover:text-red-200 py-1.5 px-3 rounded-xl bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-950/80 border border-red-300 dark:border-red-500/40 flex items-center gap-1.5 transition active:scale-95"
             >
-              <Trash2 className="w-3.5 h-3.5 text-red-400" />
+              <Trash2 className="w-3.5 h-3.5 text-red-700 dark:text-red-400" />
               <span>Limpiar ficha / Cargar datos de otra persona</span>
             </button>
           </div>
 
           {/* Wipe Confirmation Dialog */}
           {showClearConfirm && (
-            <div className="p-4 rounded-2xl bg-red-950/90 border-2 border-red-500 space-y-3 animate-fade-in text-center">
-              <div className="text-white font-bold text-sm">
+            <div className="p-4 rounded-2xl bg-red-50 dark:bg-red-950/90 border-2 border-red-400 dark:border-red-500 space-y-3 animate-fade-in text-center">
+              <div className="text-slate-900 dark:text-white font-bold text-sm">
                 ¿Querés borrar la ficha actual para cargar una nueva persona desde cero?
               </div>
-              <p className="text-xs text-red-200">
+              <p className="text-xs text-red-800 dark:text-red-200">
                 Se eliminarán los datos de este celular y el formulario quedará completamente en blanco listo para subir tu foto y escribir tus datos.
               </p>
               <div className="flex gap-2 justify-center pt-1">
@@ -560,7 +560,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowClearConfirm(false)}
-                  className="py-2 px-4 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs transition active:scale-95"
+                  className="py-2 px-4 rounded-xl bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 font-bold text-xs transition active:scale-95"
                 >
                   Cancelar
                 </button>
@@ -570,12 +570,12 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
 
           {/* PIN Dialog Modal */}
           {showPinDialog && (
-            <div className="p-4 rounded-2xl bg-[#07122c] border-2 border-[#37c8ff] space-y-3 animate-fade-in">
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#07122c] border-2 border-sky-500 dark:border-[#37c8ff] space-y-3 animate-fade-in">
               {!showRecoveryMode ? (
                 <>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm font-bold text-white font-heading">
-                      <Lock className="w-4 h-4 text-[#37c8ff]" />
+                    <div className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white font-heading">
+                      <Lock className="w-4 h-4 text-sky-700 dark:text-[#37c8ff]" />
                       <span>INGRESÁ TU CLAVE PARA DESBLOQUEAR</span>
                     </div>
                     <button
@@ -585,7 +585,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                         setShowRecoveryMode(false);
                         setPinError('');
                       }}
-                      className="text-xs text-[#9db6dd] hover:text-white"
+                      className="text-xs text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white"
                     >
                       Cancelar
                     </button>
@@ -604,13 +604,13 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                           if (pinError) setPinError('');
                         }}
                         onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
-                        className="w-full py-2.5 pl-4 pr-10 rounded-xl bg-[#050b1f] border border-[#1e5bff] text-center text-xl tracking-widest text-white focus:outline-none focus:border-[#37c8ff]"
+                        className="w-full py-2.5 pl-4 pr-10 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-blue-500 dark:border-[#1e5bff] text-center text-xl tracking-widest text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                         autoFocus
                       />
                       <button
                         type="button"
                         onClick={() => setShowUnlockPin((prev) => !prev)}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-[#37c8ff] hover:text-white transition"
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white transition"
                         aria-label={showUnlockPin ? 'Ocultar clave' : 'Ver clave'}
                         title={showUnlockPin ? 'Ocultar clave' : 'Ver clave'}
                       >
@@ -626,7 +626,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                     </button>
                   </div>
 
-                  {pinError && <p className="text-xs text-red-400 font-semibold">{pinError}</p>}
+                  {pinError && <p className="text-xs text-red-700 dark:text-red-400 font-semibold">{pinError}</p>}
 
                   <div className="pt-0.5 flex items-center justify-between">
                     <button
@@ -636,7 +636,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                         setPinError('');
                         setShowRecoveryMode(true);
                       }}
-                      className="text-xs text-[#37c8ff] hover:text-white underline underline-offset-4 flex items-center gap-1.5 font-semibold transition"
+                      className="text-xs text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white underline underline-offset-4 flex items-center gap-1.5 font-semibold transition"
                     >
                       <HelpCircle className="w-3.5 h-3.5" />
                       <span>¿Olvidaste tu clave? Recuperar</span>
@@ -678,45 +678,45 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
           {isGateBlocked ? null : (
             <>
           {!hasData && (
-            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0d2a6e]/70 via-[#091b42] to-[#071536] border-2 border-[#37c8ff] text-white space-y-3 shadow-xl">
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-sky-100/80 dark:from-[#0d2a6e]/70 via-sky-50/70 dark:via-[#091b42] to-slate-50 dark:to-[#071536] border-2 border-sky-500 dark:border-[#37c8ff] text-slate-900 dark:text-white space-y-3 shadow-xl">
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl sm:text-3xl">👋</span>
                 <div>
-                  <strong className="block text-base sm:text-lg text-[#37c8ff] font-heading font-black tracking-wide">
+                  <strong className="block text-base sm:text-lg text-sky-700 dark:text-[#37c8ff] font-heading font-black tracking-wide">
                     ¡BIENVENIDO A VORTEX ID · PUNTA ALTA!
                   </strong>
-                  <p className="text-xs text-[#9db6dd]">
+                  <p className="text-xs text-slate-600 dark:text-[#9db6dd]">
                     Ficha de protección médica vacía · Lista para que cargues tus datos
                   </p>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-[#eaf3ff] leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-900 dark:text-[#eaf3ff] leading-relaxed">
                 Este es el sistema oficial de socorro de Punta Alta. Subí tu foto y completá tu información personal a continuación para activar tu cobertura ante accidentes y emergencias.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs text-[#9db6dd]">
-                <div className="p-2.5 rounded-xl bg-[#050b1f]/80 border border-[#1e5bff]/40 flex items-center gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs text-slate-600 dark:text-[#9db6dd]">
+                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f]/80 border border-blue-400 dark:border-[#1e5bff]/40 flex items-center gap-2">
                   <span className="text-base">📸</span>
                   <span>1. Subí tu foto o selfie</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[#050b1f]/80 border border-[#1e5bff]/40 flex items-center gap-2">
+                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f]/80 border border-blue-400 dark:border-[#1e5bff]/40 flex items-center gap-2">
                   <span className="text-base">🪪</span>
                   <span>2. Nombre, DNI y contactos</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[#050b1f]/80 border border-[#1e5bff]/40 flex items-center gap-2">
+                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f]/80 border border-blue-400 dark:border-[#1e5bff]/40 flex items-center gap-2">
                   <span className="text-base">🔒</span>
                   <span>3. Creá tu PIN de 4 números</span>
                 </div>
               </div>
-              <div className="pt-2 flex items-center justify-between flex-wrap gap-2 border-t border-[#1e3f8f]/40">
-                <span className="text-[11px] text-[#9db6dd]">
+              <div className="pt-2 flex items-center justify-between flex-wrap gap-2 border-t border-slate-300 dark:border-[#1e3f8f]/40">
+                <span className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                   ¿Querés probar con un ejemplo primero?
                 </span>
                 <button
                   type="button"
                   onClick={handleLoadDemo}
-                  className="px-3 py-1.5 rounded-lg bg-blue-950/90 hover:bg-blue-900 border border-[#37c8ff]/70 text-xs font-bold text-[#37c8ff] hover:text-white flex items-center gap-1.5 transition active:scale-95 shadow"
+                  className="px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/90 hover:bg-blue-100 dark:hover:bg-blue-900 border border-sky-400 dark:border-[#37c8ff]/70 text-xs font-bold text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white flex items-center gap-1.5 transition active:scale-95 shadow"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
                   <span>Cargar datos de prueba (Demo)</span>
                 </button>
               </div>
@@ -724,16 +724,16 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
           )}
 
           {/* Accessibility: Large Text Mode Toggle for Low-Vision Users */}
-          <div className="p-3 rounded-2xl bg-[#071536] border border-cyan-400/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div className="p-3 rounded-2xl bg-white dark:bg-[#071536] border border-sky-300 dark:border-cyan-400/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center text-cyan-300 shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-sky-100 dark:bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center text-sky-700 dark:text-cyan-300 shrink-0">
                 <ZoomIn className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs sm:text-sm font-black text-white block">
+                <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white block">
                   Modo Letra Grande (Poca Visión)
                 </span>
-                <span className="text-[11px] text-[#9db6dd]">
+                <span className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                   Agranda textos, casillas y bordes para completar tus datos con mayor claridad.
                 </span>
               </div>
@@ -744,7 +744,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
               className={`px-3.5 py-2 rounded-xl text-xs font-black transition active:scale-95 shrink-0 border ${
                 largeTextMode
                   ? 'bg-emerald-500 hover:bg-emerald-400 text-gray-950 border-emerald-300 shadow-md'
-                  : 'bg-[#0a235c] hover:bg-[#12368a] text-cyan-200 border-cyan-400/70'
+                  : 'bg-sky-50 dark:bg-[#0a235c] hover:bg-sky-100 dark:hover:bg-[#12368a] text-sky-800 dark:text-cyan-200 border-sky-300 dark:border-cyan-400/70'
               }`}
             >
               {largeTextMode ? '✓ Letra Grande ACTIVADA' : '🔍 Activar Letra Grande'}
@@ -762,7 +762,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">
                   Nombre y apellido completo
                 </label>
                 <input
@@ -770,13 +770,13 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Ej: Juan Carlos Pérez"
                   value={formData.nombre || ''}
                   onChange={(e) => handleChange('nombre', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">
                   DNI / Documento de identidad
                 </label>
                 <input
@@ -784,14 +784,14 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Ej: 28.456.789"
                   value={formData.dni || ''}
                   onChange={(e) => handleChange('dni', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">
                   Domicilio en Punta Alta
                 </label>
                 <input
@@ -799,18 +799,18 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Ej: Paso 1234, Punta Alta"
                   value={formData.domicilio || ''}
                   onChange={(e) => handleChange('domicilio', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">
                   Grupo Sanguíneo
                 </label>
                 <select
                   value={formData.sangre || ''}
                   onChange={(e) => handleChange('sangre', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                 >
                   <option value="">Seleccionar</option>
                   {BLOOD_TYPES.map((bt) => (
@@ -836,7 +836,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-amber-300 mb-1">
+                <label className="block text-xs font-semibold text-amber-700 dark:text-amber-300 mb-1">
                   ¿Tiene alguna enfermedad o alergia?
                 </label>
                 <input
@@ -844,12 +844,12 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Ej: Hipertensión, Diabetes, Alérgico a penicilina"
                   value={formData.enf || ''}
                   onChange={(e) => handleChange('enf', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-amber-400"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-amber-500 dark:focus:border-amber-400"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-cyan-300 mb-1">
+                <label className="block text-xs font-semibold text-sky-700 dark:text-cyan-300 mb-1">
                   ¿Toma medicamentos habitualmente?
                 </label>
                 <input
@@ -857,7 +857,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Ej: Losartán 50mg, Levotiroxina"
                   value={formData.med || ''}
                   onChange={(e) => handleChange('med', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
             </div>
@@ -872,7 +872,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">
                   Obra Social / Prepaga (DIBA, IOMA, PAMI, etc.)
                 </label>
                 <input
@@ -880,12 +880,12 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Ej: DIBA, IOMA, PAMI, OSDE"
                   value={formData.obraSocial || ''}
                   onChange={(e) => handleChange('obraSocial', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">
                   Médico de cabecera / Centro de salud
                 </label>
                 <input
@@ -893,62 +893,62 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Nombre de tu doctor o clínica"
                   value={formData.doc || ''}
                   onChange={(e) => handleChange('doc', e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                 />
               </div>
             </div>
 
             {/* Contact Phones */}
-            <div className="p-3.5 rounded-2xl bg-[#07122c] border border-[#1e3f8f]/80 space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#37c8ff]">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f]/80 space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-[#37c8ff]">
                 Teléfonos y WhatsApp para auxilio de emergencia
               </h4>
-              <p className="text-[11px] text-[#9db6dd]">
+              <p className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                 Ingresá con código de área (ej: 2932123456). Ante una emergencia, cualquier persona podrá presionar para llamarlos o mandarles un WhatsApp con tu ubicación GPS.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-gray-300 mb-1">Teléfono principal de auxilio</label>
+                  <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">Teléfono principal de auxilio</label>
                   <input
                     type="tel"
                     placeholder="Ej: 2932420000"
                     value={formData.tel || ''}
                     onChange={(e) => handleChange('tel', e.target.value)}
-                    className="w-full py-2.5 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                    className="w-full py-2.5 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-300 mb-1">WhatsApp de Familiar</label>
+                  <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">WhatsApp de Familiar</label>
                   <input
                     type="tel"
                     placeholder="Ej: 2932123456"
                     value={formData.cfam || ''}
                     onChange={(e) => handleChange('cfam', e.target.value)}
-                    className="w-full py-2.5 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full py-2.5 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-300 mb-1">WhatsApp de Amigo / Allegado</label>
+                  <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">WhatsApp de Amigo / Allegado</label>
                   <input
                     type="tel"
                     placeholder="Ej: 2932654321"
                     value={formData.cami || ''}
                     onChange={(e) => handleChange('cami', e.target.value)}
-                    className="w-full py-2.5 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full py-2.5 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-300 mb-1">WhatsApp de Médico de cabecera</label>
+                  <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">WhatsApp de Médico de cabecera</label>
                   <input
                     type="tel"
                     placeholder="Ej: 2932987654"
                     value={formData.cmed || ''}
                     onChange={(e) => handleChange('cmed', e.target.value)}
-                    className="w-full py-2.5 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-emerald-400"
+                    className="w-full py-2.5 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400"
                   />
                 </div>
               </div>
@@ -963,14 +963,14 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
             />
 
             {/* Clave de Seguridad OBLIGATORIA */}
-            <div className="p-3.5 rounded-2xl bg-[#091535] border-2 border-[#37c8ff]/60 space-y-2">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#091535] border-2 border-[#37c8ff]/60 space-y-2">
               <div className="flex items-center gap-2">
-                <KeyRound className="w-4 h-4 text-[#37c8ff]" />
-                <span className="text-xs font-bold uppercase tracking-wider text-white">
+                <KeyRound className="w-4 h-4 text-sky-700 dark:text-[#37c8ff]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
                   {hasPinConfigured ? 'Cambiar clave PIN de seguridad (opcional)' : 'Crear clave PIN de seguridad (obligatoria)'}
                 </span>
               </div>
-              <p className="text-[11px] text-[#9db6dd]">
+              <p className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                 Esta clave numérica (4 a 6 números) protegerá tus datos. Una vez guardados, nadie podrá ver este formulario ni alterarlo sin tu clave.
               </p>
 
@@ -982,7 +982,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Clave (4 a 6 números)"
                   value={newPin}
                   onChange={(e) => setNewPin(e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                   required={!hasPinConfigured}
                 />
                 <input
@@ -992,7 +992,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                   placeholder="Repetir clave para confirmar"
                   value={confirmPin}
                   onChange={(e) => setConfirmPin(e.target.value)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                   required={!hasPinConfigured || Boolean(newPin)}
                 />
               </div>
@@ -1012,7 +1012,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 <button
                   type="button"
                   onClick={handleClearForm}
-                  className="py-3 px-4 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-700 text-gray-300 text-xs font-semibold transition active:scale-95"
+                  className="py-3 px-4 rounded-xl bg-slate-100 dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-800 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-300 text-xs font-semibold transition active:scale-95"
                 >
                   Limpiar campos
                 </button>
@@ -1022,7 +1022,7 @@ export const MedicalIdSection: React.FC<MedicalIdSectionProps> = ({
                 <button
                   type="button"
                   onClick={handleLock}
-                  className="py-3 px-4 rounded-xl bg-[#07122c] hover:bg-white/10 border border-gray-700 text-gray-300 text-xs font-semibold transition"
+                  className="py-3 px-4 rounded-xl bg-white dark:bg-[#07122c] hover:bg-slate-200/70 dark:hover:bg-white/10 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-300 text-xs font-semibold transition"
                 >
                   Cancelar y bloquear
                 </button>

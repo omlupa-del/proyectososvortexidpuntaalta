@@ -131,27 +131,27 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/70 dark:bg-black/85 backdrop-blur-md animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-labelledby="dialer-title"
     >
-      <div className="w-full max-w-lg bg-gradient-to-b from-[#0b1d46] via-[#09173a] to-[#050b1f] border-t-2 sm:border-2 border-[#37c8ff] sm:rounded-3xl rounded-t-3xl p-6 shadow-2xl shadow-blue-900/80 transition-all transform">
+      <div className="w-full max-w-lg bg-gradient-to-b from-white dark:from-[#0b1d46] via-sky-50/70 dark:via-[#09173a] to-slate-50 dark:to-[#050b1f] border-t-2 sm:border-2 border-sky-500 dark:border-[#37c8ff] sm:rounded-3xl rounded-t-3xl p-6 shadow-2xl shadow-blue-900/80 transition-all transform">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#1e3f8f]/60">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-300 dark:border-[#1e3f8f]/60">
           <div className="flex items-center gap-2.5">
-            <span className="p-2 rounded-xl bg-red-500/20 text-red-400 border border-red-500/30">
+            <span className="p-2 rounded-xl bg-red-100 dark:bg-red-500/20 text-red-400 border border-red-500/30">
               {isEmergency ? (
                 <ShieldAlert className="w-6 h-6 animate-pulse text-red-500" />
               ) : (
-                <Phone className="w-5 h-5 text-[#37c8ff]" />
+                <Phone className="w-5 h-5 text-sky-700 dark:text-[#37c8ff]" />
               )}
             </span>
             <div>
-              <h3 id="dialer-title" className="text-xl font-bold font-heading tracking-wide text-white">
+              <h3 id="dialer-title" className="text-xl font-bold font-heading tracking-wide text-slate-900 dark:text-white">
                 {activeCall.title}
               </h3>
-              <p className="text-xs text-[#9db6dd]">
+              <p className="text-xs text-slate-600 dark:text-[#9db6dd]">
                 {dialStage === 'preparing' && 'Preparando conexión telefónica…'}
                 {dialStage === 'attempting' && 'Iniciando marcador del sistema operativo…'}
                 {dialStage === 'blocked' &&
@@ -167,7 +167,7 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
               onClose();
               closeActiveCall();
             }}
-            className="p-2 rounded-full hover:bg-white/10 text-[#9db6dd] hover:text-white transition"
+            className="p-2 rounded-full hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white transition"
             aria-label="Cerrar ventana de llamada"
           >
             <X className="w-6 h-6" />
@@ -176,10 +176,10 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
 
         {/* Interceptor Alert: Shown if browser/OS did not auto-switch to phone dialer */}
         {dialStage === 'blocked' && (
-          <div className="mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-amber-950/90 to-red-950/90 border-2 border-amber-500/80 text-amber-200 text-xs font-semibold flex items-center gap-2.5 shadow-lg shadow-amber-950/50 animate-fade-in">
-            <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0 animate-bounce" />
+          <div className="mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-amber-50 dark:from-amber-950/90 to-red-50 dark:to-red-950/90 border-2 border-amber-300 dark:border-amber-500/80 text-amber-800 dark:text-amber-200 text-xs font-semibold flex items-center gap-2.5 shadow-lg shadow-amber-950/50 animate-fade-in">
+            <AlertTriangle className="w-6 h-6 text-amber-700 dark:text-amber-400 shrink-0 animate-bounce" />
             <div className="leading-snug">
-              <span className="block font-bold text-white text-sm font-heading tracking-wide uppercase">
+              <span className="block font-bold text-slate-900 dark:text-white text-sm font-heading tracking-wide uppercase">
                 {isMobileDevice && !isEmbeddedFrame
                   ? 'CONFIRMAR LLAMADA EN 1 TOQUE'
                   : 'MARCADOR LISTO (VISTA WEB / PC)'}
@@ -201,29 +201,29 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
 
         {/* Big Number Display */}
         <div className="my-5 text-center">
-          <div className="inline-block px-6 py-3 rounded-2xl bg-[#07122c] border-2 border-[#1e5bff]/70 shadow-inner">
-            <span className="text-5xl sm:text-6xl font-black tracking-wider font-heading text-white tabular-nums drop-shadow-[0_0_15px_rgba(55,200,255,0.45)]">
+          <div className="inline-block px-6 py-3 rounded-2xl bg-white dark:bg-[#07122c] border-2 border-blue-400 dark:border-[#1e5bff]/70 shadow-inner">
+            <span className="text-5xl sm:text-6xl font-black tracking-wider font-heading text-slate-900 dark:text-white tabular-nums drop-shadow-[0_0_15px_rgba(55,200,255,0.45)]">
               {activeCall.number}
             </span>
           </div>
 
           {dialStage === 'preparing' && (
-            <div className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-[#37c8ff]">
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-sky-700 dark:text-[#37c8ff]">
               <span className="w-2.5 h-2.5 rounded-full bg-[#37c8ff] animate-ping" />
               Sincronizando llamada con tu dispositivo (500ms)…
             </div>
           )}
 
           {dialStage === 'attempting' && (
-            <div className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-emerald-400">
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
               Abriendo aplicación de teléfono…
             </div>
           )}
 
           {dialStage === 'navigated' && (
-            <div className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-emerald-300">
-              <Check className="w-4 h-4 text-emerald-400" />
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+              <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
               Llamada enviada al marcador de tu teléfono
             </div>
           )}
@@ -253,16 +253,16 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
             <button
               type="button"
               onClick={handleCopy}
-              className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0a1f55] hover:bg-[#102b74] border border-[#1e5bff]/70 text-white font-semibold text-sm transition active:scale-95"
+              className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#102b74] border border-blue-400 dark:border-[#1e5bff]/70 text-slate-900 dark:text-white font-semibold text-sm transition active:scale-95"
             >
               {copied ? (
                 <>
-                  <Check className="w-4 h-4 text-emerald-400" />
-                  <span className="text-emerald-400">¡Copiado!</span>
+                  <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
+                  <span className="text-emerald-700 dark:text-emerald-400">¡Copiado!</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-4 h-4 text-[#37c8ff]" />
+                  <Copy className="w-4 h-4 text-sky-700 dark:text-[#37c8ff]" />
                   <span>Copiar número</span>
                 </>
               )}
@@ -273,16 +273,16 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
                 href={`https://wa.me/${waNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/80 text-emerald-300 font-semibold text-sm transition active:scale-95"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 hover:bg-emerald-100 dark:hover:bg-emerald-900 border border-emerald-300 dark:border-emerald-500/80 text-emerald-700 dark:text-emerald-300 font-semibold text-sm transition active:scale-95"
               >
-                <MessageSquare className="w-4 h-4 text-emerald-400" />
+                <MessageSquare className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                 <span>WhatsApp</span>
               </a>
             ) : onSendWhatsApp ? (
               <button
                 type="button"
                 onClick={() => onSendWhatsApp(activeCall.number)}
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0a1f55] hover:bg-[#102b74] border border-[#1e5bff]/70 text-[#37c8ff] font-semibold text-sm transition active:scale-95"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#102b74] border border-blue-400 dark:border-[#1e5bff]/70 text-sky-700 dark:text-[#37c8ff] font-semibold text-sm transition active:scale-95"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Avisar alerta</span>
@@ -294,7 +294,7 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
                   onClose();
                   closeActiveCall();
                 }}
-                className="flex items-center justify-center py-3 px-4 rounded-xl bg-[#07122c] border border-gray-700 text-gray-300 text-sm font-semibold hover:bg-gray-800 transition"
+                className="flex items-center justify-center py-3 px-4 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-300 text-sm font-semibold hover:bg-slate-100 dark:hover:bg-gray-800 transition"
               >
                 Cerrar
               </button>
@@ -303,10 +303,10 @@ export const EmergencyDialerModal: React.FC<EmergencyDialerModalProps> = ({
         </div>
 
         {/* Technical Safety Note */}
-        <div className="mt-4 p-3 rounded-xl bg-[#07122c]/90 border border-[#1e3f8f]/40 flex items-start gap-2.5">
-          <AlertTriangle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-          <p className="text-[11px] text-[#9db6dd] leading-relaxed">
-            <strong className="text-white">Garantía de llamada directa:</strong> En celulares, el botón verde invoca el protocolo nativo <code className="text-cyan-300">tel:</code>. Si tu sistema operativo no responde al discado automático, un solo toque en el botón verde inicia la llamada de inmediato.
+        <div className="mt-4 p-3 rounded-xl bg-white dark:bg-[#07122c]/90 border border-slate-300 dark:border-[#1e3f8f]/40 flex items-start gap-2.5">
+          <AlertTriangle className="w-4 h-4 text-sky-700 dark:text-cyan-400 shrink-0 mt-0.5" />
+          <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] leading-relaxed">
+            <strong className="text-slate-900 dark:text-white">Garantía de llamada directa:</strong> En celulares, el botón verde invoca el protocolo nativo <code className="text-sky-700 dark:text-cyan-300">tel:</code>. Si tu sistema operativo no responde al discado automático, un solo toque en el botón verde inicia la llamada de inmediato.
           </p>
         </div>
       </div>

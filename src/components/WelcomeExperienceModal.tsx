@@ -162,20 +162,20 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 dark:bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-lg bg-gradient-to-b from-[#0a205a] via-[#071638] to-[#04091a] border-2 border-[#00f0ff] rounded-3xl p-5 sm:p-7 shadow-2xl shadow-cyan-950/90 my-auto text-white space-y-4 relative overflow-hidden">
+      <div className="w-full max-w-lg bg-gradient-to-b from-white dark:from-[#0a205a] via-sky-50/70 dark:via-[#071638] to-slate-50 dark:to-[#04091a] border-2 border-sky-500 dark:border-[#00f0ff] rounded-3xl p-5 sm:p-7 shadow-2xl shadow-cyan-950/90 my-auto text-slate-900 dark:text-white space-y-4 relative overflow-hidden">
         {/* Glow ambient background circles */}
-        <div className="absolute -top-20 -right-20 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -right-20 w-48 h-48 bg-sky-100 dark:bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-blue-100 dark:bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 text-gray-300 hover:text-white transition z-10"
+          className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white transition z-10"
           aria-label="Cerrar bienvenida"
         >
           <X className="w-6 h-6" />
@@ -184,24 +184,24 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
         {/* Top Header Badge */}
         <div className="text-center space-y-2 pt-1">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/50 shadow-inner">
-            <PartyPopper className="w-4 h-4 text-amber-300 animate-bounce" />
-            <span className="text-xs font-black tracking-widest text-cyan-300 uppercase">
+            <PartyPopper className="w-4 h-4 text-amber-700 dark:text-amber-300 animate-bounce" />
+            <span className="text-xs font-black tracking-widest text-sky-700 dark:text-cyan-300 uppercase">
               ¡Bienvenido a Vortex ID!
             </span>
-            <Sparkles className="w-4 h-4 text-cyan-300" />
+            <Sparkles className="w-4 h-4 text-sky-700 dark:text-cyan-300" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-black font-heading tracking-wide text-white leading-tight">
+          <h2 className="text-2xl sm:text-3xl font-black font-heading tracking-wide text-slate-900 dark:text-white leading-tight">
             Cuidando tu vida en <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-200">Punta Alta</span>
           </h2>
-          <p className="text-xs sm:text-sm text-[#9db6dd] leading-snug max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-[#9db6dd] leading-snug max-w-md mx-auto">
             Un proyecto diseñado con vocación y tecnología para que ante cualquier accidente o urgencia, la asistencia sea inmediata.
           </p>
         </div>
 
         {/* Voice Greeting Audio Banner */}
         {speechAvailable && (
-          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-[#07244d] to-blue-950/80 border border-cyan-400/60 shadow-lg flex items-center justify-between gap-3">
+          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-sky-50 dark:from-cyan-950/80 via-sky-50/70 dark:via-[#07244d] to-blue-50 dark:to-blue-950/80 border border-sky-300 dark:border-cyan-400/60 shadow-lg flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -220,7 +220,7 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
                 )}
               </button>
               <div className="text-left">
-                <p className="text-xs font-black text-white flex items-center gap-1.5">
+                <p className="text-xs font-black text-slate-900 dark:text-white flex items-center gap-1.5">
                   <span>Mensaje de Bienvenida Hablado</span>
                   {isPlayingAudio && (
                     <span className="flex gap-0.5 items-end h-3">
@@ -230,7 +230,7 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
                     </span>
                   )}
                 </p>
-                <p className="text-[11px] text-cyan-200">
+                <p className="text-[11px] text-sky-800 dark:text-cyan-200">
                   {isPlayingAudio
                     ? 'Reproduciendo saludo en español...'
                     : 'Tocá el parlante para escuchar la bienvenida hablada.'}
@@ -241,7 +241,7 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
             <button
               type="button"
               onClick={handleToggleVoice}
-              className="text-xs font-bold text-cyan-300 hover:text-white underline shrink-0 px-2 py-1"
+              className="text-xs font-bold text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white underline shrink-0 px-2 py-1"
             >
               {isPlayingAudio ? 'Silenciar' : 'Escuchar'}
             </button>
@@ -250,32 +250,32 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
 
         {/* 3 Pillars of Protection */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-left">
-          <div className="p-3 rounded-2xl bg-[#071330]/90 border border-[#1e4594] space-y-1">
-            <div className="w-7 h-7 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/40">
+          <div className="p-3 rounded-2xl bg-white dark:bg-[#071330]/90 border border-slate-300 dark:border-[#1e4594] space-y-1">
+            <div className="w-7 h-7 rounded-xl bg-rose-100 dark:bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/40">
               <Heart className="w-4 h-4" />
             </div>
-            <h3 className="text-xs font-black text-white">Ficha Médica SOS</h3>
-            <p className="text-[11px] text-[#9db6dd] leading-snug">
+            <h3 className="text-xs font-black text-slate-900 dark:text-white">Ficha Médica SOS</h3>
+            <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] leading-snug">
               Tu grupo sanguíneo, alergias, medicación y contactos clave en el llavero.
             </p>
           </div>
 
-          <div className="p-3 rounded-2xl bg-[#071330]/90 border border-[#1e4594] space-y-1">
-            <div className="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center border border-cyan-500/40">
+          <div className="p-3 rounded-2xl bg-white dark:bg-[#071330]/90 border border-slate-300 dark:border-[#1e4594] space-y-1">
+            <div className="w-7 h-7 rounded-xl bg-sky-100 dark:bg-cyan-500/20 text-sky-700 dark:text-cyan-300 flex items-center justify-center border border-cyan-500/40">
               <Pill className="w-4 h-4" />
             </div>
-            <h3 className="text-xs font-black text-white">Farmacias 24hs</h3>
-            <p className="text-[11px] text-[#9db6dd] leading-snug">
+            <h3 className="text-xs font-black text-slate-900 dark:text-white">Farmacias 24hs</h3>
+            <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] leading-snug">
               Turnos oficiales de Coronel Rosales en tiempo real y a qué distancia están.
             </p>
           </div>
 
-          <div className="p-3 rounded-2xl bg-[#071330]/90 border border-[#1e4594] space-y-1">
-            <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center border border-emerald-500/40">
+          <div className="p-3 rounded-2xl bg-white dark:bg-[#071330]/90 border border-slate-300 dark:border-[#1e4594] space-y-1">
+            <div className="w-7 h-7 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 flex items-center justify-center border border-emerald-500/40">
               <ShieldCheck className="w-4 h-4" />
             </div>
-            <h3 className="text-xs font-black text-white">100% Offline</h3>
-            <p className="text-[11px] text-[#9db6dd] leading-snug">
+            <h3 className="text-xs font-black text-slate-900 dark:text-white">100% Offline</h3>
+            <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] leading-snug">
               Funciona sin internet ni datos ante emergencias o cortes en la vía pública.
             </p>
           </div>
@@ -301,9 +301,9 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
                   onClose();
                   onViewPharmacies();
                 }}
-                className="py-2.5 px-3 rounded-xl bg-[#0b1c44] hover:bg-[#122b68] border border-[#1e4594] text-xs font-bold text-cyan-200 flex items-center justify-center gap-1.5 transition"
+                className="py-2.5 px-3 rounded-xl bg-sky-50 dark:bg-[#0b1c44] hover:bg-sky-100 dark:hover:bg-[#122b68] border border-slate-300 dark:border-[#1e4594] text-xs font-bold text-sky-800 dark:text-cyan-200 flex items-center justify-center gap-1.5 transition"
               >
-                <Pill className="w-3.5 h-3.5 text-cyan-400" />
+                <Pill className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-400" />
                 <span>Ver Farmacias</span>
               </button>
             )}
@@ -316,9 +316,9 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
                   onClose();
                   onOpenInstallModal();
                 }}
-                className="py-2.5 px-3 rounded-xl bg-[#0b1c44] hover:bg-[#122b68] border border-[#1e4594] text-xs font-bold text-white flex items-center justify-center gap-1.5 transition"
+                className="py-2.5 px-3 rounded-xl bg-sky-50 dark:bg-[#0b1c44] hover:bg-sky-100 dark:hover:bg-[#122b68] border border-slate-300 dark:border-[#1e4594] text-xs font-bold text-slate-900 dark:text-white flex items-center justify-center gap-1.5 transition"
               >
-                <Smartphone className="w-3.5 h-3.5 text-blue-400" />
+                <Smartphone className="w-3.5 h-3.5 text-blue-700 dark:text-blue-400" />
                 <span>Instalar App</span>
               </button>
             )}
@@ -331,9 +331,9 @@ export const WelcomeExperienceModal: React.FC<WelcomeExperienceModalProps> = ({
               playChirp('success');
               fireConfetti();
             }}
-            className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-[11px] font-bold text-amber-300 flex items-center justify-center gap-1.5 transition border border-amber-400/20"
+            className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-200/70 dark:hover:bg-white/10 text-[11px] font-bold text-amber-700 dark:text-amber-300 flex items-center justify-center gap-1.5 transition border border-amber-300 dark:border-amber-400/20"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-700 dark:text-amber-300" />
             <span>🎊 ¡Tirar más confeti de bienvenida!</span>
           </button>
         </div>

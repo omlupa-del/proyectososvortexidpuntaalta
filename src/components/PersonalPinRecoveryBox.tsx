@@ -69,31 +69,31 @@ export const PersonalPinRecoveryBox: React.FC<PersonalPinRecoveryBoxProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3 animate-fade-in">
-      <div className="flex items-center justify-between gap-2 pb-1 border-b border-[#1e5bff]/40">
-        <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-[#37c8ff]">
+      <div className="flex items-center justify-between gap-2 pb-1 border-b border-blue-400 dark:border-[#1e5bff]/40">
+        <div className="flex items-center gap-1.5 text-xs sm:text-sm font-black text-sky-700 dark:text-[#37c8ff]">
           <KeyRound className="w-4 h-4 shrink-0" />
           <span>Recuperar o Cambiar Clave de tu Ficha</span>
         </div>
         <button
           type="button"
           onClick={onCancel}
-          className="text-xs text-[#9db6dd] hover:text-white flex items-center gap-1"
+          className="text-xs text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white flex items-center gap-1"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Volver</span>
         </button>
       </div>
 
-      <p className="text-[11px] text-[#eaf3ff] leading-snug">
+      <p className="text-[11px] text-slate-900 dark:text-[#eaf3ff] leading-snug">
         {expectedHint
           ? `Para proteger tus datos médicos, verificá tu identidad ingresando ${expectedHint} (o con tu cuenta Google) y definí una nueva clave.`
           : 'Definí una nueva clave numérica de 4 a 6 dígitos para volver a editar tu ficha.'}
       </p>
 
       {/* Google session quick verification option */}
-      <div className="p-2.5 rounded-xl bg-[#050b1f] border border-[#1e5bff]/40 flex items-center justify-between gap-2 flex-wrap">
+      <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-blue-400 dark:border-[#1e5bff]/40 flex items-center justify-between gap-2 flex-wrap">
         {user ? (
-          <label className="flex items-center gap-2 text-[11px] text-emerald-300 font-bold cursor-pointer">
+          <label className="flex items-center gap-2 text-[11px] text-emerald-700 dark:text-emerald-300 font-bold cursor-pointer">
             <input
               type="checkbox"
               checked={useGoogleAuth}
@@ -103,12 +103,12 @@ export const PersonalPinRecoveryBox: React.FC<PersonalPinRecoveryBoxProps> = ({
               }}
               className="w-4 h-4 accent-emerald-500 rounded"
             />
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
             <span>Verificar con mi Google ({user.email || user.displayName})</span>
           </label>
         ) : (
           <>
-            <span className="text-[11px] text-[#9db6dd]">
+            <span className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
               ¿Tenés tu cuenta Google vinculada?
             </span>
             <button
@@ -128,7 +128,7 @@ export const PersonalPinRecoveryBox: React.FC<PersonalPinRecoveryBoxProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {expectedHint && !useGoogleAuth && (
           <div>
-            <label className="block text-[11px] text-[#9db6dd] font-semibold mb-1">
+            <label className="block text-[11px] text-slate-600 dark:text-[#9db6dd] font-semibold mb-1">
               Dato de identidad ({hasDni ? 'DNI' : hasPhone ? 'Teléfono' : hasKeychain ? 'Llavero' : 'Nombre'}):
             </label>
             <input
@@ -139,14 +139,14 @@ export const PersonalPinRecoveryBox: React.FC<PersonalPinRecoveryBoxProps> = ({
                 if (error) setError('');
               }}
               placeholder={hasDni ? 'Ej: 28452910' : hasPhone ? 'Ej: 2932421222' : 'Ingresá tu dato'}
-              className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-[#1e5bff] text-xs sm:text-sm text-white focus:outline-none focus:border-[#37c8ff]"
+              className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-blue-500 dark:border-[#1e5bff] text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
               autoFocus
             />
           </div>
         )}
 
         <div className={expectedHint && !useGoogleAuth ? '' : 'sm:col-span-2'}>
-          <label className="block text-[11px] text-[#9db6dd] font-semibold mb-1">
+          <label className="block text-[11px] text-slate-600 dark:text-[#9db6dd] font-semibold mb-1">
             Nueva clave PIN (4 a 6 números):
           </label>
           <div className="relative">
@@ -160,12 +160,12 @@ export const PersonalPinRecoveryBox: React.FC<PersonalPinRecoveryBoxProps> = ({
                 if (error) setError('');
               }}
               placeholder="Ej: 1234"
-              className="w-full py-2 pl-3 pr-10 rounded-xl bg-[#050b1f] border border-[#1e5bff] text-sm font-mono tracking-widest text-center text-white focus:outline-none focus:border-[#37c8ff]"
+              className="w-full py-2 pl-3 pr-10 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-blue-500 dark:border-[#1e5bff] text-sm font-mono tracking-widest text-center text-slate-900 dark:text-white focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
             />
             <button
               type="button"
               onClick={() => setShowNewPin((prev) => !prev)}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[#37c8ff] hover:text-white transition"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white transition"
               aria-label={showNewPin ? 'Ocultar nueva clave' : 'Ver nueva clave'}
             >
               {showNewPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -174,9 +174,9 @@ export const PersonalPinRecoveryBox: React.FC<PersonalPinRecoveryBoxProps> = ({
         </div>
       </div>
 
-      {error && <p className="text-xs text-red-400 font-semibold">{error}</p>}
+      {error && <p className="text-xs text-red-700 dark:text-red-400 font-semibold">{error}</p>}
       {successMsg && (
-        <p className="text-xs text-emerald-300 font-bold flex items-center gap-1.5">
+        <p className="text-xs text-emerald-700 dark:text-emerald-300 font-bold flex items-center gap-1.5">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{successMsg}</span>
         </p>

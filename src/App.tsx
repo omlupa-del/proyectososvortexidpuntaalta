@@ -929,7 +929,7 @@ export default function App() {
   const hasData = hasMedicalData(medicalRecord);
 
   return (
-    <div className="min-h-screen text-[#eaf3ff] pb-24 px-3 sm:px-4 max-w-xl sm:max-w-2xl mx-auto selection:bg-[#37c8ff]/30">
+    <div className="min-h-screen text-slate-900 dark:text-[#eaf3ff] pb-24 px-3 sm:px-4 max-w-xl sm:max-w-2xl mx-auto selection:bg-[#37c8ff]/30">
       {/* Offline Status & Life-Saving Assurance Banner */}
       <OfflineStatusBanner
         medicalRecord={medicalRecord}
@@ -939,9 +939,9 @@ export default function App() {
       {/* Rescuer Emergency Mode: When another person scans the QR keychain, show ONLY the medical rescue sheet */}
       {isFromLink && medicalRecord && !showFullPortal ? (
         <>
-          <div className="pt-3 pb-2.5 px-1 flex items-center justify-between gap-2 border-b border-[#162d59]/80 mb-2">
+          <div className="pt-3 pb-2.5 px-1 flex items-center justify-between gap-2 border-b border-slate-200 dark:border-[#162d59]/80 mb-2">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-8 h-8 rounded-lg bg-[#061229] border border-cyan-400/70 overflow-hidden shrink-0 shadow-[0_0_12px_rgba(55,200,255,0.2)]">
+              <div className="w-8 h-8 rounded-lg bg-slate-900 dark:bg-[#061229] border border-sky-500/70 dark:border-cyan-400/70 overflow-hidden shrink-0 shadow-sm dark:shadow-[0_0_12px_rgba(55,200,255,0.2)]">
                 <img
                   src="/assets/aistudio/image__2__7d12aee0.png"
                   alt="Logo Vortex ID"
@@ -949,10 +949,10 @@ export default function App() {
                 />
               </div>
               <div className="min-w-0 leading-none">
-                <span className="block text-sm font-black font-heading text-white uppercase tracking-wider truncate">
+                <span className="block text-sm font-black font-heading text-slate-900 dark:text-white uppercase tracking-wider truncate">
                   Vortex ID · Modo Socorrista
                 </span>
-                <span className="block text-[10px] font-mono text-cyan-300/80 uppercase tracking-widest mt-0.5 truncate">
+                <span className="block text-[10px] font-mono text-sky-700 dark:text-cyan-300/80 uppercase tracking-widest mt-0.5 truncate">
                   Protocolo Auxilio · Punta Alta
                 </span>
               </div>
@@ -960,7 +960,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setShowFullPortal(true)}
-              className="px-2.5 py-1.5 rounded-lg bg-[#08132c] hover:bg-[#10244d] border border-[#24478a] text-[11px] text-cyan-300 hover:text-white font-semibold shrink-0 transition"
+              className="px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 dark:bg-[#08132c] dark:hover:bg-[#10244d] border border-slate-300 dark:border-[#24478a] text-[11px] text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white font-semibold shrink-0 transition"
             >
               Ver portal →
             </button>
@@ -981,18 +981,18 @@ export default function App() {
         <>
           {/* Automatic PWA Install Banner (visible on PC, Android & iPhone whenever not installed) */}
           {!isInstalled && !dismissedPwaBanner && (
-            <div className="my-2.5 p-3 rounded-2xl bg-gradient-to-r from-emerald-950 via-[#0a2d29] to-[#0a1f55] border-2 border-emerald-400/90 shadow-xl flex items-center justify-between gap-2.5 animate-fade-in">
+            <div className="my-2.5 p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-white to-sky-50 dark:from-emerald-950 dark:via-[#0a2d29] dark:to-[#0a1f55] border-2 border-emerald-500/80 dark:border-emerald-400/90 shadow-md dark:shadow-xl flex items-center justify-between gap-2.5 animate-fade-in">
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className="p-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-400 shrink-0">
+                <span className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500 dark:border-emerald-400 shrink-0">
                   <Download className="w-4 h-4" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-xs font-black text-white truncate">
+                  <p className="text-xs font-black text-slate-900 dark:text-white truncate">
                     {isMobileUa
                       ? 'Instalá Vortex ID en tu celular'
                       : 'Instalá Vortex ID en tu PC / Laptop'}
                   </p>
-                  <p className="text-[11px] text-emerald-200/90 truncate">
+                  <p className="text-[11px] text-emerald-800 dark:text-emerald-200/90 truncate">
                     {isInIframe
                       ? 'Vista previa: abrí el sitio directo para instalar en 1 clic'
                       : isInstallable
@@ -1009,7 +1009,7 @@ export default function App() {
                     href={directInstallUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 hover:brightness-110 text-gray-950 font-black text-xs shadow-md active:scale-95 transition whitespace-nowrap"
+                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 dark:from-emerald-400 dark:to-green-400 hover:brightness-110 text-white dark:text-gray-950 font-black text-xs shadow-sm dark:shadow-md active:scale-95 transition whitespace-nowrap"
                   >
                     Instalar en 1 clic
                   </a>
@@ -1017,7 +1017,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={handleQuickInstallOrOpenModal}
-                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-green-400 hover:brightness-110 text-gray-950 font-black text-xs shadow-md active:scale-95 transition whitespace-nowrap"
+                    className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 dark:from-emerald-400 dark:to-green-400 hover:brightness-110 text-white dark:text-gray-950 font-black text-xs shadow-sm dark:shadow-md active:scale-95 transition whitespace-nowrap"
                   >
                     {isInstallable
                       ? 'Instalar en 1 clic'
@@ -1029,7 +1029,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setDismissedPwaBanner(true)}
-                  className="p-1.5 rounded-lg text-emerald-200/70 hover:text-white hover:bg-white/10 transition"
+                  className="p-1.5 rounded-lg text-emerald-700 dark:text-emerald-200/70 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/10 transition"
                   aria-label="Ocultar aviso de instalación"
                 >
                   <X className="w-4 h-4" />
@@ -1049,10 +1049,10 @@ export default function App() {
 
           {/* Exclusive Operator Command HUD (Never visible to citizens) */}
           {showOperatorHud && !isFromLink && (
-            <div className="my-2.5 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-950/80 via-[#161205] to-[#081533] border border-amber-400/60 flex flex-wrap items-center justify-between gap-2 text-xs shadow-lg">
+            <div className="my-2.5 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-50 via-white to-sky-50 dark:from-amber-950/80 dark:via-[#161205] dark:to-[#081533] border border-amber-400/80 dark:border-amber-400/60 flex flex-wrap items-center justify-between gap-2 text-xs shadow-sm dark:shadow-lg">
               <div className="flex items-center gap-2 min-w-0">
-                <ShieldCheck className="w-4 h-4 text-amber-300 shrink-0" aria-hidden="true" />
-                <span className="font-black text-amber-200 tracking-wide uppercase text-[10px] sm:text-[11px] truncate">
+                <ShieldCheck className="w-4 h-4 text-amber-600 dark:text-amber-300 shrink-0" aria-hidden="true" />
+                <span className="font-black text-amber-900 dark:text-amber-200 tracking-wide uppercase text-[10px] sm:text-[11px] truncate">
                   Modo Comando · {systemConfig.isMembershipRequired ? 'Bloqueo ON' : 'Prueba Abierta'} · {formatCurrency(systemConfig.monthlyFee)}/mes
                 </span>
               </div>
@@ -1068,7 +1068,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setCitizenPreviewMode(true)}
-                  className="px-2.5 py-1 rounded-lg bg-[#081533] hover:bg-[#102658] border border-cyan-400/50 text-cyan-200 font-bold text-[11px] flex items-center gap-1 transition"
+                  className="px-2.5 py-1 rounded-lg bg-white hover:bg-sky-50 dark:bg-[#081533] dark:hover:bg-[#102658] border border-sky-400/60 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200 font-bold text-[11px] flex items-center gap-1 transition"
                   title="Ocultar barra de operador temporalmente para ver la app como un ciudadano"
                 >
                   <Eye className="w-3 h-3" aria-hidden="true" />
@@ -1084,7 +1084,7 @@ export default function App() {
                         sessionStorage.removeItem('vortex_operator_mode_v1');
                       } catch {}
                     }}
-                    className="px-2 py-1 rounded-lg bg-black/50 hover:bg-red-950/70 border border-red-400/40 text-red-200 font-bold text-[11px] flex items-center gap-1 transition"
+                    className="px-2 py-1 rounded-lg bg-red-50 hover:bg-red-100 dark:bg-black/50 dark:hover:bg-red-950/70 border border-red-400/60 dark:border-red-400/40 text-red-700 dark:text-red-200 font-bold text-[11px] flex items-center gap-1 transition"
                     title="Cerrar sesión de operador"
                   >
                     <Lock className="w-3 h-3" aria-hidden="true" />
@@ -1100,9 +1100,9 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setCitizenPreviewMode(false)}
-                className="px-2.5 py-1 rounded-lg bg-[#07132c] border border-amber-400/40 text-amber-200/90 hover:text-white text-[10px] font-bold flex items-center gap-1 transition"
+                className="px-2.5 py-1 rounded-lg bg-white dark:bg-[#07132c] border border-amber-500/60 dark:border-amber-400/40 text-amber-800 dark:text-amber-200/90 hover:text-slate-950 dark:hover:text-white text-[10px] font-bold flex items-center gap-1 transition"
               >
-                <ShieldCheck className="w-3 h-3 text-amber-300" aria-hidden="true" />
+                <ShieldCheck className="w-3 h-3 text-amber-600 dark:text-amber-300" aria-hidden="true" />
                 <span>Restaurar barra Comando</span>
               </button>
             </div>
@@ -1129,31 +1129,31 @@ export default function App() {
 
           {/* Daily Medication Reminder Banner */}
           {dueMedicationAlert && !isFromLink && (
-            <div className="sticky top-2 z-40 my-3 p-3.5 rounded-2xl bg-gradient-to-r from-[#08224a] via-[#0a2f5a] to-[#083344] border-2 border-cyan-400 shadow-2xl text-white animate-fade-in">
+            <div className="sticky top-2 z-40 my-3 p-3.5 rounded-2xl bg-gradient-to-r from-sky-50 via-cyan-50 to-white dark:from-[#08224a] dark:via-[#0a2f5a] dark:to-[#083344] border-2 border-sky-500 dark:border-cyan-400 shadow-2xl text-slate-900 dark:text-white animate-fade-in">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-2.5 min-w-0">
-                  <div className="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-300 shrink-0 mt-0.5">
+                  <div className="w-9 h-9 rounded-xl bg-sky-100 dark:bg-cyan-500/20 border border-sky-400 dark:border-cyan-400 flex items-center justify-center text-sky-700 dark:text-cyan-300 shrink-0 mt-0.5">
                     <Pill className="w-5 h-5" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[11px] font-black uppercase tracking-wider text-cyan-300">
+                      <span className="text-[11px] font-black uppercase tracking-wider text-sky-700 dark:text-cyan-300">
                         {dueMedicationAlert.isTest
                           ? 'Recordatorio de prueba'
                           : 'Recordatorio de medicación'}
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-cyan-500/40 text-cyan-200 font-mono text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-md bg-white dark:bg-black/40 border border-sky-300 dark:border-cyan-500/40 text-sky-800 dark:text-cyan-200 font-mono text-[10px] font-bold">
                         {dueMedicationAlert.medication.time} hs
                       </span>
                     </div>
-                    <p className="text-sm sm:text-base font-black text-white mt-0.5">
+                    <p className="text-sm sm:text-base font-black text-slate-900 dark:text-white mt-0.5">
                       {dueMedicationAlert.medication.name}
                       {dueMedicationAlert.medication.dose
                         ? ` · ${dueMedicationAlert.medication.dose}`
                         : ''}
                     </p>
                     {dueMedicationAlert.medication.notes && (
-                      <p className="text-xs text-cyan-100/90">
+                      <p className="text-xs text-slate-700 dark:text-cyan-100/90">
                         {dueMedicationAlert.medication.notes}
                       </p>
                     )}
@@ -1162,7 +1162,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setDueMedicationAlert(null)}
-                  className="p-1 rounded-lg text-cyan-200 hover:text-white hover:bg-white/10 transition shrink-0"
+                  className="p-1 rounded-lg text-slate-500 dark:text-cyan-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/10 transition shrink-0"
                   aria-label="Cerrar recordatorio"
                 >
                   <X className="w-4 h-4" />
@@ -1179,7 +1179,7 @@ export default function App() {
                         markMedicationTakenToday(dueMedicationAlert.medication.id, true);
                         setDueMedicationAlert(null);
                       }}
-                      className="flex-1 min-w-[140px] py-2 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-[#050b1f] font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition"
+                      className="flex-1 min-w-[140px] py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-[#050b1f] font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition"
                     >
                       <CheckCircle2 className="w-4 h-4" />
                       <span>Ya la tomé</span>
@@ -1191,7 +1191,7 @@ export default function App() {
                         snoozeMedicationReminder(dueMedicationAlert.medication.id, 10);
                         setDueMedicationAlert(null);
                       }}
-                      className="py-2 px-3 rounded-xl bg-[#07122c] hover:bg-[#0f275e] border border-cyan-400/50 text-cyan-200 font-bold text-xs flex items-center gap-1.5 transition active:scale-95"
+                      className="py-2 px-3 rounded-xl bg-white hover:bg-slate-100 dark:bg-[#07122c] dark:hover:bg-[#0f275e] border border-sky-300 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200 font-bold text-xs flex items-center gap-1.5 transition active:scale-95"
                     >
                       <Clock className="w-3.5 h-3.5" />
                       <span>Posponer 10 min</span>
@@ -1202,7 +1202,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setDueMedicationAlert(null)}
-                    className="py-1.5 px-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-[#050b1f] font-bold text-xs transition"
+                    className="py-1.5 px-3 rounded-xl bg-sky-600 hover:bg-sky-500 dark:bg-cyan-500 dark:hover:bg-cyan-400 text-white dark:text-[#050b1f] font-bold text-xs transition"
                   >
                     Entendido
                   </button>
@@ -1213,17 +1213,17 @@ export default function App() {
 
           {/* Unlinked Keychain Detected Prompt Banner */}
           {scannedUnlinkedId && (
-            <div className="my-3 p-4 rounded-2xl bg-gradient-to-r from-amber-950 via-[#1e1b0a] to-[#0d2252] border-2 border-amber-400 shadow-xl flex items-center justify-between gap-3 animate-fade-in">
+            <div className="my-3 p-4 rounded-2xl bg-gradient-to-r from-amber-50 via-yellow-50 to-sky-50 dark:from-amber-950 dark:via-[#1e1b0a] dark:to-[#0d2252] border-2 border-amber-500 dark:border-amber-400 shadow-xl flex items-center justify-between gap-3 animate-fade-in">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400 flex items-center justify-center text-xl shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-500/20 border border-amber-500 dark:border-amber-400 flex items-center justify-center text-xl shrink-0">
                   🏷️
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <span>Llavero Físico #{scannedUnlinkedId} Detectado</span>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-black">Nuevo</span>
                   </h3>
-                  <p className="text-xs text-amber-200/90 mt-0.5 leading-snug">
+                  <p className="text-xs text-amber-900 dark:text-amber-200/90 mt-0.5 leading-snug">
                     {hasData
                       ? `Detectamos que ya tenés tu ficha médica cargada (${medicalRecord?.nombre}). ¿Querés vincular este llavero físico con 1 clic?`
                       : 'Cargá tu ficha médica para asociarla a este llavero físico en 1 clic.'}
@@ -1306,16 +1306,16 @@ export default function App() {
 
           {/* Quick-Jump Activation Banner when scanning root URL in Blocked Membership Mode */}
           {!isFromLink && !hasData && systemConfig.isMembershipRequired && !isMembershipUnlocked && (
-            <div className="my-3.5 p-4 rounded-2xl bg-gradient-to-r from-amber-950/90 via-[#1f1704] to-[#0a1f55] border-2 border-amber-400 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="my-3.5 p-4 rounded-2xl bg-gradient-to-r from-amber-50 via-white to-sky-50 dark:from-amber-950/90 dark:via-[#1f1704] dark:to-[#0a1f55] border-2 border-amber-500 dark:border-amber-400 shadow-md dark:shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-black uppercase tracking-wider text-amber-300 block">
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 block">
                   🔒 Activación de Membresía ({formatCurrency(systemConfig.monthlyFee)}/mes)
                 </span>
-                <p className="text-xs sm:text-sm font-bold text-white leading-snug">
+                <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">
                   ¿Querés cargar tu Ficha Médica SOS y descargar tu QR de bloqueo?
                 </p>
-                <p className="text-[11px] text-amber-100/90">
-                  Aboná al Alias <strong className="text-cyan-300 font-mono">{systemConfig.paymentAlias}</strong>, mandá el comprobante por WhatsApp e ingresá tu Código de Alta.
+                <p className="text-[11px] text-amber-900 dark:text-amber-100/90">
+                  Aboná al Alias <strong className="text-sky-700 dark:text-cyan-300 font-mono">{systemConfig.paymentAlias}</strong>, mandá el comprobante por WhatsApp e ingresá tu Código de Alta.
                 </p>
               </div>
               <button
@@ -1370,12 +1370,12 @@ export default function App() {
           Una vez cargada, los datos privados están ocultos para proteger la privacidad.
           Solo se muestra el acceso directo a la Credencial QR y botón para abrir con PIN. */}
       {hasData ? (
-        <section className="my-5 p-4 rounded-3xl bg-gradient-to-r from-[#0a1f55] via-[#0b1d46] to-[#07122c] border border-[#37c8ff]/60 shadow-xl shadow-blue-950/70">
+        <section className="my-5 p-4 rounded-3xl bg-gradient-to-r from-white via-sky-50/60 to-white dark:from-[#0a1f55] dark:via-[#0b1d46] dark:to-[#07122c] border border-sky-400/70 dark:border-[#37c8ff]/60 shadow-md dark:shadow-xl dark:shadow-blue-950/70">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="relative shrink-0">
                 <div
-                  className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-[#37c8ff] bg-gradient-to-tr from-blue-600 to-[#37c8ff] text-white flex items-center justify-center shadow-md shadow-blue-900/50 shrink-0"
+                  className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-sky-500 dark:border-[#37c8ff] bg-gradient-to-tr from-blue-600 to-[#37c8ff] text-white flex items-center justify-center shadow-md dark:shadow-blue-900/50 shrink-0"
                   style={{ width: '80px', height: '80px', minWidth: '80px', minHeight: '80px' }}
                 >
                   {medicalRecord?.foto ? (
@@ -1397,8 +1397,8 @@ export default function App() {
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                     Ficha protegida con PIN
                   </span>
                   {medicalRecord?.sangre && (
@@ -1407,10 +1407,10 @@ export default function App() {
                     </span>
                   )}
                 </div>
-                <h3 className="text-lg font-bold font-heading text-white">
+                <h3 className="text-lg font-bold font-heading text-slate-900 dark:text-white">
                   MI CREDENCIAL Y QR PARA LLAVERO
                 </h3>
-                <p className="text-xs text-[#9db6dd]">
+                <p className="text-xs text-slate-600 dark:text-[#9db6dd]">
                   {medicalRecord?.nombre ? `Titular: ${medicalRecord.nombre}` : 'Datos listos para auxilio'} · Ocultos al público
                 </p>
               </div>
@@ -1430,7 +1430,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setIsSosModalOpen(true)}
-              className="py-2.5 px-3 rounded-xl bg-[#07122c] hover:bg-[#0f275e] border border-[#37c8ff]/60 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+              className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-[#07122c] dark:hover:bg-[#0f275e] border border-sky-400/70 dark:border-[#37c8ff]/60 text-slate-900 dark:text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
             >
               <span>Abrir Ficha SOS</span>
             </button>
@@ -1445,27 +1445,27 @@ export default function App() {
           </div>
 
           {/* Dedicated Physical Keychain Link Action Banner */}
-          <div className="mt-3.5 pt-3 border-t border-[#1e3f8f]/40 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 p-3 rounded-2xl bg-gradient-to-r from-[#071536] via-[#091b42] to-[#0a1838] border border-amber-500/60 shadow-lg">
+          <div className="mt-3.5 pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 p-3 rounded-2xl bg-amber-50/70 dark:bg-gradient-to-r dark:from-[#071536] dark:via-[#091b42] dark:to-[#0a1838] border border-amber-500/60 shadow-sm dark:shadow-lg">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-300 shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-500/20 border border-amber-500 dark:border-amber-400 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
                 <Link2 className="w-4 h-4" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">
+                  <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                     Llavero Físico (#ID)
                   </span>
                   {medicalRecord?.keychainId ? (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40">
                       #{medicalRecord.keychainId} VINCULADO
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-500/40">
                       Sin asociar
                     </span>
                   )}
                 </div>
-                <p className="text-[11px] text-[#9db6dd]">
+                <p className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                   {medicalRecord?.keychainId
                     ? `Enlazado al llavero #${medicalRecord.keychainId}. Quien lo escanee verá tu ficha.`
                     : '¿Compraste un llavero con número impreso? Vinculalo acá en 1 clic.'}
@@ -1490,7 +1490,7 @@ export default function App() {
                 setIsFromLink(true);
                 setShowFullPortal(false);
               }}
-              className="py-2.5 px-3 rounded-xl bg-[#0d2252] hover:bg-[#133075] border border-[#37c8ff]/40 text-[#37c8ff] hover:text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+              className="py-2.5 px-3 rounded-xl bg-sky-50 hover:bg-sky-100 dark:bg-[#0d2252] dark:hover:bg-[#133075] border border-sky-400/60 dark:border-[#37c8ff]/40 text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
             >
               <span>👁️ Probar vista de socorrista</span>
             </button>
@@ -1499,12 +1499,12 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setConfirmClearRecord(true)}
-                className="py-2.5 px-3 rounded-xl bg-red-950/40 hover:bg-red-950/80 border border-red-500/40 text-red-300 hover:text-red-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+                className="py-2.5 px-3 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-950/80 border border-red-400/60 dark:border-red-500/40 text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
               >
                 <span>🗑️ Limpiar / Cargar otra persona</span>
               </button>
             ) : (
-              <div className="flex items-center gap-1.5 bg-red-950/90 border border-red-500 rounded-xl p-1">
+              <div className="flex items-center gap-1.5 bg-red-100 dark:bg-red-950/90 border border-red-500 rounded-xl p-1">
                 <button
                   type="button"
                   onClick={() => {
@@ -1519,7 +1519,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setConfirmClearRecord(false)}
-                  className="py-1.5 px-2.5 rounded-lg bg-black/40 text-gray-200 text-[11px] font-semibold"
+                  className="py-1.5 px-2.5 rounded-lg bg-white dark:bg-black/40 text-slate-700 dark:text-gray-200 text-[11px] font-semibold"
                 >
                   Cancelar
                 </button>
@@ -1558,7 +1558,7 @@ export default function App() {
         const bannerQrSrc = '/assets/qr_vortex_id_futurista.png?v=43';
 
         return (
-          <section className="my-5 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-[#071739] via-[#07243b] to-[#0a1f55] border-2 border-cyan-400/80 shadow-2xl">
+          <section className="my-5 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-sky-50 via-white to-blue-50 dark:from-[#071739] dark:via-[#07243b] dark:to-[#0a1f55] border-2 border-sky-400/80 dark:border-cyan-400/80 shadow-md dark:shadow-2xl">
             <div className="flex items-center gap-3.5 w-full">
               <button
                 type="button"
@@ -1566,7 +1566,7 @@ export default function App() {
                   setInstallModalTab('qr');
                   setIsInstallModalOpen(true);
                 }}
-                className="w-24 h-24 rounded-2xl bg-white p-1.5 border-2 border-cyan-400 shadow-lg shadow-cyan-950/70 shrink-0 hover:scale-105 active:scale-95 transition"
+                className="w-24 h-24 rounded-2xl bg-white p-1.5 border-2 border-sky-500 dark:border-cyan-400 shadow-md dark:shadow-lg dark:shadow-cyan-950/70 shrink-0 hover:scale-105 active:scale-95 transition"
                 title="Ampliar y compartir QR Oficial Vortex ID"
               >
                 <img
@@ -1577,12 +1577,12 @@ export default function App() {
                 />
               </button>
               <div className="min-w-0 flex-1">
-                <h3 className="text-sm sm:text-base font-black text-white uppercase tracking-wide">
+                <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-wide">
                   QR Oficial & Instalar App
                 </h3>
-                <p className="text-xs text-[#9db6dd] mt-0.5 leading-snug">
+                <p className="text-xs text-slate-600 dark:text-[#9db6dd] mt-0.5 leading-snug">
                   Abre:{' '}
-                  <span className="font-mono text-cyan-300 break-all">
+                  <span className="font-mono text-sky-700 dark:text-cyan-300 break-all">
                     {activeTargetBase.replace(/^https?:\/\//, '')}
                   </span>
                 </p>
@@ -1593,7 +1593,7 @@ export default function App() {
                       setInstallModalTab('qr');
                       setIsInstallModalOpen(true);
                     }}
-                    className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-gray-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition"
+                    className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 dark:from-cyan-400 dark:to-blue-500 hover:brightness-110 text-white dark:text-gray-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition"
                   >
                     <QrCode className="w-3.5 h-3.5" />
                     <span>Ver QR / Instalar App</span>
@@ -1601,7 +1601,7 @@ export default function App() {
                   <a
                     href={bannerQrSrc}
                     download="vortex_id_qr_futurista_punta_alta.png"
-                    className="px-3 py-2 rounded-xl bg-[#050b1f] hover:bg-[#0d2252] border border-cyan-400/60 text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+                    className="px-3 py-2 rounded-xl bg-white hover:bg-sky-50 dark:bg-[#050b1f] dark:hover:bg-[#0d2252] border border-sky-400/70 dark:border-cyan-400/60 text-sky-800 dark:text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
                   >
                     <span>Descargar PNG</span>
                   </a>
@@ -1613,12 +1613,12 @@ export default function App() {
       })()}
 
       {/* Footer */}
-      <footer className="mt-8 mb-6 text-center text-xs text-[#9db6dd] space-y-1">
+      <footer className="mt-8 mb-6 text-center text-xs text-slate-600 dark:text-[#9db6dd] space-y-1">
         <p>
-          <strong className="text-[#37c8ff]">VORTEX ID · PUNTA ALTA</strong>
+          <strong className="text-sky-700 dark:text-[#37c8ff]">VORTEX ID · PUNTA ALTA</strong>
         </p>
         <p>Un solo QR en tu llavero, asistencia inmediata en cualquier emergencia.</p>
-        <p className="text-[10px] text-gray-500 pt-2">
+        <p className="text-[10px] text-slate-500 dark:text-gray-500 pt-2">
           Ante emergencias con riesgo de vida llamar inmediatamente al 107 (Salud) o 911 (Seguridad).
         </p>
       </footer>

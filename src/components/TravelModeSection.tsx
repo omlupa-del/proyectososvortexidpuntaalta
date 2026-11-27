@@ -178,8 +178,8 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
       id="modo-viajero"
       className={`my-3.5 rounded-3xl border transition-all ${
         isOutsidePuntaAlta || previewCoords
-          ? 'bg-gradient-to-br from-[#071a3d] via-[#07263b] to-[#050d24] border-2 border-cyan-400/90 shadow-2xl shadow-cyan-950/50'
-          : 'bg-[#061229]/90 border-[#1b3a73] shadow-lg'
+          ? 'bg-gradient-to-br from-white dark:from-[#071a3d] via-sky-50/70 dark:via-[#07263b] to-slate-50 dark:to-[#050d24] border-2 border-sky-300 dark:border-cyan-400/90 shadow-2xl shadow-cyan-950/50'
+          : 'bg-slate-50 dark:bg-[#061229]/90 border-slate-200 dark:border-[#1b3a73] shadow-lg'
       }`}
     >
       {/* Compact Header / Toggle Strip (never disrupts Punta Alta layout) */}
@@ -188,15 +188,15 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
           <span
             className={`p-2 rounded-xl border shrink-0 ${
               isOutsidePuntaAlta || previewCoords
-                ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300'
-                : 'bg-[#0b1f48] border-[#264b8f] text-cyan-300'
+                ? 'bg-sky-100 dark:bg-cyan-500/20 border-cyan-400 text-sky-700 dark:text-cyan-300'
+                : 'bg-sky-50 dark:bg-[#0b1f48] border-slate-300 dark:border-[#264b8f] text-sky-700 dark:text-cyan-300'
             }`}
           >
             <Compass className="w-4 h-4" aria-hidden="true" />
           </span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wide text-white">
+              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wide text-slate-900 dark:text-white">
                 Modo Viajero · Cobertura Nacional
               </h2>
               <span
@@ -205,7 +205,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                     ? 'bg-emerald-400 text-gray-950'
                     : previewCoords
                       ? 'bg-amber-400 text-gray-950'
-                      : 'bg-cyan-500/15 text-cyan-300 border border-cyan-400/40'
+                      : 'bg-sky-100 dark:bg-cyan-500/15 text-sky-700 dark:text-cyan-300 border border-cyan-400/40'
                 }`}
               >
                 {isOutsidePuntaAlta
@@ -215,7 +215,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                     : 'Automático fuera de Punta Alta'}
               </span>
             </div>
-            <p className="text-[11px] text-[#9db6dd] truncate">
+            <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] truncate">
               {isOutsidePuntaAlta || previewCoords
                 ? `${activePlaceLabel}${distanceFromPuntaAltaKm !== null ? ` · a ${distanceFromPuntaAltaKm} km de Punta Alta` : ''}`
                 : 'En viaje detecta tu GPS y muestra hospitales, guardias 24hs, farmacias y comisarías cercanas.'}
@@ -229,7 +229,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
             playChirp('click');
             setIsExpanded((prev) => !prev);
           }}
-          className="px-3 py-1.5 rounded-xl bg-[#0d2454] hover:bg-[#153578] border border-cyan-400/50 text-cyan-200 font-bold text-xs inline-flex items-center gap-1.5 transition active:scale-95 shrink-0"
+          className="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-[#0d2454] hover:bg-sky-100 dark:hover:bg-[#153578] border border-sky-300 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200 font-bold text-xs inline-flex items-center gap-1.5 transition active:scale-95 shrink-0"
         >
           <span>{isExpanded ? 'Ocultar' : 'Abrir Modo Viajero'}</span>
           {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -238,18 +238,18 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
 
       {/* Expanded Travel Mode Body */}
       {isExpanded && (
-        <div className="px-4 pb-4 pt-1 border-t border-[#1c3b73]/70 space-y-3.5 animate-fade-in">
+        <div className="px-4 pb-4 pt-1 border-t border-slate-200 dark:border-[#1c3b73]/70 space-y-3.5 animate-fade-in">
           {/* City Search / GPS Controls */}
           <div className="flex flex-col sm:flex-row gap-2 pt-2">
             <form onSubmit={handleCitySearch} className="flex-1 flex gap-1.5">
               <div className="relative flex-1">
-                <Search className="w-3.5 h-3.5 text-cyan-300/70 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Search className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-300/70 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={cityQuery}
                   onChange={(e) => setCityQuery(e.target.value)}
                   placeholder="Probar o buscar otra ciudad (ej: Bahía Blanca, Tandil, Córdoba)..."
-                  className="w-full py-2 pl-8 pr-3 rounded-xl bg-[#040a1a] border border-[#244a8c] text-xs text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 pl-8 pr-3 rounded-xl bg-slate-50 dark:bg-[#040a1a] border border-slate-300 dark:border-[#244a8c] text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
               <button
@@ -271,7 +271,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                     setCityQuery('');
                     setSearchError('');
                   }}
-                  className="px-3 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/60 text-amber-200 font-bold text-xs transition"
+                  className="px-3 py-2 rounded-xl bg-amber-50 dark:bg-amber-500/20 hover:bg-amber-100 dark:hover:bg-amber-500/30 border border-amber-300 dark:border-amber-400/60 text-amber-800 dark:text-amber-200 font-bold text-xs transition"
                 >
                   Volver a mi GPS
                 </button>
@@ -287,7 +287,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                   }
                 }}
                 disabled={loadingPlaces}
-                className="px-3 py-2 rounded-xl bg-[#0b1f48] hover:bg-[#13306d] border border-cyan-400/50 text-cyan-200 font-bold text-xs inline-flex items-center gap-1.5 transition active:scale-95 disabled:opacity-60"
+                className="px-3 py-2 rounded-xl bg-sky-50 dark:bg-[#0b1f48] hover:bg-sky-100 dark:hover:bg-[#13306d] border border-sky-300 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200 font-bold text-xs inline-flex items-center gap-1.5 transition active:scale-95 disabled:opacity-60"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loadingPlaces ? 'animate-spin' : ''}`} />
                 <span>{activeTravelCoords ? 'Actualizar' : 'Activar GPS'}</span>
@@ -296,14 +296,14 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
           </div>
 
           {searchError && (
-            <p className="text-xs text-amber-300 bg-amber-950/50 border border-amber-500/40 rounded-xl px-3 py-2">
+            <p className="text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 border border-amber-300 dark:border-amber-500/40 rounded-xl px-3 py-2">
               {searchError}
             </p>
           )}
 
           {!activeTravelCoords ? (
-            <div className="p-4 rounded-2xl bg-[#040a1a] border border-cyan-500/40 text-center space-y-2">
-              <p className="text-xs text-[#cfe0ff]">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#040a1a] border border-sky-300 dark:border-cyan-500/40 text-center space-y-2">
+              <p className="text-xs text-slate-700 dark:text-[#cfe0ff]">
                 Activá el GPS del dispositivo ({gpsStatus || 'pendiente'}) o escribí arriba cualquier localidad del país para ver hospitales, guardias, farmacias y clima local en vivo.
               </p>
               <button
@@ -322,40 +322,40 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
             <>
               {/* Current Travel City + Local Weather Summary */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                <div className="p-3 rounded-2xl bg-[#040a1a]/90 border border-cyan-500/40 flex items-center justify-between gap-2">
+                <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#040a1a]/90 border border-sky-300 dark:border-cyan-500/40 flex items-center justify-between gap-2">
                   <div className="min-w-0">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-cyan-300 block">
                       {previewCoords ? 'Localidad consultada' : 'Localidad detectada por GPS'}
                     </span>
-                    <p className="text-sm font-black text-white truncate">{activePlaceLabel}</p>
+                    <p className="text-sm font-black text-slate-900 dark:text-white truncate">{activePlaceLabel}</p>
                     {locationInfo?.road && (
-                      <p className="text-[11px] text-[#9db6dd] truncate">Cerca de {locationInfo.road}</p>
+                      <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] truncate">Cerca de {locationInfo.road}</p>
                     )}
                   </div>
                   <a
                     href={`https://www.google.com/maps?q=${activeTravelCoords.lat},${activeTravelCoords.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-2.5 py-1.5 rounded-xl bg-[#0b1f48] hover:bg-[#143170] border border-cyan-400/50 text-cyan-200 text-[11px] font-bold inline-flex items-center gap-1 shrink-0"
+                    className="px-2.5 py-1.5 rounded-xl bg-sky-50 dark:bg-[#0b1f48] hover:bg-sky-100 dark:hover:bg-[#143170] border border-sky-300 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200 text-[11px] font-bold inline-flex items-center gap-1 shrink-0"
                   >
                     <MapPin className="w-3.5 h-3.5" />
                     <span>Ver mapa</span>
                   </a>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-[#040a1a]/90 border border-cyan-500/40 flex items-center justify-between gap-2">
+                <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#040a1a]/90 border border-sky-300 dark:border-cyan-500/40 flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <CloudSun className="w-6 h-6 text-cyan-300 shrink-0" />
+                    <CloudSun className="w-6 h-6 text-sky-700 dark:text-cyan-300 shrink-0" />
                     <div className="min-w-0">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300 block">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-cyan-300 block">
                         Clima en el lugar
                       </span>
                       {localWeather ? (
-                        <p className="text-xs font-bold text-white truncate">
+                        <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
                           {localWeather.temperature}°C · {localWeather.conditionText} · Viento {localWeather.windSpeed} km/h
                         </p>
                       ) : (
-                        <p className="text-xs text-[#9db6dd]">Consultando estación local...</p>
+                        <p className="text-xs text-slate-600 dark:text-[#9db6dd]">Consultando estación local...</p>
                       )}
                     </div>
                   </div>
@@ -368,7 +368,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                             ? 'bg-orange-500 text-black'
                             : localWeather.alertLevel === 'amarilla'
                               ? 'bg-amber-400 text-black'
-                              : 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/50'
+                              : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-400/50'
                       }`}
                     >
                       {localWeather.alertLevel === 'verde' ? 'Estable' : `Alerta ${localWeather.alertLevel}`}
@@ -398,14 +398,14 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
               </div>
 
               {/* Category Filter Tabs */}
-              <div className="grid grid-cols-3 gap-1.5 p-1 rounded-2xl bg-[#040a1a] border border-[#1d3b75]">
+              <div className="grid grid-cols-3 gap-1.5 p-1 rounded-2xl bg-slate-50 dark:bg-[#040a1a] border border-slate-200 dark:border-[#1d3b75]">
                 <button
                   type="button"
                   onClick={() => setActiveCategory('hospital')}
                   className={`py-2 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
                     activeCategory === 'hospital'
                       ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow'
-                      : 'text-[#9db6dd] hover:text-white'
+                      : 'text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white'
                   }`}
                 >
                   <Hospital className="w-3.5 h-3.5 shrink-0" />
@@ -417,7 +417,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                   className={`py-2 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
                     activeCategory === 'pharmacy'
                       ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-gray-950 font-black shadow'
-                      : 'text-[#9db6dd] hover:text-white'
+                      : 'text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white'
                   }`}
                 >
                   <Pill className="w-3.5 h-3.5 shrink-0" />
@@ -429,7 +429,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                   className={`py-2 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
                     activeCategory === 'police'
                       ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow'
-                      : 'text-[#9db6dd] hover:text-white'
+                      : 'text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white'
                   }`}
                 >
                   <Shield className="w-3.5 h-3.5 shrink-0" />
@@ -438,8 +438,8 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
               </div>
 
               {activeCategory === 'pharmacy' && (
-                <div className="p-2.5 rounded-xl bg-amber-950/35 border border-amber-400/40 flex items-start gap-2 text-[11px] text-amber-100/90">
-                  <AlertTriangle className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/35 border border-amber-300 dark:border-amber-400/40 flex items-start gap-2 text-[11px] text-amber-800 dark:text-amber-100/90">
+                  <AlertTriangle className="w-4 h-4 text-amber-700 dark:text-amber-300 shrink-0 mt-0.5" />
                   <span>
                     Los turnos rotativos nocturnos dependen de cada Colegio de Farmacéuticos local. Acá ves las farmacias más cercanas por GPS y podés verificar abiertas ahora en Google Maps con 1 toque.
                   </span>
@@ -448,13 +448,13 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
 
               {/* Results List */}
               {loadingPlaces && visiblePlaces.length === 0 ? (
-                <div className="p-6 rounded-2xl bg-[#040a1a] border border-[#1d3b75] text-center text-xs text-cyan-200 flex items-center justify-center gap-2">
+                <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#040a1a] border border-slate-200 dark:border-[#1d3b75] text-center text-xs text-sky-800 dark:text-cyan-200 flex items-center justify-center gap-2">
                   <RefreshCw className="w-4 h-4 animate-spin" />
                   <span>Buscando centros de salud y farmacias reales alrededor de {activePlaceLabel}...</span>
                 </div>
               ) : visiblePlaces.length === 0 ? (
-                <div className="p-4 rounded-2xl bg-[#040a1a] border border-[#1d3b75] text-center space-y-2.5">
-                  <p className="text-xs text-[#cfe0ff]">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#040a1a] border border-slate-200 dark:border-[#1d3b75] text-center space-y-2.5">
+                  <p className="text-xs text-slate-700 dark:text-[#cfe0ff]">
                     {placesSource === 'unavailable'
                       ? 'El mapa abierto está momentáneamente saturado o sin señal para esta consulta.'
                       : 'No encontramos registros detallados de esta categoría dentro de 15 km en el mapa abierto.'}
@@ -474,27 +474,27 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                   {visiblePlaces.map((place) => (
                     <div
                       key={place.id}
-                      className="p-3 rounded-2xl bg-[#040a1a]/95 border border-[#1f407d] hover:border-cyan-400/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2.5"
+                      className="p-3 rounded-2xl bg-slate-50 dark:bg-[#040a1a]/95 border border-slate-300 dark:border-[#1f407d] hover:border-sky-500 dark:hover:border-cyan-400/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-2.5"
                     >
                       <div className="min-w-0 space-y-0.5">
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <h3 className="text-xs sm:text-sm font-black text-white truncate">
+                          <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">
                             {place.name}
                           </h3>
                           {place.is24h && (
-                            <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-black text-[10px]">
+                            <span className="px-1.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-400/50 text-emerald-700 dark:text-emerald-300 font-black text-[10px]">
                               24 HS
                             </span>
                           )}
-                          <span className="px-2 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-200 font-bold text-[10px]">
+                          <span className="px-2 py-0.5 rounded-full bg-sky-100 dark:bg-cyan-500/15 border border-cyan-400/40 text-sky-800 dark:text-cyan-200 font-bold text-[10px]">
                             {formatPharmacyDistanceBadge(place.distMeters, { includeApprox: true })}
                           </span>
                         </div>
-                        <p className="text-[11px] text-[#9db6dd] truncate">
+                        <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] truncate">
                           {place.subtitle} · {place.address}
                         </p>
                         {place.openingHours && (
-                          <p className="text-[10px] text-slate-400 font-mono truncate">
+                          <p className="text-[10px] text-slate-600 dark:text-slate-400 font-mono truncate">
                             Horario mapa: {place.openingHours}
                           </p>
                         )}
@@ -523,7 +523,7 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3 py-2 rounded-xl bg-[#0e2961] hover:bg-[#163a85] border border-cyan-400/60 text-cyan-200 font-bold text-xs inline-flex items-center gap-1 active:scale-95 transition"
+                          className="px-3 py-2 rounded-xl bg-sky-50 dark:bg-[#0e2961] hover:bg-sky-100 dark:hover:bg-[#163a85] border border-sky-300 dark:border-cyan-400/60 text-sky-800 dark:text-cyan-200 font-bold text-xs inline-flex items-center gap-1 active:scale-95 transition"
                         >
                           <Navigation className="w-3.5 h-3.5" />
                           <span>Cómo llegar</span>
@@ -536,14 +536,14 @@ export const TravelModeSection: React.FC<TravelModeSectionProps> = ({
 
               {/* Bottom Google Maps Quick Fallback */}
               <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                <span className="text-[10px] text-slate-400">
+                <span className="text-[10px] text-slate-600 dark:text-slate-400">
                   Fuente abierta en tiempo real (OpenStreetMap + Open-Meteo) · Radio 15 km
                 </span>
                 <a
                   href={getNearbyMapSearchUrl(mapsFallbackQuery, activeTravelCoords)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-bold text-cyan-300 hover:text-cyan-200 inline-flex items-center gap-1"
+                  className="text-xs font-bold text-sky-700 dark:text-cyan-300 hover:text-sky-800 dark:hover:text-cyan-200 inline-flex items-center gap-1"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>Abrir «{mapsFallbackQuery}» en Google Maps</span>

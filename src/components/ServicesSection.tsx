@@ -517,10 +517,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
     <div className="space-y-4 my-5">
       {/* Section Header */}
       <div className="flex items-center justify-between px-1">
-        <span className="text-[11px] font-mono uppercase tracking-[0.16em] text-[#8db4f0] font-semibold">
+        <span className="text-[11px] font-mono uppercase tracking-[0.16em] text-sky-700 dark:text-[#8db4f0] font-semibold">
           Sponsors Esenciales · Punta Alta
         </span>
-        <span className="text-[10px] font-mono text-cyan-400/80 uppercase">
+        <span className="text-[10px] font-mono text-sky-700 dark:text-cyan-400/80 uppercase">
           Comercios Adheridos
         </span>
       </div>
@@ -528,12 +528,12 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       {/* 1. FARMACIA DESTACADA (Compact Aerospace Card) */}
       <section
         id="salud"
-        className="relative rounded-2xl bg-[#060d20] border border-[#1a3366] shadow-xl overflow-hidden transition-colors"
+        className="relative rounded-2xl bg-slate-50 dark:bg-[#060d20] border border-slate-200 dark:border-[#1a3366] shadow-xl overflow-hidden transition-colors"
       >
         {/* Top Accent Bar & Precision Corner Reticles */}
         <div className="h-0.5 w-full bg-gradient-to-r from-emerald-400/80 via-[#37c8ff]/80 to-transparent" />
-        <span aria-hidden="true" className="pointer-events-none absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-cyan-400/70 rounded-tl-sm" />
-        <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-cyan-400/70 rounded-br-sm" />
+        <span aria-hidden="true" className="pointer-events-none absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-sky-300 dark:border-cyan-400/70 rounded-tl-sm" />
+        <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-sky-300 dark:border-cyan-400/70 rounded-br-sm" />
 
         <div className="p-3.5 sm:p-4 space-y-3">
           {/* Compact Top Split Header: Thumbnail + Business Identity */}
@@ -542,7 +542,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               href={activePharmacy.streetViewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative w-20 h-20 sm:w-28 sm:h-24 rounded-xl overflow-hidden border border-[#24478a] bg-black shrink-0 group"
+              className="relative w-20 h-20 sm:w-28 sm:h-24 rounded-xl overflow-hidden border border-slate-300 dark:border-[#24478a] bg-black shrink-0 group"
               title="Ver fachada en Google Maps"
             >
               <img
@@ -551,7 +551,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
               />
-              <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/80 border border-white/30 text-[9px] font-mono text-cyan-300 flex items-center gap-0.5">
+              <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-slate-950/65 dark:bg-black/80 border border-white/30 text-[9px] font-mono text-cyan-300 flex items-center gap-0.5">
                 <ExternalLink className="w-2.5 h-2.5" />
                 Maps
               </span>
@@ -559,7 +559,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 text-[10px] font-mono font-bold uppercase tracking-wider truncate">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-400/40 text-emerald-700 dark:text-emerald-300 text-[10px] font-mono font-bold uppercase tracking-wider truncate">
                   <Pill className="w-3 h-3 shrink-0" />
                   <span className="truncate">Farmacia Destacada</span>
                 </span>
@@ -572,8 +572,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     title="Administrar sponsor"
                     className={`p-1 rounded-lg transition-all duration-200 shrink-0 ${
                       isAdAdminUnlocked && editingTarget === 'pharmacy'
-                        ? 'bg-cyan-500/20 border border-cyan-400/70 opacity-100 text-cyan-300'
-                        : 'bg-transparent opacity-60 hover:opacity-100 focus:opacity-100 text-[#7ca4e8]'
+                        ? 'bg-sky-100 dark:bg-cyan-500/20 border border-cyan-400/70 opacity-100 text-sky-700 dark:text-cyan-300'
+                        : 'bg-transparent opacity-60 hover:opacity-100 focus:opacity-100 text-sky-700 dark:text-[#7ca4e8]'
                     }`}
                   >
                     <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -585,20 +585,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 )}
               </div>
 
-              <h2 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-white leading-tight mt-1 truncate">
+              <h2 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-slate-900 dark:text-white leading-tight mt-1 truncate">
                 {activePharmacy.name}
               </h2>
-              <p className="text-xs text-[#37c8ff] font-medium truncate">
+              <p className="text-xs text-sky-700 dark:text-[#37c8ff] font-medium truncate">
                 {activePharmacy.tagline}
               </p>
 
-              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 mt-1.5 text-[11px] text-[#b4c8ea]">
-                <span className="inline-flex items-center gap-1 font-semibold text-white">
-                  <MapPin className="w-3 h-3 text-cyan-400 shrink-0" />
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 mt-1.5 text-[11px] text-slate-700 dark:text-[#b4c8ea]">
+                <span className="inline-flex items-center gap-1 font-semibold text-slate-900 dark:text-white">
+                  <MapPin className="w-3 h-3 text-sky-700 dark:text-cyan-400 shrink-0" />
                   <span className="truncate">{activePharmacy.address}</span>
                 </span>
                 {pharmacyDistKm != null && (
-                  <span className="font-mono tabular-nums text-emerald-300 font-bold">
+                  <span className="font-mono tabular-nums text-emerald-700 dark:text-emerald-300 font-bold">
                     · a {pharmacyDistKm < 1 ? `${Math.round(pharmacyDistKm * 1000)} m` : `${pharmacyDistKm.toFixed(1).replace('.', ',')} km`}
                   </span>
                 )}
@@ -607,26 +607,26 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           </div>
 
           {/* Concise Description + Compact Highlights */}
-          <p className="text-xs text-[#9db6dd] leading-relaxed line-clamp-2">
+          <p className="text-xs text-slate-600 dark:text-[#9db6dd] leading-relaxed line-clamp-2">
             {activePharmacy.description}
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 rounded-xl bg-[#08132c] border border-[#162d59] text-[11px] text-[#9db6dd]">
-            <span className="inline-flex items-center gap-1 text-white font-mono tabular-nums font-bold">
-              <Phone className="w-3 h-3 text-emerald-400 shrink-0" />
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 rounded-xl bg-white dark:bg-[#08132c] border border-slate-200 dark:border-[#162d59] text-[11px] text-slate-600 dark:text-[#9db6dd]">
+            <span className="inline-flex items-center gap-1 text-slate-900 dark:text-white font-mono tabular-nums font-bold">
+              <Phone className="w-3 h-3 text-emerald-700 dark:text-emerald-400 shrink-0" />
               {activePharmacy.phone}
             </span>
-            <span className="text-[#35538f]" aria-hidden="true">|</span>
+            <span className="text-slate-500 dark:text-[#35538f]" aria-hidden="true">|</span>
             <span className="inline-flex items-center gap-1 truncate flex-1 min-w-[160px]">
-              <Clock className="w-3 h-3 text-cyan-400 shrink-0" />
+              <Clock className="w-3 h-3 text-sky-700 dark:text-cyan-400 shrink-0" />
               <span className="truncate">{activePharmacy.hours}</span>
             </span>
           </div>
 
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-[#8ba6d6]">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-600 dark:text-[#8ba6d6]">
             {activePharmacy.highlights.slice(0, 3).map((h, i) => (
               <span key={i} className="inline-flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-3 h-3 text-emerald-700 dark:text-emerald-400 shrink-0" />
                 <span>{h}</span>
               </span>
             ))}
@@ -648,7 +648,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 href={`https://wa.me/${activePharmacy.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="sm:flex-1 min-h-[40px] py-2 px-3 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/70 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+                className="sm:flex-1 min-h-[40px] py-2 px-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 hover:bg-emerald-100 dark:hover:bg-emerald-900 border border-emerald-300 dark:border-emerald-500/70 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>WhatsApp</span>
@@ -660,9 +660,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               title="Abrir redes sociales de Farmacia Verón"
-              className="min-h-[40px] py-2 px-3 rounded-xl bg-[#101c42] hover:bg-[#192c66] border border-fuchsia-400/55 text-fuchsia-200 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+              className="min-h-[40px] py-2 px-3 rounded-xl bg-sky-50 dark:bg-[#101c42] hover:bg-sky-100 dark:hover:bg-[#192c66] border border-fuchsia-300 dark:border-fuchsia-400/55 text-fuchsia-800 dark:text-fuchsia-200 hover:text-slate-950 dark:hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
             >
-              <Share2 className="w-3.5 h-3.5 text-fuchsia-300" />
+              <Share2 className="w-3.5 h-3.5 text-fuchsia-700 dark:text-fuchsia-300" />
               <span className="truncate">{activePharmacy.socialLabel || 'Redes Sociales'}</span>
             </a>
 
@@ -676,7 +676,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 }, coords)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 min-h-[40px] py-2 px-3 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-[#37c8ff]/60 text-[#37c8ff] hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition"
+                className="flex-1 min-h-[40px] py-2 px-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-[#37c8ff]/60 text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition"
               >
                 <Navigation className="w-3.5 h-3.5" />
                 <span>Mapa</span>
@@ -688,7 +688,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 className={`min-h-[40px] min-w-[40px] px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition active:scale-95 ${
                   isSpeakingVeron
                     ? 'bg-red-600 text-white border border-red-400'
-                    : 'bg-[#08132c] hover:bg-[#10244d] border border-[#24478a] text-cyan-300 hover:text-white'
+                    : 'bg-white dark:bg-[#08132c] hover:bg-sky-100 dark:hover:bg-[#10244d] border border-slate-300 dark:border-[#24478a] text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white'
                 }`}
                 aria-label={isSpeakingVeron ? 'Silenciar voz' : 'Escuchar dirección y teléfono'}
                 title={isSpeakingVeron ? 'Silenciar voz' : 'Escuchar dirección y teléfono'}
@@ -703,11 +703,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       {/* 2. REMIS CENTRO (Compact Aerospace Card) */}
       <section
         id="transporte"
-        className="relative rounded-2xl bg-[#060d20] border border-[#1a3366] shadow-xl overflow-hidden transition-colors"
+        className="relative rounded-2xl bg-slate-50 dark:bg-[#060d20] border border-slate-200 dark:border-[#1a3366] shadow-xl overflow-hidden transition-colors"
       >
         <div className="h-0.5 w-full bg-gradient-to-r from-amber-400/80 via-orange-400/70 to-transparent" />
-        <span aria-hidden="true" className="pointer-events-none absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-amber-400/70 rounded-tl-sm" />
-        <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-amber-400/70 rounded-br-sm" />
+        <span aria-hidden="true" className="pointer-events-none absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-amber-300 dark:border-amber-400/70 rounded-tl-sm" />
+        <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-amber-300 dark:border-amber-400/70 rounded-br-sm" />
 
         <div className="p-3.5 sm:p-4 space-y-3">
           {/* Compact Top Split Header */}
@@ -716,7 +716,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               href={activeRemis.streetViewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative w-20 h-20 sm:w-28 sm:h-24 rounded-xl overflow-hidden border border-amber-500/40 bg-black shrink-0 group"
+              className="relative w-20 h-20 sm:w-28 sm:h-24 rounded-xl overflow-hidden border border-amber-300 dark:border-amber-500/40 bg-black shrink-0 group"
               title="Ver fachada en Google Maps"
             >
               <img
@@ -725,7 +725,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
               />
-              <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/80 border border-white/30 text-[9px] font-mono text-amber-300 flex items-center gap-0.5">
+              <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-slate-950/65 dark:bg-black/80 border border-white/30 text-[9px] font-mono text-amber-300 flex items-center gap-0.5">
                 <ExternalLink className="w-2.5 h-2.5" />
                 Maps
               </span>
@@ -733,7 +733,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-400/40 text-amber-300 text-[10px] font-mono font-bold uppercase tracking-wider truncate">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-500/15 border border-amber-300 dark:border-amber-400/40 text-amber-700 dark:text-amber-300 text-[10px] font-mono font-bold uppercase tracking-wider truncate">
                   <Car className="w-3 h-3 shrink-0" />
                   <span className="truncate">Remisería 24 Hs</span>
                 </span>
@@ -746,8 +746,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     title="Administrar sponsor"
                     className={`p-1 rounded-lg transition-all duration-200 shrink-0 ${
                       isAdAdminUnlocked && editingTarget === 'remis'
-                        ? 'bg-amber-500/20 border border-amber-400/70 opacity-100 text-amber-300'
-                        : 'bg-transparent opacity-60 hover:opacity-100 focus:opacity-100 text-amber-300/70'
+                        ? 'bg-amber-50 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/70 opacity-100 text-amber-700 dark:text-amber-300'
+                        : 'bg-transparent opacity-60 hover:opacity-100 focus:opacity-100 text-amber-700 dark:text-amber-300/70'
                     }`}
                   >
                     <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -759,42 +759,42 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 )}
               </div>
 
-              <h2 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-white leading-tight mt-1 truncate">
+              <h2 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-slate-900 dark:text-white leading-tight mt-1 truncate">
                 {activeRemis.name}
               </h2>
-              <p className="text-xs text-amber-300 font-medium truncate">
+              <p className="text-xs text-amber-700 dark:text-amber-300 font-medium truncate">
                 {activeRemis.tagline}
               </p>
 
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1.5 text-[11px] text-[#b4c8ea]">
-                <span className="inline-flex items-center gap-1 font-semibold text-white">
-                  <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1.5 text-[11px] text-slate-700 dark:text-[#b4c8ea]">
+                <span className="inline-flex items-center gap-1 font-semibold text-slate-900 dark:text-white">
+                  <MapPin className="w-3 h-3 text-amber-700 dark:text-amber-400 shrink-0" />
                   <span className="truncate">{activeRemis.address}</span>
                 </span>
               </div>
             </div>
           </div>
 
-          <p className="text-xs text-[#9db6dd] leading-relaxed line-clamp-2">
+          <p className="text-xs text-slate-600 dark:text-[#9db6dd] leading-relaxed line-clamp-2">
             {activeRemis.description}
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 rounded-xl bg-[#08132c] border border-[#162d59] text-[11px] text-[#9db6dd]">
-            <span className="inline-flex items-center gap-1 text-white font-mono tabular-nums font-bold">
-              <Phone className="w-3 h-3 text-emerald-400 shrink-0" />
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 rounded-xl bg-white dark:bg-[#08132c] border border-slate-200 dark:border-[#162d59] text-[11px] text-slate-600 dark:text-[#9db6dd]">
+            <span className="inline-flex items-center gap-1 text-slate-900 dark:text-white font-mono tabular-nums font-bold">
+              <Phone className="w-3 h-3 text-emerald-700 dark:text-emerald-400 shrink-0" />
               {activeRemis.phone}
             </span>
-            <span className="text-[#35538f]" aria-hidden="true">|</span>
-            <span className="inline-flex items-center gap-1 truncate flex-1 min-w-[160px] text-amber-200/90">
-              <Clock className="w-3 h-3 text-amber-400 shrink-0" />
+            <span className="text-slate-500 dark:text-[#35538f]" aria-hidden="true">|</span>
+            <span className="inline-flex items-center gap-1 truncate flex-1 min-w-[160px] text-amber-800 dark:text-amber-200/90">
+              <Clock className="w-3 h-3 text-amber-700 dark:text-amber-400 shrink-0" />
               <span className="truncate">{activeRemis.hours}</span>
             </span>
           </div>
 
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-[#8ba6d6]">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-600 dark:text-[#8ba6d6]">
             {activeRemis.highlights.slice(0, 3).map((h, i) => (
               <span key={i} className="inline-flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-amber-400 shrink-0" />
+                <CheckCircle2 className="w-3 h-3 text-amber-700 dark:text-amber-400 shrink-0" />
                 <span>{h}</span>
               </span>
             ))}
@@ -816,7 +816,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 href={`https://wa.me/${activeRemis.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="sm:flex-1 min-h-[40px] py-2 px-3 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/70 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+                className="sm:flex-1 min-h-[40px] py-2 px-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 hover:bg-emerald-100 dark:hover:bg-emerald-900 border border-emerald-300 dark:border-emerald-500/70 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>WhatsApp</span>
@@ -828,9 +828,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               title="Abrir redes sociales de Remis Centro 24 Hs"
-              className="min-h-[40px] py-2 px-3 rounded-xl bg-[#101c42] hover:bg-[#192c66] border border-fuchsia-400/55 text-fuchsia-200 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+              className="min-h-[40px] py-2 px-3 rounded-xl bg-sky-50 dark:bg-[#101c42] hover:bg-sky-100 dark:hover:bg-[#192c66] border border-fuchsia-300 dark:border-fuchsia-400/55 text-fuchsia-800 dark:text-fuchsia-200 hover:text-slate-950 dark:hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
             >
-              <Share2 className="w-3.5 h-3.5 text-fuchsia-300" />
+              <Share2 className="w-3.5 h-3.5 text-fuchsia-700 dark:text-fuchsia-300" />
               <span className="truncate">{activeRemis.socialLabel || 'Redes Sociales'}</span>
             </a>
 
@@ -843,7 +843,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
               }, coords)}
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[40px] py-2 px-3 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-[#37c8ff]/60 text-[#37c8ff] hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition"
+              className="min-h-[40px] py-2 px-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-[#37c8ff]/60 text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition"
             >
               <Navigation className="w-3.5 h-3.5" />
               <span>Mapa</span>
@@ -853,13 +853,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       </section>
 
       {/* 3. COMPACT BUSINESS SPONSORSHIP INVITATION BAR */}
-      <div className="px-4 py-3.5 rounded-2xl bg-[#060d20] border border-[#1a3366] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="px-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-[#060d20] border border-slate-200 dark:border-[#1a3366] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="space-y-0.5 min-w-0">
-          <div className="inline-flex items-center gap-1.5 text-[#37c8ff] text-[10px] font-mono font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 text-sky-700 dark:text-[#37c8ff] text-[10px] font-mono font-bold uppercase tracking-wider">
             <Megaphone className="w-3.5 h-3.5 shrink-0" />
             <span>Espacio Comercial · Punta Alta</span>
           </div>
-          <h3 className="text-sm font-bold font-heading text-white leading-snug">
+          <h3 className="text-sm font-bold font-heading text-slate-900 dark:text-white leading-snug">
             {SPONSOR_CONTACT.title}
           </h3>
         </div>
@@ -867,9 +867,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           href={sponsorWhatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 inline-flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-[#37c8ff]/70 text-white font-bold text-xs transition active:scale-95"
+          className="shrink-0 inline-flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-[#37c8ff]/70 text-slate-900 dark:text-white font-bold text-xs transition active:scale-95"
         >
-          <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+          <MessageSquare className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
           <span>Publicitar comercio</span>
         </a>
       </div>
@@ -877,25 +877,25 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
       {/* Modal centrado de clave única, recuperación y edición de Publicidad (Farmacia y Remís) */}
       {(showAdminPinPrompt || isAdAdminUnlocked) && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/65 dark:bg-black/80 backdrop-blur-sm animate-fade-in"
           role="dialog"
           aria-modal="true"
           aria-label="Administración de Sponsors · Vortex ID"
         >
-          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-[#040a1b] border-2 border-cyan-400/70 shadow-2xl shadow-blue-950 p-4 sm:p-5 space-y-3">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-slate-50 dark:bg-[#040a1b] border-2 border-sky-300 dark:border-cyan-400/70 shadow-2xl shadow-blue-950 p-4 sm:p-5 space-y-3">
             {showAdminPinPrompt && !isAdAdminUnlocked && (
               <div className="space-y-3">
                 {!showRecoveryMode ? (
                   <form onSubmit={handleVerifyPinSubmit} className="space-y-3">
-                    <div className="flex items-center justify-between gap-2 border-b border-cyan-500/30 pb-2">
-                      <span className="text-xs sm:text-sm font-black text-cyan-300 flex items-center gap-1.5 uppercase tracking-wide">
+                    <div className="flex items-center justify-between gap-2 border-b border-sky-300 dark:border-cyan-500/30 pb-2">
+                      <span className="text-xs sm:text-sm font-black text-sky-700 dark:text-cyan-300 flex items-center gap-1.5 uppercase tracking-wide">
                         <Lock className="w-4 h-4" />
                         <span>Clave de Administrador · Sponsors ({editingTarget === 'remis' ? 'Remís' : 'Farmacia'})</span>
                       </span>
                       <button
                         type="button"
                         onClick={() => setShowAdminPinPrompt(false)}
-                        className="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-white/10 transition"
+                        className="text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white p-1 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 transition"
                         aria-label="Cerrar"
                       >
                         <X className="w-4 h-4" />
@@ -914,13 +914,13 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                             if (adminPinError) setAdminPinError('');
                           }}
                           placeholder="Clave única..."
-                          className="w-full py-2.5 pl-3 pr-10 rounded-xl bg-[#0a1838] border border-cyan-500/50 text-sm text-white font-mono tracking-widest text-center focus:outline-none focus:border-cyan-300"
+                          className="w-full py-2.5 pl-3 pr-10 rounded-xl bg-white dark:bg-[#0a1838] border border-sky-300 dark:border-cyan-500/50 text-sm text-slate-900 dark:text-white font-mono tracking-widest text-center focus:outline-none focus:border-sky-500 dark:focus:border-cyan-300"
                           autoFocus
                         />
                         <button
                           type="button"
                           onClick={() => setShowAdminPin((prev) => !prev)}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-cyan-300 hover:text-white hover:bg-white/10 transition"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/10 transition"
                           aria-label={showAdminPin ? 'Ocultar clave' : 'Ver clave'}
                           title={showAdminPin ? 'Ocultar clave' : 'Ver clave'}
                         >
@@ -938,7 +938,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     </div>
 
                     {adminPinError && (
-                      <p className="text-xs text-red-400 font-semibold">{adminPinError}</p>
+                      <p className="text-xs text-red-700 dark:text-red-400 font-semibold">{adminPinError}</p>
                     )}
 
                     <div className="flex items-center justify-between pt-0.5">
@@ -951,7 +951,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                           setRecoverySuccess('');
                           setShowRecoveryMode(true);
                         }}
-                        className="text-xs text-cyan-300 hover:text-white underline underline-offset-4 flex items-center gap-1 transition"
+                        className="text-xs text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white underline underline-offset-4 flex items-center gap-1 transition"
                       >
                         <HelpCircle className="w-3.5 h-3.5" />
                         <span>¿Olvidaste tu clave? Recuperar</span>
@@ -960,8 +960,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   </form>
                 ) : (
                   <form onSubmit={handleRecoverPinSubmit} className="space-y-3 animate-fade-in">
-                    <div className="flex items-center justify-between gap-2 border-b border-cyan-500/30 pb-2">
-                      <span className="text-xs sm:text-sm font-black text-cyan-300 flex items-center gap-1.5">
+                    <div className="flex items-center justify-between gap-2 border-b border-sky-300 dark:border-cyan-500/30 pb-2">
+                      <span className="text-xs sm:text-sm font-black text-sky-700 dark:text-cyan-300 flex items-center gap-1.5">
                         <KeyRound className="w-4 h-4" />
                         <span>Recuperar Clave Única</span>
                       </span>
@@ -973,14 +973,14 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                             setRecoveryError('');
                             setRecoverySuccess('');
                           }}
-                          className="text-xs text-gray-300 hover:text-white"
+                          className="text-xs text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white"
                         >
                           ← Volver
                         </button>
                         <button
                           type="button"
                           onClick={() => setShowAdminPinPrompt(false)}
-                          className="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-white/10"
+                          className="text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white p-1 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10"
                           aria-label="Cerrar"
                         >
                           <X className="w-4 h-4" />
@@ -988,15 +988,15 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       </div>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-[#0a1838] border border-cyan-500/30 flex items-center justify-between gap-2 flex-wrap">
+                    <div className="p-2.5 rounded-xl bg-white dark:bg-[#0a1838] border border-sky-300 dark:border-cyan-500/30 flex items-center justify-between gap-2 flex-wrap">
                       {isAdmin ? (
-                        <span className="text-[11px] text-emerald-300 font-bold flex items-center gap-1.5">
-                          <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span className="text-[11px] text-emerald-700 dark:text-emerald-300 font-bold flex items-center gap-1.5">
+                          <ShieldCheck className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
                           <span>Admin verificado ({user?.email})</span>
                         </span>
                       ) : (
                         <>
-                          <span className="text-[11px] text-cyan-200">
+                          <span className="text-[11px] text-sky-800 dark:text-cyan-200">
                             Verificación rápida con tu Google Admin:
                           </span>
                           <button
@@ -1019,7 +1019,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                           if (recoveryError) setRecoveryError('');
                         }}
                         placeholder={isAdmin ? (user?.email || 'omlupa@gmail.com') : 'Correo o WhatsApp admin'}
-                        className="w-full py-2 px-3 rounded-xl bg-[#0a1838] border border-[#1e3f8f] text-xs text-white focus:outline-none focus:border-cyan-400"
+                        className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#0a1838] border border-slate-300 dark:border-[#1e3f8f] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                       />
 
                       <div className="relative">
@@ -1033,12 +1033,12 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                             if (recoveryError) setRecoveryError('');
                           }}
                           placeholder="Nueva clave (vacío = 1234)"
-                          className="w-full py-2 pl-3 pr-9 rounded-xl bg-[#0a1838] border border-[#1e3f8f] text-xs font-mono text-white focus:outline-none focus:border-cyan-400"
+                          className="w-full py-2 pl-3 pr-9 rounded-xl bg-white dark:bg-[#0a1838] border border-slate-300 dark:border-[#1e3f8f] text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                         />
                         <button
                           type="button"
                           onClick={() => setShowRecoveryPin((prev) => !prev)}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-cyan-300 hover:text-white"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white"
                           aria-label={showRecoveryPin ? 'Ocultar nueva clave' : 'Ver nueva clave'}
                         >
                           {showRecoveryPin ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -1047,10 +1047,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     </div>
 
                     {recoveryError && (
-                      <p className="text-[11px] text-red-400 font-semibold">{recoveryError}</p>
+                      <p className="text-[11px] text-red-700 dark:text-red-400 font-semibold">{recoveryError}</p>
                     )}
                     {recoverySuccess && (
-                      <p className="text-[11px] text-emerald-300 font-bold">{recoverySuccess}</p>
+                      <p className="text-[11px] text-emerald-700 dark:text-emerald-300 font-bold">{recoverySuccess}</p>
                     )}
 
                     <button
@@ -1067,10 +1067,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
 
             {isAdAdminUnlocked && (
               <form onSubmit={handleSaveAdChanges} className="space-y-3 animate-fade-in">
-                <div className="flex items-center justify-between flex-wrap gap-2 border-b border-cyan-500/30 pb-2.5">
+                <div className="flex items-center justify-between flex-wrap gap-2 border-b border-sky-300 dark:border-cyan-500/30 pb-2.5">
                   <div className="flex items-center gap-2">
-                    <Unlock className="w-4 h-4 text-emerald-400" />
-                    <span className="text-xs font-black uppercase tracking-wider text-cyan-200">
+                    <Unlock className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
+                    <span className="text-xs font-black uppercase tracking-wider text-sky-800 dark:text-cyan-200">
                       Modo Admin · Editar Sponsors Destacados
                     </span>
                   </div>
@@ -1082,7 +1082,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       setShowAdminPinPrompt(false);
                       setVerifiedAdminPin('');
                     }}
-                    className="px-2.5 py-1 rounded-lg bg-red-950/70 hover:bg-red-900 border border-red-500/60 text-[11px] font-bold text-red-200 flex items-center gap-1"
+                    className="px-2.5 py-1 rounded-lg bg-red-50 dark:bg-red-950/70 hover:bg-red-100 dark:hover:bg-red-900 border border-red-300 dark:border-red-500/60 text-[11px] font-bold text-red-800 dark:text-red-200 flex items-center gap-1"
                   >
                     <Lock className="w-3 h-3" />
                     <span>Cerrar y Bloquear</span>
@@ -1096,8 +1096,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     onClick={() => setEditingTarget('pharmacy')}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition ${
                       editingTarget === 'pharmacy'
-                        ? 'bg-cyan-500/20 border-cyan-400 text-white'
-                        : 'bg-[#07122c] border-[#1e3f8f] text-gray-400 hover:text-white'
+                        ? 'bg-sky-100 dark:bg-cyan-500/20 border-cyan-400 text-white'
+                        : 'bg-white dark:bg-[#07122c] border-slate-300 dark:border-[#1e3f8f] text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white'
                     }`}
                   >
                     💊 Farmacia Publicitada
@@ -1107,8 +1107,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     onClick={() => setEditingTarget('remis')}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition ${
                       editingTarget === 'remis'
-                        ? 'bg-amber-500/20 border-amber-400 text-white'
-                        : 'bg-[#07122c] border-[#1e3f8f] text-gray-400 hover:text-white'
+                        ? 'bg-amber-50 dark:bg-amber-500/20 border-amber-400 dark:border-amber-400 text-slate-900 dark:text-white'
+                        : 'bg-white dark:bg-[#07122c] border-slate-300 dark:border-[#1e3f8f] text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white'
                     }`}
                   >
                     🚕 Remís Publicitado
@@ -1116,11 +1116,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 </div>
 
                 {/* Subir / cambiar foto de fachada */}
-                <div className="p-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] flex flex-col sm:flex-row items-center gap-3">
+                <div className="p-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] flex flex-col sm:flex-row items-center gap-3">
                   <img
                     src={previewEditPhoto}
                     alt="Vista previa de fachada"
-                    className="w-24 h-16 rounded-lg object-cover border border-cyan-500/40 shrink-0"
+                    className="w-24 h-16 rounded-lg object-cover border border-sky-300 dark:border-cyan-500/40 shrink-0"
                   />
                   <div className="flex-1 space-y-1.5 text-center sm:text-left">
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
@@ -1138,17 +1138,17 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                         <button
                           type="button"
                           onClick={() => setAdForm((prev) => ({ ...prev, image: '' }))}
-                          className="px-2.5 py-1.5 rounded-lg bg-black/50 border border-gray-600 text-[11px] text-gray-300 hover:text-white"
+                          className="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-black/50 border border-slate-300 dark:border-gray-600 text-[11px] text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white"
                         >
                           Usar foto oficial
                         </button>
                       )}
                     </div>
-                    <p className="text-[11px] text-[#9db6dd]">
+                    <p className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                       La foto se optimiza automáticamente para cargar rápido en celulares y en Netlify.
                     </p>
                     {photoUploadError && (
-                      <p className="text-[11px] text-red-400 font-bold">{photoUploadError}</p>
+                      <p className="text-[11px] text-red-700 dark:text-red-400 font-bold">{photoUploadError}</p>
                     )}
                   </div>
                 </div>
@@ -1156,7 +1156,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 {/* Campos editables de la publicidad */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Nombre del comercio:
                     </label>
                     <input
@@ -1164,11 +1164,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={120}
                       value={adForm.name || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, name: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Etiqueta superior (Badge):
                     </label>
                     <input
@@ -1176,11 +1176,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={160}
                       value={adForm.badge || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, badge: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Subtítulo / Eslogan:
                     </label>
                     <input
@@ -1188,11 +1188,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={200}
                       value={adForm.tagline || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, tagline: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Descripción comercial:
                     </label>
                     <textarea
@@ -1200,11 +1200,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={1000}
                       value={adForm.description || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, description: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white resize-none"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white resize-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Dirección:
                     </label>
                     <input
@@ -1212,11 +1212,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={200}
                       value={adForm.address || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, address: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Horarios de atención:
                     </label>
                     <input
@@ -1224,11 +1224,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={240}
                       value={adForm.hours || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, hours: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Teléfono visible:
                     </label>
                     <input
@@ -1236,11 +1236,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={48}
                       value={adForm.phone || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, phone: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white font-mono"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white font-mono"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       WhatsApp (ej: 5492932427979):
                     </label>
                     <input
@@ -1248,11 +1248,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       maxLength={48}
                       value={adForm.whatsapp || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, whatsapp: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white font-mono"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white font-mono"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Link Red Social (Instagram / Facebook):
                     </label>
                     <input
@@ -1261,11 +1261,11 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       placeholder="https://instagram.com/..."
                       value={adForm.socialUrl || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, socialUrl: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] text-gray-300 font-semibold mb-1">
+                    <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold mb-1">
                       Texto botón redes:
                     </label>
                     <input
@@ -1274,15 +1274,15 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                       placeholder="Ej: Instagram / Redes Sociales"
                       value={adForm.socialLabel || ''}
                       onChange={(e) => setAdForm((prev) => ({ ...prev, socialLabel: e.target.value }))}
-                      className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
                 </div>
 
                 {/* Estado nube Netlify */}
                 {!isAdmin && (
-                  <div className="p-2.5 rounded-xl bg-black/50 border border-amber-500/40 flex items-center justify-between gap-2 flex-wrap text-[11px]">
-                    <span className="text-amber-200">
+                  <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-black/50 border border-amber-300 dark:border-amber-500/40 flex items-center justify-between gap-2 flex-wrap text-[11px]">
+                    <span className="text-amber-800 dark:text-amber-200">
                       Para que esta publicidad modificada la vean todos los celulares en Netlify:
                     </span>
                     <button
@@ -1299,8 +1299,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   <p
                     className={`text-xs font-bold rounded-xl p-2.5 border ${
                       adSaveStatus.ok
-                        ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300'
-                        : 'bg-red-950/60 border-red-500/50 text-red-300'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-500/50 text-emerald-700 dark:text-emerald-300'
+                        : 'bg-red-50 dark:bg-red-950/60 border-red-300 dark:border-red-500/50 text-red-700 dark:text-red-300'
                     }`}
                   >
                     {adSaveStatus.msg}
@@ -1312,7 +1312,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     type="button"
                     disabled={savingAd}
                     onClick={handleResetAdToOfficial}
-                    className="py-2 px-3 rounded-xl bg-[#07122c] hover:bg-red-950/50 border border-red-500/40 text-red-300 text-xs font-bold flex items-center gap-1.5 transition"
+                    className="py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] hover:bg-red-100 dark:hover:bg-red-950/50 border border-red-300 dark:border-red-500/40 text-red-700 dark:text-red-300 text-xs font-bold flex items-center gap-1.5 transition"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                     <span>Restaurar oficial</span>

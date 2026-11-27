@@ -97,18 +97,18 @@ function getPaymentStatusMeta(sub: SubscriberData): {
   textClass: string;
 } {
   if (sub.paymentStatus === 'adeuda') {
-    return { glyph: '✖', label: 'Adeuda', textClass: 'text-rose-400' };
+    return { glyph: '✖', label: 'Adeuda', textClass: 'text-rose-700 dark:text-rose-400' };
   }
   if (isDateExpiredOnly(sub)) {
-    return { glyph: '▲', label: 'Vencido', textClass: 'text-amber-400' };
+    return { glyph: '▲', label: 'Vencido', textClass: 'text-amber-700 dark:text-amber-400' };
   }
   if (sub.paymentStatus === 'al_dia') {
-    return { glyph: '●', label: 'Al Día', textClass: 'text-emerald-400' };
+    return { glyph: '●', label: 'Al Día', textClass: 'text-emerald-700 dark:text-emerald-400' };
   }
   if (sub.paymentStatus === 'prueba') {
-    return { glyph: '◌', label: 'Prueba', textClass: 'text-cyan-400' };
+    return { glyph: '◌', label: 'Prueba', textClass: 'text-sky-700 dark:text-cyan-400' };
   }
-  return { glyph: '—', label: 'Baja', textClass: 'text-slate-400' };
+  return { glyph: '—', label: 'Baja', textClass: 'text-slate-600 dark:text-slate-400' };
 }
 
 export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = ({
@@ -412,8 +412,8 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
     <div className="space-y-4">
       {/* Google Admin Cloud Sync Reminder if not connected */}
       {!isAdmin && (
-        <div className="px-3.5 py-2.5 rounded-xl bg-[#0B111E] border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs">
-          <span className="text-amber-300">
+        <div className="px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0B111E] border border-amber-300 dark:border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <span className="text-amber-700 dark:text-amber-300">
             Conectá Google Admin (omlupa@gmail.com) para sincronizar automáticamente los registros de Netlify y guardar cobranzas en la nube.
           </span>
           <button
@@ -427,13 +427,13 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
       )}
 
       {/* Action & Filter Toolbar + Inline Alta Form First */}
-      <section className="rounded-xl bg-[#0B111E] border border-[#1C2A45] overflow-hidden">
-        <div className="px-4 py-3 border-b border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
+      <section className="rounded-xl bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] overflow-hidden">
+        <div className="px-4 py-3 border-b border-slate-200 dark:border-[#1C2A45] flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
               Base de Datos de Suscriptores y Cobranzas
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-600 dark:text-slate-400">
               Alta directa, carga automática desde la app, pagos, vencimientos, dirección, celular y llavero QR
             </p>
           </div>
@@ -443,9 +443,9 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               type="button"
               onClick={handleImportFromKeychains}
               disabled={importing}
-              className="min-h-[36px] px-3 py-1.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 disabled:opacity-50"
+              className="min-h-[36px] px-3 py-1.5 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-xs font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 disabled:opacity-50"
             >
-              <DatabaseBackup className="w-3.5 h-3.5 text-cyan-400" />
+              <DatabaseBackup className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-400" />
               <span>{importing ? 'Sincronizando…' : 'Sincronizar App'}</span>
             </button>
 
@@ -453,9 +453,9 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               type="button"
               onClick={handleExportCsv}
               disabled={filteredSubscribers.length === 0}
-              className="min-h-[36px] px-3 py-1.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-xs font-medium text-slate-200 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 disabled:opacity-40"
+              className="min-h-[36px] px-3 py-1.5 rounded-lg bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-xs font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 disabled:opacity-40"
             >
-              <Download className="w-3.5 h-3.5 text-emerald-400" />
+              <Download className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
               <span>Exportar CSV</span>
             </button>
 
@@ -473,19 +473,19 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
         {/* Feedback Banner */}
         {feedbackMsg && (
           <div
-            className={`px-4 py-2 text-xs border-b border-[#1C2A45] flex items-center justify-between gap-2 ${
+            className={`px-4 py-2 text-xs border-b border-slate-200 dark:border-[#1C2A45] flex items-center justify-between gap-2 ${
               feedbackMsg.type === 'ok'
-                ? 'bg-emerald-950/40 text-emerald-300'
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300'
                 : feedbackMsg.type === 'warn'
-                  ? 'bg-amber-950/40 text-amber-300'
-                  : 'bg-rose-950/40 text-rose-300'
+                  ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300'
+                  : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300'
             }`}
           >
             <span>{feedbackMsg.text}</span>
             <button
               type="button"
               onClick={() => setFeedbackMsg(null)}
-              className="text-slate-400 hover:text-white"
+              className="text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white"
               aria-label="Cerrar aviso"
             >
               <X className="w-3.5 h-3.5" />
@@ -495,15 +495,15 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
 
         {/* Inline Add / Edit Drawer Panel (Positioned right below toolbar for instant Alta access) */}
         {isFormOpen && (
-          <div ref={formSectionRef} className="p-4 bg-[#070B14] border-b border-[#1C2A45] space-y-4">
+          <div ref={formSectionRef} className="p-4 bg-slate-50 dark:bg-[#070B14] border-b border-slate-200 dark:border-[#1C2A45] space-y-4">
             <div className="flex items-center justify-between gap-2">
-              <h4 className="text-sm font-semibold text-cyan-300">
+              <h4 className="text-sm font-semibold text-sky-700 dark:text-cyan-300">
                 {formState.id ? `Editar Suscriptor · ${formState.fullName}` : 'Alta de Nuevo Suscriptor'}
               </h4>
               <button
                 type="button"
                 onClick={() => setIsFormOpen(false)}
-                className="text-xs text-slate-400 hover:text-white flex items-center gap-1"
+                className="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white flex items-center gap-1"
               >
                 <X className="w-4 h-4" />
                 <span>Cancelar</span>
@@ -512,67 +512,67 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
               <div>
-                <label className="block text-slate-300 mb-1">Nombre y Apellido *</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Nombre y Apellido *</label>
                 <input
                   type="text"
                   maxLength={140}
                   value={formState.fullName}
                   onChange={(e) => setFormState((p) => ({ ...p, fullName: e.target.value }))}
                   placeholder="Ej: María Laura Fernández"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Nro. de Celular *</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Nro. de Celular *</label>
                 <input
                   type="tel"
                   maxLength={40}
                   value={formState.phone}
                   onChange={(e) => setFormState((p) => ({ ...p, phone: e.target.value }))}
                   placeholder="Ej: 2932456789"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] font-mono text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">DNI</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">DNI</label>
                 <input
                   type="text"
                   maxLength={24}
                   value={formState.dni}
                   onChange={(e) => setFormState((p) => ({ ...p, dni: e.target.value }))}
                   placeholder="Ej: 32.450.112"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] font-mono text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-slate-300 mb-1">Dirección (Calle y Altura)</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Dirección (Calle y Altura)</label>
                 <input
                   type="text"
                   maxLength={200}
                   value={formState.address}
                   onChange={(e) => setFormState((p) => ({ ...p, address: e.target.value }))}
                   placeholder="Ej: Bernardo de Irigoyen 620, Punta Alta"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Barrio / Zona</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Barrio / Zona</label>
                 <input
                   type="text"
                   maxLength={80}
                   value={formState.neighborhood}
                   onChange={(e) => setFormState((p) => ({ ...p, neighborhood: e.target.value }))}
                   placeholder="Ej: Centro, Villa Mora, Ciudad Atlántida"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">N° de Llavero QR</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">N° de Llavero QR</label>
                 <input
                   type="text"
                   maxLength={32}
@@ -584,12 +584,12 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                     }))
                   }
                   placeholder="Ej: 0042"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] font-mono text-cyan-300 uppercase focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] font-mono text-sky-700 dark:text-cyan-300 uppercase focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Estado de Pago</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Estado de Pago</label>
                 <select
                   value={formState.paymentStatus}
                   onChange={(e) =>
@@ -598,7 +598,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                       paymentStatus: e.target.value as SubscriberPaymentStatus
                     }))
                   }
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 >
                   <option value="al_dia">Al Día (Pagó)</option>
                   <option value="adeuda">Adeuda</option>
@@ -608,7 +608,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Tipo de Plan</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Tipo de Plan</label>
                 <select
                   value={formState.planType}
                   onChange={(e) =>
@@ -617,7 +617,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                       planType: e.target.value as SubscriberPlanType
                     }))
                   }
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 >
                   <option value="individual">Individual</option>
                   <option value="familiar">Grupo Familiar</option>
@@ -626,7 +626,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Cuota Mensual ($ ARS)</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Cuota Mensual ($ ARS)</label>
                 <input
                   type="number"
                   min={0}
@@ -635,12 +635,12 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                   onChange={(e) =>
                     setFormState((p) => ({ ...p, monthlyFee: Number(e.target.value) || 0 }))
                   }
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] font-mono tabular-nums text-amber-300 focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] font-mono tabular-nums text-amber-700 dark:text-amber-300 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Medio de Pago</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Medio de Pago</label>
                 <select
                   value={formState.paymentMethod}
                   onChange={(e) =>
@@ -649,7 +649,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                       paymentMethod: e.target.value as SubscriberPaymentMethod
                     }))
                   }
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 >
                   <option value="mercadopago">Mercado Pago / Alias</option>
                   <option value="transferencia">Transferencia CBU/CVU</option>
@@ -659,29 +659,29 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Fecha Último Pago</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Fecha Último Pago</label>
                 <input
                   type="date"
                   value={formState.lastPaymentDate}
                   onChange={(e) =>
                     setFormState((p) => ({ ...p, lastPaymentDate: e.target.value }))
                   }
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] font-mono text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Próximo Vencimiento</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Próximo Vencimiento</label>
                 <input
                   type="date"
                   value={formState.nextDueDate}
                   onChange={(e) => setFormState((p) => ({ ...p, nextDueDate: e.target.value }))}
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] font-mono text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Titular Transferencia / MP</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Titular Transferencia / MP</label>
                 <input
                   type="text"
                   maxLength={120}
@@ -690,36 +690,36 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                     setFormState((p) => ({ ...p, payerAliasOrName: e.target.value }))
                   }
                   placeholder="Si paga otra persona (ej: cónyuge)"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1">Tel. Alternativo / Familiar</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Tel. Alternativo / Familiar</label>
                 <input
                   type="tel"
                   maxLength={40}
                   value={formState.altPhone}
                   onChange={(e) => setFormState((p) => ({ ...p, altPhone: e.target.value }))}
                   placeholder="Ej: 2932419988"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] font-mono text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-slate-300 mb-1">Observaciones Internas</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1">Observaciones Internas</label>
                 <input
                   type="text"
                   maxLength={500}
                   value={formState.notes}
                   onChange={(e) => setFormState((p) => ({ ...p, notes: e.target.value }))}
                   placeholder="Ej: Paga del 1 al 10, llavero entregado en mano…"
-                  className="w-full py-2 px-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-900 dark:text-white focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                 />
               </div>
 
               <div className="flex items-end pb-1">
-                <label className="inline-flex items-center gap-2 text-slate-200 cursor-pointer select-none">
+                <label className="inline-flex items-center gap-2 text-slate-700 dark:text-slate-200 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={formState.activationCodeDelivered}
@@ -733,11 +733,11 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#1C2A45]">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-[#1C2A45]">
               <button
                 type="button"
                 onClick={() => setIsFormOpen(false)}
-                className="px-3.5 py-2 rounded-lg bg-[#0B111E] border border-[#1C2A45] text-xs font-medium text-slate-300 hover:text-white transition-colors"
+                className="px-3.5 py-2 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors"
               >
                 Cancelar
               </button>
@@ -755,11 +755,11 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
         )}
 
         {/* KPI Metrics Strip (1px hairline border grid, tabular numerals) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-[#1C2A45] divide-y sm:divide-y-0 sm:divide-x divide-[#1C2A45] bg-[#080D18]">
+        <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-slate-200 dark:border-[#1C2A45] divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-[#1C2A45] bg-white dark:bg-[#080D18]">
           <div className="p-3">
-            <span className="text-[11px] text-slate-400 block">Padrón Total</span>
+            <span className="text-[11px] text-slate-600 dark:text-slate-400 block">Padrón Total</span>
             <div className="flex items-baseline justify-between gap-2 mt-0.5">
-              <span className="text-lg font-mono tabular-nums font-bold text-white">
+              <span className="text-lg font-mono tabular-nums font-bold text-slate-900 dark:text-white">
                 {metrics.total}
               </span>
               <span className="text-[11px] text-slate-500 font-mono">suscriptores</span>
@@ -767,33 +767,33 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
           </div>
 
           <div className="p-3">
-            <span className="text-[11px] text-slate-400 block">Al Día (Pagaron)</span>
+            <span className="text-[11px] text-slate-600 dark:text-slate-400 block">Al Día (Pagaron)</span>
             <div className="flex items-baseline justify-between gap-2 mt-0.5">
-              <span className="text-lg font-mono tabular-nums font-bold text-emerald-400">
+              <span className="text-lg font-mono tabular-nums font-bold text-emerald-700 dark:text-emerald-400">
                 {metrics.alDiaCount}
               </span>
-              <span className="text-xs font-mono tabular-nums text-emerald-300">
+              <span className="text-xs font-mono tabular-nums text-emerald-700 dark:text-emerald-300">
                 {formatCurrency(metrics.collectedMonthly)}
               </span>
             </div>
           </div>
 
           <div className="p-3">
-            <span className="text-[11px] text-slate-400 block">Adeudan / Vencidos</span>
+            <span className="text-[11px] text-slate-600 dark:text-slate-400 block">Adeudan / Vencidos</span>
             <div className="flex items-baseline justify-between gap-2 mt-0.5">
-              <span className="text-lg font-mono tabular-nums font-bold text-rose-400">
+              <span className="text-lg font-mono tabular-nums font-bold text-rose-700 dark:text-rose-400">
                 {metrics.overdueCount}
               </span>
-              <span className="text-xs font-mono tabular-nums text-rose-300">
+              <span className="text-xs font-mono tabular-nums text-rose-700 dark:text-rose-300">
                 {formatCurrency(metrics.pendingDebt)}
               </span>
             </div>
           </div>
 
           <div className="p-3">
-            <span className="text-[11px] text-slate-400 block">Prueba / Baja</span>
+            <span className="text-[11px] text-slate-600 dark:text-slate-400 block">Prueba / Baja</span>
             <div className="flex items-baseline justify-between gap-2 mt-0.5">
-              <span className="text-lg font-mono tabular-nums font-bold text-cyan-300">
+              <span className="text-lg font-mono tabular-nums font-bold text-sky-700 dark:text-cyan-300">
                 {metrics.trialOrOffCount}
               </span>
               <span className="text-[11px] text-slate-500 font-mono">
@@ -804,8 +804,8 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
         </div>
 
         {/* Segmented Filters & Search */}
-        <div className="px-4 py-2.5 bg-[#080D18] border-b border-[#1C2A45] flex flex-col md:flex-row md:items-center justify-between gap-2.5">
-          <div className="flex items-center gap-1 p-1 bg-[#05080F] border border-[#1C2A45] rounded-lg overflow-x-auto">
+        <div className="px-4 py-2.5 bg-white dark:bg-[#080D18] border-b border-slate-200 dark:border-[#1C2A45] flex flex-col md:flex-row md:items-center justify-between gap-2.5">
+          <div className="flex items-center gap-1 p-1 bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] rounded-lg overflow-x-auto">
             {[
               { id: 'all' as SubscriberFilterTab, label: `Todos (${metrics.total})` },
               { id: 'al_dia' as SubscriberFilterTab, label: `Al Día (${metrics.alDiaCount})` },
@@ -819,8 +819,8 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                 onClick={() => setFilterTab(tab.id)}
                 className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap shrink-0 ${
                   filterTab === tab.id
-                    ? 'bg-cyan-500/20 text-cyan-200'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-sky-100 dark:bg-cyan-500/20 text-sky-800 dark:text-cyan-200'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 {tab.label}
@@ -836,7 +836,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar nombre, DNI, cel, dirección…"
-                className="w-full py-1.5 pl-8 pr-3 rounded-lg bg-[#05080F] border border-[#1C2A45] text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
+                className="w-full py-1.5 pl-8 pr-3 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-xs text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
               />
             </div>
             <button
@@ -844,7 +844,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
               onClick={fetchRoster}
               disabled={loading}
               title="Recargar padrón"
-              className="p-1.5 rounded-lg bg-[#05080F] border border-[#1C2A45] text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-slate-50 dark:bg-[#05080F] border border-slate-200 dark:border-[#1C2A45] text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white transition-colors"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             </button>
@@ -852,19 +852,19 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
         </div>
 
         {/* High-Density Data Table */}
-        <div className="overflow-x-auto bg-[#05080F]">
+        <div className="overflow-x-auto bg-slate-50 dark:bg-[#05080F]">
           {loading ? (
             <div className="p-6 space-y-2.5">
               {[1, 2, 3].map((row) => (
                 <div
                   key={row}
-                  className="h-11 rounded-lg bg-[#0B111E] border border-[#1C2A45] animate-pulse"
+                  className="h-11 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] animate-pulse"
                 />
               ))}
             </div>
           ) : filteredSubscribers.length === 0 ? (
             <div className="p-8 text-center space-y-3">
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 {subscribers.length === 0
                   ? 'Todavía no hay suscriptores cargados en la base de datos.'
                   : 'Ningún suscriptor coincide con el filtro o búsqueda actual.'}
@@ -882,9 +882,9 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                   <button
                     type="button"
                     onClick={handleImportFromKeychains}
-                    className="px-3.5 py-2 rounded-lg bg-[#0B111E] border border-[#1C2A45] text-slate-200 hover:text-white font-medium text-xs inline-flex items-center gap-1.5"
+                    className="px-3.5 py-2 rounded-lg bg-white dark:bg-[#0B111E] border border-slate-200 dark:border-[#1C2A45] text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white font-medium text-xs inline-flex items-center gap-1.5"
                   >
-                    <DatabaseBackup className="w-3.5 h-3.5 text-cyan-400" />
+                    <DatabaseBackup className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-400" />
                     <span>Sincronizar registros de la App</span>
                   </button>
                 )}
@@ -893,7 +893,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
           ) : (
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-[#1C2A45] bg-[#080D18] text-[11px] font-medium text-slate-400">
+                <tr className="border-b border-slate-200 dark:border-[#1C2A45] bg-white dark:bg-[#080D18] text-[11px] font-medium text-slate-600 dark:text-slate-400">
                   <th className="py-2.5 px-3">Titular / Llavero</th>
                   <th className="py-2.5 px-3">Celular y Dirección</th>
                   <th className="py-2.5 px-3">Estado y Vencimiento</th>
@@ -901,7 +901,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                   <th className="py-2.5 px-3 text-right">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#131C30]">
+              <tbody className="divide-y divide-slate-200 dark:divide-[#131C30]">
                 {filteredSubscribers.map((sub) => {
                   const statusMeta = getPaymentStatusMeta(sub);
                   const overdue = isSubscriberOverdue(sub);
@@ -913,16 +913,16 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                   const isDeleting = confirmDeleteId === sub.id;
 
                   return (
-                    <tr key={sub.id} className="hover:bg-[#0A101E] transition-colors align-top">
+                    <tr key={sub.id} className="hover:bg-slate-100 dark:hover:bg-[#0A101E] transition-colors align-top">
                       <td className="py-2.5 px-3 min-w-[170px]">
-                        <div className="font-semibold text-white">{sub.fullName}</div>
-                        <div className="text-[11px] font-mono tabular-nums text-slate-400 flex flex-wrap items-center gap-x-2">
+                        <div className="font-semibold text-slate-900 dark:text-white">{sub.fullName}</div>
+                        <div className="text-[11px] font-mono tabular-nums text-slate-600 dark:text-slate-400 flex flex-wrap items-center gap-x-2">
                           {sub.keychainId && (
-                            <span className="text-cyan-300">#{sub.keychainId}</span>
+                            <span className="text-sky-700 dark:text-cyan-300">#{sub.keychainId}</span>
                           )}
                           {sub.dni && <span>DNI {sub.dni}</span>}
                           {sub.activationCodeDelivered && (
-                            <span className="text-emerald-400 inline-flex items-center gap-0.5">
+                            <span className="text-emerald-700 dark:text-emerald-400 inline-flex items-center gap-0.5">
                               <ShieldCheck className="w-3 h-3" /> Alta OK
                             </span>
                           )}
@@ -935,8 +935,8 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                       </td>
 
                       <td className="py-2.5 px-3 min-w-[180px]">
-                        <div className="font-mono tabular-nums text-slate-200">{sub.phone}</div>
-                        <div className="text-[11px] text-slate-400">
+                        <div className="font-mono tabular-nums text-slate-700 dark:text-slate-200">{sub.phone}</div>
+                        <div className="text-[11px] text-slate-600 dark:text-slate-400">
                           {sub.address || 'Sin dirección'}
                           {sub.neighborhood ? ` · ${sub.neighborhood}` : ''}
                         </div>
@@ -951,7 +951,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                         <div className={`font-semibold ${statusMeta.textClass}`}>
                           {statusMeta.glyph} {statusMeta.label}
                         </div>
-                        <div className="text-[11px] text-slate-400 mt-0.5">
+                        <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
                           {sub.nextDueDate ? `Vence: ${sub.nextDueDate}` : 'Sin vencimiento'}
                         </div>
                         {sub.lastPaymentDate && (
@@ -962,7 +962,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                       </td>
 
                       <td className="py-2.5 px-3 text-right font-mono tabular-nums whitespace-nowrap">
-                        <div className="font-semibold text-white">
+                        <div className="font-semibold text-slate-900 dark:text-white">
                           {formatCurrency(sub.monthlyFee)}
                         </div>
                         <div className="text-[11px] text-slate-500 capitalize">
@@ -973,7 +973,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                       <td className="py-2.5 px-3 text-right whitespace-nowrap">
                         {isDeleting ? (
                           <div className="inline-flex items-center gap-1.5">
-                            <span className="text-[11px] text-rose-300">¿Borrar?</span>
+                            <span className="text-[11px] text-rose-700 dark:text-rose-300">¿Borrar?</span>
                             <button
                               type="button"
                               onClick={() => handleDeleteSubscriber(sub.id)}
@@ -984,7 +984,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                             <button
                               type="button"
                               onClick={() => setConfirmDeleteId(null)}
-                              className="px-2 py-1 rounded bg-[#0E1627] border border-[#1C2A45] text-slate-300 text-[11px]"
+                              className="px-2 py-1 rounded bg-white dark:bg-[#0E1627] border border-slate-200 dark:border-[#1C2A45] text-slate-700 dark:text-slate-300 text-[11px]"
                             >
                               No
                             </button>
@@ -995,7 +995,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                               type="button"
                               onClick={() => handleQuickMarkPaid(sub)}
                               title="Registrar pago de hoy (+1 mes)"
-                              className="px-2 py-1 rounded-md bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 text-[11px] font-medium inline-flex items-center gap-1 transition-colors"
+                              className="px-2 py-1 rounded-md bg-emerald-100 dark:bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-[11px] font-medium inline-flex items-center gap-1 transition-colors"
                             >
                               <CheckCircle2 className="w-3 h-3" />
                               <span>Pagó</span>
@@ -1006,7 +1006,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                                 type="button"
                                 onClick={() => handleQuickMarkDebt(sub)}
                                 title="Marcar como adeuda"
-                                className="p-1.5 rounded-md bg-[#0E1627] hover:bg-rose-950/60 border border-[#1C2A45] text-amber-300 hover:text-rose-300 transition-colors"
+                                className="p-1.5 rounded-md bg-white dark:bg-[#0E1627] hover:bg-rose-100 dark:hover:bg-rose-950/60 border border-slate-200 dark:border-[#1C2A45] text-amber-700 dark:text-amber-300 hover:text-rose-800 dark:hover:text-rose-300 transition-colors"
                               >
                                 <AlertTriangle className="w-3.5 h-3.5" />
                               </button>
@@ -1022,7 +1022,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                                   ? 'Enviar recordatorio de cuota por WhatsApp'
                                   : 'Enviar confirmación / Código de Alta por WhatsApp'
                               }
-                              className="p-1.5 rounded-md bg-[#0E1627] hover:bg-emerald-950/60 border border-[#1C2A45] text-emerald-400 transition-colors"
+                              className="p-1.5 rounded-md bg-white dark:bg-[#0E1627] hover:bg-emerald-100 dark:hover:bg-emerald-950/60 border border-slate-200 dark:border-[#1C2A45] text-emerald-700 dark:text-emerald-400 transition-colors"
                             >
                               <MessageCircle className="w-3.5 h-3.5" />
                             </a>
@@ -1031,7 +1031,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                               type="button"
                               onClick={() => handleOpenEdit(sub)}
                               title="Editar suscriptor"
-                              className="p-1.5 rounded-md bg-[#0E1627] hover:bg-[#15223B] border border-[#1C2A45] text-slate-300 hover:text-white transition-colors"
+                              className="p-1.5 rounded-md bg-white dark:bg-[#0E1627] hover:bg-slate-100 dark:hover:bg-[#15223B] border border-slate-200 dark:border-[#1C2A45] text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors"
                             >
                               <Pencil className="w-3.5 h-3.5" />
                             </button>
@@ -1040,7 +1040,7 @@ export const SubscribersManagerPanel: React.FC<SubscribersManagerPanelProps> = (
                               type="button"
                               onClick={() => setConfirmDeleteId(sub.id)}
                               title="Eliminar suscriptor"
-                              className="p-1.5 rounded-md bg-[#0E1627] hover:bg-rose-950/60 border border-[#1C2A45] text-slate-400 hover:text-rose-400 transition-colors"
+                              className="p-1.5 rounded-md bg-white dark:bg-[#0E1627] hover:bg-rose-100 dark:hover:bg-rose-950/60 border border-slate-200 dark:border-[#1C2A45] text-slate-600 dark:text-slate-400 hover:text-rose-400 transition-colors"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>

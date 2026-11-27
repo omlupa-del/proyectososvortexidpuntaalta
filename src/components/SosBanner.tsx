@@ -74,21 +74,21 @@ export const SosBanner: React.FC<SosBannerProps> = ({
           type="button"
           onClick={() => triggerDirectCall('107', '107 · Ambulancia y Hospital', 'emergency')}
           aria-label="Llamar al 107 Ambulancia y Hospital"
-          className="relative min-h-[60px] px-3 py-2.5 rounded-xl bg-[#051a14] hover:bg-[#082820] active:scale-[0.98] border border-emerald-500/65 text-left transition-all duration-150 flex items-center justify-between gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="relative min-h-[60px] px-3 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-[#051a14] dark:hover:bg-[#082820] active:scale-[0.98] border border-emerald-500/70 dark:border-emerald-500/65 text-left transition-all duration-150 flex items-center justify-between gap-2 shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
         >
-          <span aria-hidden="true" className="pointer-events-none absolute top-1.5 left-1.5 w-2 h-2 border-t border-l border-emerald-400/70" />
-          <span aria-hidden="true" className="pointer-events-none absolute bottom-1.5 right-1.5 w-2 h-2 border-b border-r border-emerald-400/70" />
+          <span aria-hidden="true" className="pointer-events-none absolute top-1.5 left-1.5 w-2 h-2 border-t border-l border-emerald-600/70 dark:border-emerald-400/70" />
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-1.5 right-1.5 w-2 h-2 border-b border-r border-emerald-600/70 dark:border-emerald-400/70" />
 
           <div className="min-w-0">
-            <span className="block font-mono tabular-nums text-xl sm:text-2xl font-bold text-emerald-400 leading-none">
+            <span className="block font-mono tabular-nums text-xl sm:text-2xl font-bold text-emerald-700 dark:text-emerald-400 leading-none">
               107
             </span>
-            <span className="block text-xs sm:text-sm font-heading font-bold tracking-wider text-emerald-100 uppercase mt-1 truncate">
+            <span className="block text-xs sm:text-sm font-heading font-bold tracking-wider text-emerald-950 dark:text-emerald-100 uppercase mt-1 truncate">
               AMBULANCIA
             </span>
           </div>
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center shrink-0">
-            <Phone className="w-4 h-4 text-emerald-300" aria-hidden="true" />
+          <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-600/40 dark:border-emerald-400/40 flex items-center justify-center shrink-0">
+            <Phone className="w-4 h-4 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
           </div>
         </button>
 
@@ -96,21 +96,21 @@ export const SosBanner: React.FC<SosBannerProps> = ({
           type="button"
           onClick={() => triggerDirectCall('911', '911 · Policía y Emergencias', 'emergency')}
           aria-label="Llamar al 911 Policía y Emergencias"
-          className="relative min-h-[60px] px-3 py-2.5 rounded-xl bg-[#1a070f] hover:bg-[#270b17] active:scale-[0.98] border border-rose-500/65 text-left transition-all duration-150 flex items-center justify-between gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+          className="relative min-h-[60px] px-3 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-[#1a070f] dark:hover:bg-[#270b17] active:scale-[0.98] border border-rose-500/70 dark:border-rose-500/65 text-left transition-all duration-150 flex items-center justify-between gap-2 shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
         >
-          <span aria-hidden="true" className="pointer-events-none absolute top-1.5 left-1.5 w-2 h-2 border-t border-l border-rose-400/70" />
-          <span aria-hidden="true" className="pointer-events-none absolute bottom-1.5 right-1.5 w-2 h-2 border-b border-r border-rose-400/70" />
+          <span aria-hidden="true" className="pointer-events-none absolute top-1.5 left-1.5 w-2 h-2 border-t border-l border-rose-600/70 dark:border-rose-400/70" />
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-1.5 right-1.5 w-2 h-2 border-b border-r border-rose-600/70 dark:border-rose-400/70" />
 
           <div className="min-w-0">
-            <span className="block font-mono tabular-nums text-xl sm:text-2xl font-bold text-rose-400 leading-none">
+            <span className="block font-mono tabular-nums text-xl sm:text-2xl font-bold text-rose-700 dark:text-rose-400 leading-none">
               911
             </span>
-            <span className="block text-xs sm:text-sm font-heading font-bold tracking-wider text-rose-100 uppercase mt-1 truncate">
+            <span className="block text-xs sm:text-sm font-heading font-bold tracking-wider text-rose-950 dark:text-rose-100 uppercase mt-1 truncate">
               POLICÍA
             </span>
           </div>
-          <div className="w-8 h-8 rounded-lg bg-rose-500/15 border border-rose-400/40 flex items-center justify-center shrink-0">
-            <Phone className="w-4 h-4 text-rose-300" aria-hidden="true" />
+          <div className="w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-500/15 border border-rose-600/40 dark:border-rose-400/40 flex items-center justify-center shrink-0">
+            <Phone className="w-4 h-4 text-rose-700 dark:text-rose-300" aria-hidden="true" />
           </div>
         </button>
       </div>
@@ -127,10 +127,10 @@ export const SosBanner: React.FC<SosBannerProps> = ({
                   ? 'Detener locución de farmacias de turno'
                   : 'Escuchar por voz las farmacias de turno de hoy'
               }
-              className={`flex-1 min-w-0 min-h-[54px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between gap-2.5 transition-all duration-150 active:scale-[0.99] border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+              className={`flex-1 min-w-0 min-h-[54px] py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between gap-2.5 transition-all duration-150 active:scale-[0.99] border shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
                 isSpeakingPharmacies
                   ? 'bg-red-700 hover:bg-red-600 border-red-300 text-white'
-                  : 'bg-[#07142b] hover:bg-[#0b1e40] border-cyan-500/50 text-cyan-100'
+                  : 'bg-white hover:bg-sky-50 dark:bg-[#07142b] dark:hover:bg-[#0b1e40] border-sky-400/70 dark:border-cyan-500/50 text-slate-900 dark:text-cyan-100'
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0 flex-1 text-left">
@@ -138,7 +138,7 @@ export const SosBanner: React.FC<SosBannerProps> = ({
                   className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border ${
                     isSpeakingPharmacies
                       ? 'bg-white/20 border-white/40 text-white'
-                      : 'bg-cyan-500/10 border-cyan-400/45 text-cyan-300'
+                      : 'bg-sky-500/10 border-sky-500/40 dark:border-cyan-400/45 text-sky-700 dark:text-cyan-300'
                   }`}
                 >
                   {isSpeakingPharmacies ? (
@@ -148,13 +148,23 @@ export const SosBanner: React.FC<SosBannerProps> = ({
                   )}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <span className="block font-heading uppercase tracking-wider leading-tight text-sm sm:text-base text-white">
+                  <span
+                    className={`block font-heading uppercase tracking-wider leading-tight text-sm sm:text-base ${
+                      isSpeakingPharmacies ? 'text-white' : 'text-slate-900 dark:text-white'
+                    }`}
+                  >
                     {isSpeakingPharmacies
                       ? 'DETENER VOZ · FARMACIAS'
                       : 'ESCUCHAR FARMACIAS DE TURNO'}
                   </span>
                   {closestDutySummary && (
-                    <span className="block text-[11px] font-mono font-medium text-cyan-300/90 truncate mt-0.5">
+                    <span
+                      className={`block text-[11px] font-mono font-medium truncate mt-0.5 ${
+                        isSpeakingPharmacies
+                          ? 'text-red-100'
+                          : 'text-sky-700 dark:text-cyan-300/90'
+                      }`}
+                    >
                       {closestDutySummary}
                     </span>
                   )}
@@ -164,7 +174,7 @@ export const SosBanner: React.FC<SosBannerProps> = ({
                 className={`px-2 py-1 rounded-md text-[10px] font-mono font-bold uppercase shrink-0 border ${
                   isSpeakingPharmacies
                     ? 'bg-black/35 border-white/30 text-white'
-                    : 'bg-cyan-400/15 border-cyan-400/50 text-cyan-200'
+                    : 'bg-sky-500/15 dark:bg-cyan-400/15 border-sky-500/50 dark:border-cyan-400/50 text-sky-800 dark:text-cyan-200'
                 }`}
               >
                 {isSpeakingPharmacies ? 'Sonando' : 'Voz'}
@@ -176,18 +186,18 @@ export const SosBanner: React.FC<SosBannerProps> = ({
                 type="button"
                 onClick={onScrollToPharmacies}
                 aria-label="Ir a ver todas las farmacias de turno"
-                className="min-w-[54px] px-3 py-2 rounded-xl bg-[#07142b] hover:bg-[#0b1e40] border border-cyan-500/45 text-cyan-200 hover:text-white text-[11px] font-bold flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1 transition-colors duration-150 active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                className="min-w-[54px] px-3 py-2 rounded-xl bg-white hover:bg-sky-50 dark:bg-[#07142b] dark:hover:bg-[#0b1e40] border border-sky-400/70 dark:border-cyan-500/45 text-sky-800 dark:text-cyan-200 hover:text-slate-950 dark:hover:text-white text-[11px] font-bold flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1 shadow-xs transition-colors duration-150 active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
                 title="Ver farmacias de turno en pantalla"
               >
-                <MapPin className="w-4 h-4 text-emerald-400 shrink-0" aria-hidden="true" />
+                <MapPin className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" aria-hidden="true" />
                 <span>Ver</span>
               </button>
             )}
           </div>
 
           {isSpeakingPharmacies && spokenSubtitle && (
-            <div className="px-3 py-2 rounded-xl bg-[#06142e] border border-cyan-400/40 text-[11px] text-emerald-200 leading-snug">
-              <strong className="text-cyan-300">Locución activa:</strong> {spokenSubtitle}
+            <div className="px-3 py-2 rounded-xl bg-sky-50 dark:bg-[#06142e] border border-sky-400/60 dark:border-cyan-400/40 text-[11px] text-emerald-900 dark:text-emerald-200 leading-snug">
+              <strong className="text-sky-700 dark:text-cyan-300">Locución activa:</strong> {spokenSubtitle}
             </div>
           )}
         </div>

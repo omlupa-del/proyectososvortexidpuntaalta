@@ -806,29 +806,29 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 dark:bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-lg bg-gradient-to-b from-[#0a1838] via-[#07122c] to-[#040816] border-2 border-[#1e5bff] rounded-3xl p-5 sm:p-6 shadow-2xl shadow-blue-950/80 my-auto">
+      <div className="w-full max-w-lg bg-gradient-to-b from-white dark:from-[#0a1838] via-sky-50/70 dark:via-[#07122c] to-slate-50 dark:to-[#040816] border-2 border-blue-500 dark:border-[#1e5bff] rounded-3xl p-5 sm:p-6 shadow-2xl shadow-blue-950/80 my-auto">
         {/* Modal Top Bar */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#1e5bff]/40">
+        <div className="flex items-center justify-between pb-3 border-b border-blue-400 dark:border-[#1e5bff]/40">
           <div className="flex items-center gap-2.5">
-            <span className="p-2 rounded-xl bg-[#1e5bff]/20 text-[#37c8ff] border border-[#1e5bff]/60">
+            <span className="p-2 rounded-xl bg-[#1e5bff]/20 text-sky-700 dark:text-[#37c8ff] border border-blue-400 dark:border-[#1e5bff]/60">
               <QrCode className="w-6 h-6 animate-pulse" />
             </span>
             <div>
-              <h2 className="text-xl sm:text-2xl font-black font-heading text-white tracking-wider">
+              <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-900 dark:text-white tracking-wider">
                 MI QR Y CREDENCIAL
               </h2>
-              <p className="text-xs text-[#37c8ff] font-semibold uppercase tracking-wider">
+              <p className="text-xs text-sky-700 dark:text-[#37c8ff] font-semibold uppercase tracking-wider">
                 Vortex ID · Llavero de Emergencia
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-white/10 text-gray-300 hover:text-white transition"
+            className="p-2 rounded-full hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white transition"
             aria-label="Cerrar credencial"
           >
             <X className="w-6 h-6" />
@@ -839,17 +839,17 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
         <div className="mt-4 space-y-4 max-h-[75vh] overflow-y-auto pr-1">
           {/* If no data yet, warn clearly so user saves their ficha before downloading wallpaper/QR */}
           {!hasData ? (
-            <div className="p-3.5 rounded-2xl bg-amber-950/75 border-2 border-amber-400/80 shadow-lg space-y-2">
+            <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/75 border-2 border-amber-300 dark:border-amber-400/80 shadow-lg space-y-2">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400 text-amber-300 flex items-center justify-center shrink-0 shadow">
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/20 border border-amber-400 dark:border-amber-400 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0 shadow">
                     <QrCode className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-black font-heading text-amber-200">
+                    <h3 className="text-sm font-black font-heading text-amber-800 dark:text-amber-200">
                       ⚠️ FICHA MÉDICA TODAVÍA SIN GUARDAR
                     </h3>
-                    <p className="text-[11px] text-amber-100/90 leading-snug">
+                    <p className="text-[11px] text-amber-800 dark:text-amber-100/90 leading-snug">
                       Si cargaste datos en el formulario, recordá crear tu clave PIN y tocar <strong>"GUARDAR DATOS Y BLOQUEAR FORMULARIO"</strong> para que este QR y el Fondo de Pantalla muestren tu nombre y datos clínicos al escanear.
                     </p>
                   </div>
@@ -868,11 +868,11 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
             </div>
           ) : (
             /* Titular Preview Card with Photo */
-            <div className="p-3.5 rounded-2xl bg-[#0b1d46] border border-[#1e5bff]/50 flex items-center justify-between gap-3 shadow-inner">
+            <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-[#0b1d46] border border-blue-400 dark:border-[#1e5bff]/50 flex items-center justify-between gap-3 shadow-inner">
               <div className="flex items-center gap-3">
                 <div className="relative shrink-0">
                   <div
-                    className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-[#37c8ff] bg-[#07122c] flex items-center justify-center shrink-0"
+                    className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-sky-500 dark:border-[#37c8ff] bg-white dark:bg-[#07122c] flex items-center justify-center shrink-0"
                     style={{ width: '80px', height: '80px', minWidth: '80px', minHeight: '80px' }}
                   >
                     {record?.foto ? (
@@ -883,7 +883,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                         loading="eager"
                       />
                     ) : (
-                      <User className="w-9 h-9 text-[#37c8ff]/60" />
+                      <User className="w-9 h-9 text-sky-700 dark:text-[#37c8ff]/60" />
                     )}
                   </div>
                   {record?.foto && (
@@ -894,16 +894,16 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                 </div>
 
                 <div>
-                  <span className="text-[10px] text-[#9db6dd] uppercase font-bold tracking-wider block">
+                  <span className="text-[10px] text-slate-600 dark:text-[#9db6dd] uppercase font-bold tracking-wider block">
                     Titular del Llavero
                   </span>
-                  <div className="text-lg sm:text-xl font-black font-heading text-white leading-tight">
+                  <div className="text-lg sm:text-xl font-black font-heading text-slate-900 dark:text-white leading-tight">
                     {record?.nombre || 'Titular Registrado'}
                   </div>
-                  <div className="text-xs text-[#37c8ff] flex items-center gap-1.5 flex-wrap">
+                  <div className="text-xs text-sky-700 dark:text-[#37c8ff] flex items-center gap-1.5 flex-wrap">
                     <span>{record?.dni ? `DNI: ${record.dni}` : 'Punta Alta · Buenos Aires'}</span>
                     {record?.keychainId && (
-                      <span className="px-1.5 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono font-bold text-[10px]">
+                      <span className="px-1.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40 font-mono font-bold text-[10px]">
                         🏷️ #{record.keychainId}
                       </span>
                     )}
@@ -911,15 +911,15 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                       const v = getMedicalValidationStatus(record);
                       if (v.isDonorValidated) {
                         return (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-300/75 text-amber-200 text-[10px] font-black uppercase">
-                            <Award className="w-3 h-3 text-amber-300" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-400/20 border border-amber-300 dark:border-amber-300/75 text-amber-800 dark:text-amber-200 text-[10px] font-black uppercase">
+                            <Award className="w-3 h-3 text-amber-700 dark:text-amber-300" />
                             <span>Donante Validado</span>
                           </span>
                         );
                       }
                       if (v.donorState === 'si') {
                         return (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 text-[10px] font-bold uppercase">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-400/60 text-emerald-800 dark:text-emerald-200 text-[10px] font-bold uppercase">
                             <span>💚 Donante</span>
                           </span>
                         );
@@ -937,8 +937,8 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                     <div
                       className={`text-center px-3 py-1.5 rounded-xl bg-gradient-to-b from-red-600 to-rose-700 text-white border shadow-md ${
                         v.isBloodValidated
-                          ? 'border-amber-300 ring-2 ring-emerald-400/75'
-                          : 'border-red-300'
+                          ? 'border-amber-400 dark:border-amber-300 ring-2 ring-emerald-400/75'
+                          : 'border-red-400 dark:border-red-300'
                       }`}
                     >
                       <span className="text-[9px] font-bold block opacity-90">GRUPO</span>
@@ -953,50 +953,50 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                   </div>
                 );
               })() : (
-                <span className="text-xs text-gray-400">Sin grupo</span>
+                <span className="text-xs text-slate-600 dark:text-gray-400">Sin grupo</span>
               )}
             </div>
           )}
 
             {/* Notification of Linking success */}
             {linkingSuccess && (
-              <div className="p-3 rounded-xl bg-emerald-950/90 border border-emerald-500 text-emerald-300 text-xs font-semibold text-center flex items-center justify-center gap-2 animate-fade-in">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/90 border border-emerald-400 dark:border-emerald-500 text-emerald-700 dark:text-emerald-300 text-xs font-semibold text-center flex items-center justify-center gap-2 animate-fade-in">
+                <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
                 <span>{linkingSuccess}</span>
               </div>
             )}
 
             {/* Anti-theft / security identity check callout */}
-            <div className="p-3 rounded-xl bg-blue-950/80 border border-blue-500/60 text-xs text-blue-200 flex items-start gap-2.5">
-              <ShieldCheck className="w-4 h-4 text-[#37c8ff] shrink-0 mt-0.5" />
+            <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/80 border border-blue-300 dark:border-blue-500/60 text-xs text-blue-800 dark:text-blue-200 flex items-start gap-2.5">
+              <ShieldCheck className="w-4 h-4 text-sky-700 dark:text-[#37c8ff] shrink-0 mt-0.5" />
               <span className="leading-snug">
-                <strong className="text-white">Seguridad Antirrobo / Extravío:</strong> Si otra persona encuentra o sustrae tu llavero y tiene un accidente, los paramédicos y el personal del 107 cotejarán su rostro con la foto de esta ficha, impidiendo errores de identidad y protegiendo tu historial médico.
+                <strong className="text-slate-900 dark:text-white">Seguridad Antirrobo / Extravío:</strong> Si otra persona encuentra o sustrae tu llavero y tiene un accidente, los paramédicos y el personal del 107 cotejarán su rostro con la foto de esta ficha, impidiendo errores de identidad y protegiendo tu historial médico.
               </span>
             </div>
 
             {/* Practical Physical Correlative Keychain Linking Card */}
-            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-[#0b1d46] to-[#071536] border border-[#1e5bff]/60 shadow-lg">
+            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-white dark:from-[#0b1d46] to-slate-50 dark:to-[#071536] border border-blue-400 dark:border-[#1e5bff]/60 shadow-lg">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-amber-300 shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-500/50 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0 mt-0.5">
                     <Tag className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                         Llavero Físico Numerado (#ID)
                       </h4>
                       {record?.keychainId ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40">
                           #{record.keychainId} VINCULADO
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 dark:bg-blue-500/20 text-blue-300 border border-blue-500/40">
                           Sin asociar
                         </span>
                       )}
                     </div>
-                    <p className="text-[11px] text-[#9db6dd] mt-0.5 leading-snug">
+                    <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] mt-0.5 leading-snug">
                       {record?.keychainId
                         ? `Tu ficha médica ya está enlazada al llavero físico #${record.keychainId}. No necesitás reescribir nada.`
                         : '¿Compraste un llavero con número impreso? Vinculalo acá con 1 clic sin volver a escribir tus datos.'}
@@ -1018,8 +1018,8 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
 
               {/* Form to link correlative number */}
               {(!record?.keychainId && isLinkingOpen) && (
-                <div className="mt-3 pt-3 border-t border-[#1e3f8f]/40 space-y-2 animate-fade-in">
-                  <label className="block text-[11px] text-gray-300 font-semibold">
+                <div className="mt-3 pt-3 border-t border-slate-300 dark:border-[#1e3f8f]/40 space-y-2 animate-fade-in">
+                  <label className="block text-[11px] text-slate-700 dark:text-gray-300 font-semibold">
                     Escribí el número impreso en tu llavero físico (ej: <strong>0042</strong> o <strong>125</strong>):
                   </label>
                   <div className="flex gap-2">
@@ -1028,7 +1028,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                       placeholder="Ej: 0042"
                       value={keychainInput}
                       onChange={(e) => setKeychainInput(e.target.value.toUpperCase())}
-                      className="flex-1 py-1.5 px-3 rounded-xl bg-[#07122c] border border-[#1e5bff] text-sm text-white font-mono uppercase focus:outline-none focus:border-[#37c8ff]"
+                      className="flex-1 py-1.5 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-blue-500 dark:border-[#1e5bff] text-sm text-slate-900 dark:text-white font-mono uppercase focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                       autoFocus
                     />
                     <button
@@ -1042,7 +1042,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                     <button
                       type="button"
                       onClick={() => setIsLinkingOpen(false)}
-                      className="px-2.5 py-1.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs"
+                      className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-300 text-xs"
                     >
                       Cerrar
                     </button>
@@ -1052,17 +1052,17 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
 
               {/* Already linked details */}
               {record?.keychainId && (
-                <div className="mt-2.5 pt-2 border-t border-[#1e3f8f]/40 flex items-center justify-between text-xs gap-2 flex-wrap">
-                  <span className="text-emerald-300 font-mono text-[11px] flex items-center gap-1">
+                <div className="mt-2.5 pt-2 border-t border-slate-300 dark:border-[#1e3f8f]/40 flex items-center justify-between text-xs gap-2 flex-wrap">
+                  <span className="text-emerald-700 dark:text-emerald-300 font-mono text-[11px] flex items-center gap-1">
                     <span>✓ Llavero #{record.keychainId}:</span>
-                    <strong className="text-white">
+                    <strong className="text-slate-900 dark:text-white">
                       {hasData ? 'QR con ficha clínica offline incrustada' : `...#id=${record.keychainId}`}
                     </strong>
                   </span>
                   <button
                     type="button"
                     onClick={handleUnlinkKeychain}
-                    className="text-[11px] text-red-300 hover:text-red-200 underline font-semibold"
+                    className="text-[11px] text-red-700 dark:text-red-300 hover:text-red-800 dark:hover:text-red-200 underline font-semibold"
                   >
                     Desvincular o cambiar número
                   </button>
@@ -1071,7 +1071,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
             </div>
 
             {/* QR Code Presentation Box */}
-            <div className="relative p-5 rounded-2xl bg-gradient-to-b from-white via-gray-50 to-gray-100 text-[#050b1f] text-center shadow-xl border-4 border-[#37c8ff]">
+            <div className="relative p-5 rounded-2xl bg-gradient-to-b from-white via-gray-50 to-gray-100 text-[#050b1f] text-center shadow-xl border-4 border-sky-500 dark:border-[#37c8ff]">
               <div className="text-[11px] font-black tracking-widest text-red-600 uppercase mb-2">
                 🚨 VORTEX ID · ASISTENCIA MÉDICA SOS 🚨
               </div>
@@ -1119,8 +1119,8 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
             </div>
 
             {/* Privacy note */}
-            <div className="p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/60 text-emerald-300 text-xs flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+            <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/60 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
               <span>
                 <strong>Privacidad activa:</strong> Tus datos de edición están ocultos. Solo con tu clave PIN podés modificarlos.
               </span>
@@ -1165,23 +1165,23 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
               </div>
 
               {wallpaperNotice && (
-                <div className="p-2.5 rounded-xl bg-purple-950/80 border border-purple-400 text-purple-100 text-xs font-semibold text-center animate-fade-in">
+                <div className="p-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/80 border border-purple-400 dark:border-purple-400 text-purple-800 dark:text-purple-100 text-xs font-semibold text-center animate-fade-in">
                   {wallpaperNotice}
                 </div>
               )}
 
               {/* Vista previa instantánea del Fondo de Bloqueo generado (permite guardar con 1 toque o mantener presionado en iOS/Android) */}
               {generatedWallpaperUrl && (
-                <div className="p-3.5 rounded-2xl bg-[#040917] border-2 border-purple-400 space-y-2.5 animate-fade-in text-center">
+                <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#040917] border-2 border-purple-400 dark:border-purple-400 space-y-2.5 animate-fade-in text-center">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-black text-purple-200 uppercase tracking-wider flex items-center gap-1.5">
-                      <Smartphone className="w-4 h-4 text-purple-300" />
+                    <span className="text-xs font-black text-purple-800 dark:text-purple-200 uppercase tracking-wider flex items-center gap-1.5">
+                      <Smartphone className="w-4 h-4 text-purple-700 dark:text-purple-300" />
                       <span>Vista Previa · Pantalla de Bloqueo</span>
                     </span>
                     <button
                       type="button"
                       onClick={() => setGeneratedWallpaperUrl('')}
-                      className="text-[11px] text-gray-400 hover:text-white px-2 py-0.5 rounded bg-white/5"
+                      className="text-[11px] text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white px-2 py-0.5 rounded bg-slate-50 dark:bg-white/5"
                     >
                       Ocultar
                     </button>
@@ -1191,11 +1191,11 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                     <img
                       src={generatedWallpaperUrl}
                       alt="Fondo de Pantalla de Bloqueo Vortex ID"
-                      className="max-h-72 rounded-2xl border-2 border-purple-400/70 shadow-2xl object-contain bg-[#040816]"
+                      className="max-h-72 rounded-2xl border-2 border-purple-300 dark:border-purple-400/70 shadow-2xl object-contain bg-slate-50 dark:bg-[#040816]"
                     />
                   </div>
 
-                  <p className="text-[11px] text-purple-200 leading-snug">
+                  <p className="text-[11px] text-purple-800 dark:text-purple-200 leading-snug">
                     📱 <strong>En celular:</strong> si tu navegador no abrió la descarga automática, mantené presionada la imagen de arriba y tocá <strong>"Guardar en Fotos / Descargar imagen"</strong>. Luego abrí tu Galería → <strong>Usar como fondo → Pantalla de bloqueo</strong>.
                   </p>
 
@@ -1211,25 +1211,25 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
               )}
 
               {/* Guía rápida pantalla de bloqueo */}
-              <div className="p-3 rounded-xl bg-[#07122c] border border-purple-500/40 text-[11px] text-[#c7d7f4] space-y-1">
-                <div className="font-bold text-purple-300 flex items-center gap-1.5">
+              <div className="p-3 rounded-xl bg-white dark:bg-[#07122c] border border-purple-300 dark:border-purple-500/40 text-[11px] text-slate-700 dark:text-[#c7d7f4] space-y-1">
+                <div className="font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
                   <Smartphone className="w-3.5 h-3.5" />
                   <span>Cómo poner el QR en tu Pantalla de Bloqueo (sin saber tu clave):</span>
                 </div>
-                <p className="leading-snug text-[#9db6dd]">
+                <p className="leading-snug text-slate-600 dark:text-[#9db6dd]">
                   1) Tocá <strong>Descargar Fondo de Bloqueo</strong> (deja espacio arriba para el reloj). 2) Abrí la imagen en <strong>Galería / Fotos</strong>. 3) Elegí <strong>Usar como fondo → Pantalla de bloqueo</strong>. Por seguridad del teléfono, Android y iPhone requieren ese paso manual una sola vez.
                 </p>
               </div>
 
               {/* Direct public link indicator */}
-              <div className="p-2.5 rounded-xl bg-black/60 border border-[#1e5bff]/60 flex items-center justify-between gap-2 text-[11px]">
-                <span className="font-mono text-[#37c8ff] truncate select-all">{qrUrl}</span>
+              <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-black/60 border border-blue-400 dark:border-[#1e5bff]/60 flex items-center justify-between gap-2 text-[11px]">
+                <span className="font-mono text-sky-700 dark:text-[#37c8ff] truncate select-all">{qrUrl}</span>
                 <button
                   type="button"
                   onClick={handleCopyLink}
                   className="px-2.5 py-1 rounded-lg bg-[#1e5bff] hover:bg-blue-600 text-white font-bold shrink-0 flex items-center gap-1 active:scale-95 transition text-xs"
                 >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? 'Copiado' : 'Copiar'}</span>
                 </button>
               </div>
@@ -1238,9 +1238,9 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                 <button
                   type="button"
                   onClick={handleCopyLink}
-                  className="py-2.5 px-3 rounded-xl bg-[#0b1d46] hover:bg-[#112a63] border border-[#1e5bff]/70 text-xs font-bold text-[#37c8ff] hover:text-white flex items-center justify-center gap-1.5 transition active:scale-95"
+                  className="py-2.5 px-3 rounded-xl bg-sky-50 dark:bg-[#0b1d46] hover:bg-sky-100 dark:hover:bg-[#112a63] border border-blue-400 dark:border-[#1e5bff]/70 text-xs font-bold text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white flex items-center justify-center gap-1.5 transition active:scale-95"
                 >
-                  {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  {copied ? <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" /> : <Copy className="w-4 h-4" />}
                   <span>{copied ? '¡Copiado!' : 'Copiar enlace SOS'}</span>
                 </button>
 
@@ -1270,7 +1270,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                   onClose();
                   onOpenSosModal();
                 }}
-                className="w-full py-2 px-3 rounded-xl bg-transparent hover:bg-white/5 text-[11px] text-gray-400 hover:text-gray-200 flex items-center justify-center gap-1.5 transition"
+                className="w-full py-2 px-3 rounded-xl bg-transparent hover:bg-slate-200/70 dark:hover:bg-white/5 text-[11px] text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-gray-200 flex items-center justify-center gap-1.5 transition"
               >
                 <KeyRound className="w-3.5 h-3.5" />
                 <span>Modificar datos personales o cambiar foto / PIN</span>

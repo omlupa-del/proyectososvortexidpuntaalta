@@ -293,11 +293,11 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 dark:bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-lg bg-gradient-to-b from-[#180811] via-[#0b1d46] to-[#07122c] border-2 border-red-500 rounded-3xl p-5 sm:p-6 shadow-2xl shadow-red-950/80 my-auto">
+      <div className="w-full max-w-lg bg-gradient-to-b from-rose-50 dark:from-[#180811] via-sky-50/70 dark:via-[#0b1d46] to-slate-50 dark:to-[#07122c] border-2 border-red-400 dark:border-red-500 rounded-3xl p-5 sm:p-6 shadow-2xl shadow-red-950/80 my-auto">
         {/* Top First Responder Alert Banner */}
         <div className="mb-4 p-3 rounded-2xl bg-gradient-to-r from-red-600 to-rose-700 text-white flex items-center gap-2.5 shadow-md">
           <ShieldAlert className="w-6 h-6 shrink-0 animate-bounce text-white" />
@@ -310,16 +310,16 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-red-500/40">
+        <div className="flex items-center justify-between pb-3 border-b border-red-300 dark:border-red-500/40">
           <div className="flex items-center gap-2.5">
-            <span className="p-2 rounded-xl bg-red-600/30 text-red-400 border border-red-500 animate-pulse">
+            <span className="p-2 rounded-xl bg-red-100 dark:bg-red-600/30 text-red-700 dark:text-red-400 border border-red-400 dark:border-red-500 animate-pulse">
               <AlertOctagon className="w-6 h-6" />
             </span>
             <div>
-              <h2 className="text-2xl font-black font-heading text-white tracking-wider flex items-center gap-2">
+              <h2 className="text-2xl font-black font-heading text-slate-900 dark:text-white tracking-wider flex items-center gap-2">
                 {isEditing ? 'EDITAR MIS DATOS' : 'FICHA MÉDICA SOS'}
               </h2>
-              <p className="text-xs text-red-300 font-semibold uppercase tracking-wider">
+              <p className="text-xs text-red-700 dark:text-red-300 font-semibold uppercase tracking-wider">
                 Vortex ID · Punta Alta
               </p>
             </div>
@@ -330,7 +330,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               setShowPinInput(false);
               onClose();
             }}
-            className="p-2 rounded-full hover:bg-white/10 text-gray-300 hover:text-white transition"
+            className="p-2 rounded-full hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white transition"
             aria-label="Cerrar ficha de emergencia"
           >
             <X className="w-6 h-6" />
@@ -338,7 +338,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
         </div>
 
         {statusMessage && (
-          <div className="my-3 p-3 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 text-xs text-center font-bold">
+          <div className="my-3 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950 border border-emerald-400 dark:border-emerald-500 text-emerald-700 dark:text-emerald-300 text-xs text-center font-bold">
             {statusMessage}
           </div>
         )}
@@ -347,9 +347,9 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
         {isEditing ? (
           <form onSubmit={handleSaveEdit} className={`mt-4 space-y-3 max-h-[60vh] overflow-y-auto pr-1 ${largeTextMode ? 'vortex-large-text' : ''}`}>
             {/* Accessibility: Large Text Toggle */}
-            <div className="p-2.5 rounded-xl bg-[#071536] border border-cyan-400/60 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2 text-xs text-cyan-200 font-bold">
-                <ZoomIn className="w-4 h-4 text-cyan-300 shrink-0" />
+            <div className="p-2.5 rounded-xl bg-white dark:bg-[#071536] border border-sky-300 dark:border-cyan-400/60 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-xs text-sky-800 dark:text-cyan-200 font-bold">
+                <ZoomIn className="w-4 h-4 text-sky-700 dark:text-cyan-300 shrink-0" />
                 <span>Letra Grande (Poca visión)</span>
               </div>
               <button
@@ -358,7 +358,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                 className={`px-3 py-1 rounded-lg text-xs font-black transition border ${
                   largeTextMode
                     ? 'bg-emerald-500 text-gray-950 border-emerald-300'
-                    : 'bg-[#0a235c] text-cyan-200 border-cyan-400/60'
+                    : 'bg-sky-50 dark:bg-[#0a235c] text-sky-800 dark:text-cyan-200 border-sky-300 dark:border-cyan-400/60'
                 }`}
               >
                 {largeTextMode ? '✓ Activada' : 'Activar'}
@@ -374,42 +374,42 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">Nombre y apellido</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">Nombre y apellido</label>
                 <input
                   type="text"
                   value={editForm.nombre || ''}
                   onChange={(e) => handleChange('nombre', e.target.value)}
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                   required
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">DNI / Documento</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">DNI / Documento</label>
                 <input
                   type="text"
                   value={editForm.dni || ''}
                   onChange={(e) => handleChange('dni', e.target.value)}
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">Domicilio en Punta Alta</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">Domicilio en Punta Alta</label>
                 <input
                   type="text"
                   value={editForm.domicilio || ''}
                   onChange={(e) => handleChange('domicilio', e.target.value)}
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-[#9db6dd] mb-1">Grupo Sanguíneo</label>
+                <label className="block text-xs font-semibold text-slate-600 dark:text-[#9db6dd] mb-1">Grupo Sanguíneo</label>
                 <select
                   value={editForm.sangre || ''}
                   onChange={(e) => handleChange('sangre', e.target.value)}
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 >
                   <option value="">Seleccionar</option>
                   {BLOOD_TYPES.map((bt) => (
@@ -436,24 +436,24 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
             />
 
             <div>
-              <label className="block text-xs font-semibold text-amber-300 mb-1">¿Enfermedades o Alergias?</label>
+              <label className="block text-xs font-semibold text-amber-700 dark:text-amber-300 mb-1">¿Enfermedades o Alergias?</label>
               <input
                 type="text"
                 value={editForm.enf || ''}
                 onChange={(e) => handleChange('enf', e.target.value)}
                 placeholder="Ej: Hipertensión, Diabetes, Alérgico a penicilina"
-                className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-amber-500/60 text-sm text-white"
+                className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-amber-300 dark:border-amber-500/60 text-sm text-slate-900 dark:text-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-cyan-300 mb-1">¿Medicación habitual?</label>
+              <label className="block text-xs font-semibold text-sky-700 dark:text-cyan-300 mb-1">¿Medicación habitual?</label>
               <input
                 type="text"
                 value={editForm.med || ''}
                 onChange={(e) => handleChange('med', e.target.value)}
                 placeholder="Ej: Losartán 50mg, Insulina"
-                className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-cyan-500/60 text-sm text-white"
+                className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-sky-300 dark:border-cyan-500/60 text-sm text-slate-900 dark:text-white"
               />
             </div>
 
@@ -466,66 +466,66 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-xs text-gray-300 mb-1">Obra Social / Prepaga</label>
+                <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">Obra Social / Prepaga</label>
                 <input
                   type="text"
                   value={editForm.obraSocial || ''}
                   onChange={(e) => handleChange('obraSocial', e.target.value)}
                   placeholder="Ej: IOMA, OSDE, PAMI"
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-300 mb-1">Médico de cabecera</label>
+                <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">Médico de cabecera</label>
                 <input
                   type="text"
                   value={editForm.doc || ''}
                   onChange={(e) => handleChange('doc', e.target.value)}
                   placeholder="Dr/a. Apellido"
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-xs text-gray-300 mb-1">Teléfono principal de auxilio</label>
+                <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">Teléfono principal de auxilio</label>
                 <input
                   type="tel"
                   value={editForm.tel || ''}
                   onChange={(e) => handleChange('tel', e.target.value)}
                   placeholder="2932420000"
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-300 mb-1">WhatsApp Familiar</label>
+                <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">WhatsApp Familiar</label>
                 <input
                   type="tel"
                   value={editForm.cfam || ''}
                   onChange={(e) => handleChange('cfam', e.target.value)}
                   placeholder="2932123456"
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-emerald-500/60 text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-emerald-300 dark:border-emerald-500/60 text-sm text-slate-900 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-300 mb-1">Contacto Amigo / Vecino</label>
+                <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">Contacto Amigo / Vecino</label>
                 <input
                   type="tel"
                   value={editForm.cami || ''}
                   onChange={(e) => handleChange('cami', e.target.value)}
                   placeholder="2932654321"
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-300 mb-1">Teléfono Médico / Guardia</label>
+                <label className="block text-xs text-slate-700 dark:text-gray-300 mb-1">Teléfono Médico / Guardia</label>
                 <input
                   type="tel"
                   value={editForm.cmed || ''}
                   onChange={(e) => handleChange('cmed', e.target.value)}
                   placeholder="2932421234"
-                  className="w-full py-2 px-3 rounded-xl bg-[#07122c] border border-[#1e3f8f] text-sm text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white"
                 />
               </div>
             </div>
@@ -539,13 +539,13 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
             />
 
             {/* Change PIN option */}
-            <div className="p-3 rounded-xl bg-[#07122c] border border-[#1e5bff]/50 space-y-1.5">
+            <div className="p-3 rounded-xl bg-white dark:bg-[#07122c] border border-blue-400 dark:border-[#1e5bff]/50 space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-bold text-white">Cambiar clave PIN (opcional)</label>
+                <label className="block text-xs font-bold text-slate-900 dark:text-white">Cambiar clave PIN (opcional)</label>
                 <button
                   type="button"
                   onClick={() => setShowChangePin((v) => !v)}
-                  className="text-[11px] text-[#37c8ff] hover:text-white flex items-center gap-1"
+                  className="text-[11px] text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white flex items-center gap-1"
                 >
                   {showChangePin ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   <span>{showChangePin ? 'Ocultar' : 'Ver'}</span>
@@ -559,7 +559,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                   placeholder="Nueva clave (4 a 6)"
                   value={newPin}
                   onChange={(e) => setNewPin(e.target.value)}
-                  className="py-1.5 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-xs text-white"
+                  className="py-1.5 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-xs text-slate-900 dark:text-white"
                 />
                 <input
                   type={showChangePin ? 'text' : 'password'}
@@ -568,7 +568,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                   placeholder="Repetir clave"
                   value={confirmPin}
                   onChange={(e) => setConfirmPin(e.target.value)}
-                  className="py-1.5 px-3 rounded-lg bg-[#050b1f] border border-[#1e3f8f] text-xs text-white"
+                  className="py-1.5 px-3 rounded-lg bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-xs text-slate-900 dark:text-white"
                 />
               </div>
             </div>
@@ -583,7 +583,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
-                className="py-3 px-4 rounded-xl bg-[#07122c] border border-gray-700 text-gray-300 text-xs font-semibold"
+                className="py-3 px-4 rounded-xl bg-white dark:bg-[#07122c] border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-300 text-xs font-semibold"
               >
                 Cancelar
               </button>
@@ -593,8 +593,8 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
           /* VIEW 2: Standard Clean Emergency Sheet (Safe for Responders & Medical Staff) */
           <div className="mt-4 space-y-3 max-h-[60vh] overflow-y-auto pr-1">
             {!hasMedicalData(record) && (
-              <div className="p-3.5 rounded-2xl bg-amber-950/80 border-2 border-amber-500/80 text-center space-y-2">
-                <p className="text-xs text-amber-200">
+              <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/80 border-2 border-amber-300 dark:border-amber-500/80 text-center space-y-2">
+                <p className="text-xs text-amber-800 dark:text-amber-200">
                   ⚠️ <strong>Esta ficha médica aún no tiene datos cargados.</strong> Para que funcione ante un accidente, completá tu nombre, DNI, grupo sanguíneo y teléfonos de auxilio.
                 </p>
                 <button
@@ -612,7 +612,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
             )}
 
             {/* Person Card with Photo Verification & Blood Type */}
-            <div className="p-4 rounded-2xl bg-[#07122c] border border-red-500/60 shadow-inner space-y-3">
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#07122c] border border-red-300 dark:border-red-500/60 shadow-inner space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
                   {/* Photo of the owner with robust responsive sizing and tap-to-zoom */}
@@ -622,7 +622,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                       onClick={() => {
                         if (record?.foto) setIsPhotoZoomOpen(true);
                       }}
-                      className={`w-28 h-28 sm:w-32 sm:h-32 min-w-[112px] min-h-[112px] sm:min-w-[128px] sm:min-h-[128px] rounded-2xl overflow-hidden border-2 border-[#37c8ff] shadow-lg shadow-blue-950 bg-[#050b1f] flex items-center justify-center shrink-0 ${
+                      className={`w-28 h-28 sm:w-32 sm:h-32 min-w-[112px] min-h-[112px] sm:min-w-[128px] sm:min-h-[128px] rounded-2xl overflow-hidden border-2 border-[#37c8ff] shadow-lg shadow-blue-950 bg-slate-50 dark:bg-[#050b1f] flex items-center justify-center shrink-0 ${
                         record?.foto ? 'cursor-zoom-in hover:scale-105 transition' : 'cursor-default'
                       }`}
                       title={record?.foto ? 'Tocar para ampliar fotografía' : 'Sin foto'}
@@ -645,8 +645,8 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                       <div
                         className={`flex flex-col items-center justify-center text-gray-500 ${record?.foto ? 'hidden' : 'flex'}`}
                       >
-                        <User className="w-10 h-10 text-[#37c8ff]/60" />
-                        <span className="text-[10px] uppercase font-bold text-gray-400 mt-1">Sin foto</span>
+                        <User className="w-10 h-10 text-sky-700 dark:text-[#37c8ff]/60" />
+                        <span className="text-[10px] uppercase font-bold text-slate-600 dark:text-gray-400 mt-1">Sin foto</span>
                       </div>
                     </button>
                     {record?.foto && (
@@ -658,29 +658,29 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                   </div>
 
                   <div>
-                    <span className="text-[10px] text-[#9db6dd] uppercase font-bold tracking-wider block">
+                    <span className="text-[10px] text-slate-600 dark:text-[#9db6dd] uppercase font-bold tracking-wider block">
                       Titular del llavero
                     </span>
-                    <div className="text-xl sm:text-2xl font-extrabold font-heading text-white leading-tight">
+                    <div className="text-xl sm:text-2xl font-extrabold font-heading text-slate-900 dark:text-white leading-tight">
                       {record?.nombre || 'Ficha vacía (Sin registrar)'}
                     </div>
                     <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
                       {record?.dni && (
-                        <span className="text-xs text-[#37c8ff] font-semibold">DNI: {record.dni}</span>
+                        <span className="text-xs text-sky-700 dark:text-[#37c8ff] font-semibold">DNI: {record.dni}</span>
                       )}
                       {(() => {
                         const v = getMedicalValidationStatus(record);
                         if (v.isDonorValidated) {
                           return (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-300/75 text-amber-200 text-[9px] font-black uppercase">
-                              <Award className="w-2.5 h-2.5 text-amber-300" />
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-400/20 border border-amber-300 dark:border-amber-300/75 text-amber-800 dark:text-amber-200 text-[9px] font-black uppercase">
+                              <Award className="w-2.5 h-2.5 text-amber-700 dark:text-amber-300" />
                               <span>Donante Validado</span>
                             </span>
                           );
                         }
                         if (v.donorState === 'si') {
                           return (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 text-[9px] font-bold uppercase">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-400/60 text-emerald-800 dark:text-emerald-200 text-[9px] font-bold uppercase">
                               <span>💚 Donante</span>
                             </span>
                           );
@@ -689,8 +689,8 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                       })()}
                     </div>
                     {record?.domicilio && (
-                      <div className="text-xs text-gray-300 flex items-center gap-1 mt-1">
-                        <MapPin className="w-3.5 h-3.5 text-[#37c8ff] shrink-0" />
+                      <div className="text-xs text-slate-700 dark:text-gray-300 flex items-center gap-1 mt-1">
+                        <MapPin className="w-3.5 h-3.5 text-sky-700 dark:text-[#37c8ff] shrink-0" />
                         <span className="truncate max-w-[170px] sm:max-w-none">{record.domicilio}</span>
                       </div>
                     )}
@@ -704,8 +704,8 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                       <div
                         className={`text-center px-3.5 py-2 rounded-2xl bg-gradient-to-b from-red-600 to-rose-800 text-white border-2 shadow-lg shadow-red-950 ${
                           v.isBloodValidated
-                            ? 'border-amber-300 ring-2 ring-emerald-400/75'
-                            : 'border-red-300'
+                            ? 'border-amber-400 dark:border-amber-300 ring-2 ring-emerald-400/75'
+                            : 'border-red-400 dark:border-red-300'
                         }`}
                       >
                         <span className="text-[9px] font-bold tracking-wider block opacity-90">GRUPO</span>
@@ -720,7 +720,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                     </div>
                   );
                 })() : (
-                  <div className="shrink-0 px-2.5 py-1 rounded-xl bg-gray-800 border border-gray-600 text-xs text-gray-400">
+                  <div className="shrink-0 px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-gray-800 border border-slate-300 dark:border-gray-600 text-xs text-slate-600 dark:text-gray-400">
                     Sin grupo
                   </div>
                 )}
@@ -728,17 +728,17 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
 
               {/* Security Identity Notice (prevents treating wrong person if keychain was stolen or lost) */}
               {record?.foto ? (
-                <div className="p-2.5 rounded-xl bg-blue-950/80 border border-blue-500/60 flex items-start gap-2 text-xs text-blue-200">
-                  <ShieldCheck className="w-4 h-4 text-[#37c8ff] shrink-0 mt-0.5" />
+                <div className="p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/80 border border-blue-300 dark:border-blue-500/60 flex items-start gap-2 text-xs text-blue-800 dark:text-blue-200">
+                  <ShieldCheck className="w-4 h-4 text-sky-700 dark:text-[#37c8ff] shrink-0 mt-0.5" />
                   <span className="leading-snug">
-                    <strong className="text-white">Control de Identidad:</strong> Confirme que la persona que sufre la emergencia sea la misma de esta fotografía para verificar que el llavero no pertenezca a un tercero por robo o extravío.
+                    <strong className="text-slate-900 dark:text-white">Control de Identidad:</strong> Confirme que la persona que sufre la emergencia sea la misma de esta fotografía para verificar que el llavero no pertenezca a un tercero por robo o extravío.
                   </span>
                 </div>
               ) : (
-                <div className="p-2.5 rounded-xl bg-amber-950/70 border border-amber-500/60 flex items-start gap-2 text-xs text-amber-200">
-                  <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-500/60 flex items-start gap-2 text-xs text-amber-800 dark:text-amber-200">
+                  <AlertTriangle className="w-4 h-4 text-amber-700 dark:text-amber-400 shrink-0 mt-0.5" />
                   <span className="leading-snug">
-                    <strong className="text-amber-300">Aviso a socorristas:</strong> Ficha sin fotografía cargada. Cotejar nombre con DNI físico antes de suministrar medicamentos específicos.
+                    <strong className="text-amber-700 dark:text-amber-300">Aviso a socorristas:</strong> Ficha sin fotografía cargada. Cotejar nombre con DNI físico antes de suministrar medicamentos específicos.
                   </span>
                 </div>
               )}
@@ -748,14 +748,14 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
             <DonorAndBloodStatusCard record={record} compact={true} />
 
             {/* CÓDIGO QR DIRECTO EN LA FICHA PARA ESCANEAR */}
-            <div className="p-4 rounded-2xl bg-white text-[#050b1f] text-center shadow-xl border-4 border-[#37c8ff]">
+            <div className="p-4 rounded-2xl bg-white text-[#050b1f] text-center shadow-xl border-4 border-sky-500 dark:border-[#37c8ff]">
               <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                 <div className="flex items-center gap-1.5 text-xs font-black text-red-600 uppercase tracking-wider">
                   <QrCode className="w-4 h-4 text-red-600 animate-pulse" />
                   <span>CÓDIGO QR DE LA FICHA</span>
                 </div>
                 {record?.keychainId ? (
-                  <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold text-[10px] border border-emerald-300">
+                  <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold text-[10px] border border-emerald-400 dark:border-emerald-300">
                     🏷️ LLAVERO #{record.keychainId}
                   </span>
                 ) : (
@@ -774,7 +774,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                     className="w-52 h-52 sm:w-56 sm:h-56 object-contain rounded-xl shadow-md border-2 border-gray-900/10 block bg-white"
                   />
                 ) : (
-                  <div className="w-52 h-52 sm:w-56 sm:h-56 flex items-center justify-center bg-gray-100 rounded-xl text-gray-500 text-xs">
+                  <div className="w-52 h-52 sm:w-56 sm:h-56 flex items-center justify-center bg-gray-100 rounded-xl text-slate-500 dark:text-gray-500 text-xs">
                     Generando QR…
                   </div>
                 )}
@@ -794,9 +794,9 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                     onClose();
                     onOpenQrModal();
                   }}
-                  className="mt-3 w-full py-2 px-3 rounded-xl bg-[#07122c] hover:bg-[#0f275e] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm"
+                  className="mt-3 w-full py-2 px-3 rounded-xl bg-white dark:bg-[#07122c] hover:bg-sky-100 dark:hover:bg-[#0f275e] text-slate-900 dark:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm"
                 >
-                  <QrCode className="w-3.5 h-3.5 text-[#37c8ff]" />
+                  <QrCode className="w-3.5 h-3.5 text-sky-700 dark:text-[#37c8ff]" />
                   <span>Descargar credencial para llavero o fondo de pantalla HD</span>
                 </button>
               )}
@@ -807,25 +807,25 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               const preg = calculatePregnancyProgress(record);
               if (!preg) return null;
               return (
-                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-pink-950/90 via-[#2a0c2e] to-[#0a1838] border-2 border-pink-400 shadow-lg space-y-1">
+                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-pink-50 dark:from-pink-950/90 via-pink-50/70 dark:via-[#2a0c2e] to-slate-50 dark:to-[#0a1838] border-2 border-pink-400 dark:border-pink-400 shadow-lg space-y-1">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className="text-xs font-black text-pink-300 uppercase tracking-wider">
+                    <span className="text-xs font-black text-pink-700 dark:text-pink-300 uppercase tracking-wider">
                       🤰 EMBARAZO EN CURSO · ACTUALIZADO AL DÍA DE HOY
                     </span>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-pink-500 text-white">
                       {preg.trimesterLabel}
                     </span>
                   </div>
-                  <div className="text-base sm:text-lg font-black text-white">
+                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
                     {preg.detailedLabel}
                   </div>
                   {preg.dueDateFormatted && (
-                    <div className="text-xs text-pink-200">
+                    <div className="text-xs text-pink-800 dark:text-pink-200">
                       Fecha probable de parto (FPP): <strong>{preg.dueDateFormatted}</strong>
                     </div>
                   )}
                   {record?.embarazoObstetra && (
-                    <div className="text-xs text-pink-100 bg-black/40 p-2 rounded-xl border border-pink-400/30 mt-1">
+                    <div className="text-xs text-pink-800 dark:text-pink-100 bg-slate-100 dark:bg-black/40 p-2 rounded-xl border border-pink-300 dark:border-pink-400/30 mt-1">
                       <strong>Obstetricia:</strong> {record.embarazoObstetra}
                     </div>
                   )}
@@ -835,23 +835,23 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
 
             {/* Health Conditions */}
             {record?.enf && (
-              <div className="p-3.5 rounded-xl bg-[#0a1838] border border-amber-500/50">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-300 uppercase tracking-wider mb-1">
+              <div className="p-3.5 rounded-xl bg-white dark:bg-[#0a1838] border border-amber-300 dark:border-amber-500/50">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider mb-1">
                   <AlertOctagon className="w-3.5 h-3.5" />
                   <span>Enfermedades preexistentes / Alergias</span>
                 </div>
-                <p className="text-sm font-semibold text-white leading-snug">{record.enf}</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white leading-snug">{record.enf}</p>
               </div>
             )}
 
             {/* Medications */}
             {record?.med && (
-              <div className="p-3.5 rounded-xl bg-[#0a1838] border border-cyan-500/50">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-300 uppercase tracking-wider mb-1">
+              <div className="p-3.5 rounded-xl bg-white dark:bg-[#0a1838] border border-sky-300 dark:border-cyan-500/50">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-cyan-300 uppercase tracking-wider mb-1">
                   <Pill className="w-3.5 h-3.5" />
                   <span>Medicamentos habituales que toma</span>
                 </div>
-                <p className="text-sm font-semibold text-white leading-snug">{record.med}</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white leading-snug">{record.med}</p>
               </div>
             )}
 
@@ -863,17 +863,17 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
 
             {/* Obra Social & Doctor */}
             {(record?.obraSocial || record?.doc) && (
-              <div className="p-3.5 rounded-xl bg-[#0a1838] border border-[#1e3f8f] space-y-1.5">
+              <div className="p-3.5 rounded-xl bg-white dark:bg-[#0a1838] border border-slate-300 dark:border-[#1e3f8f] space-y-1.5">
                 {record?.obraSocial && (
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-[#9db6dd]">Obra Social / Cobertura:</span>
-                    <span className="font-bold text-white">{record.obraSocial}</span>
+                    <span className="text-slate-600 dark:text-[#9db6dd]">Obra Social / Cobertura:</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{record.obraSocial}</span>
                   </div>
                 )}
                 {record?.doc && (
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-[#9db6dd]">Médico de cabecera:</span>
-                    <span className="font-bold text-white">{record.doc}</span>
+                    <span className="text-slate-600 dark:text-[#9db6dd]">Médico de cabecera:</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{record.doc}</span>
                   </div>
                 )}
               </div>
@@ -886,14 +886,14 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
             />
 
             {/* Emergency Contacts List */}
-            <div className="p-3.5 rounded-2xl bg-[#07122c] border border-red-500/40">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-red-300 mb-2 flex items-center gap-1.5">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#07122c] border border-red-300 dark:border-red-500/40">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-red-700 dark:text-red-300 mb-2 flex items-center gap-1.5">
                 <Phone className="w-3.5 h-3.5" />
                 <span>Contactos a avisar de inmediato</span>
               </h4>
 
               {contacts.length === 0 ? (
-                <p className="text-xs text-[#9db6dd]">
+                <p className="text-xs text-slate-600 dark:text-[#9db6dd]">
                   No hay contactos cargados en esta ficha.
                 </p>
               ) : (
@@ -901,11 +901,11 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                   {contacts.map((c, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b1d46] border border-[#1e3f8f]"
+                      className="flex items-center justify-between p-2.5 rounded-xl bg-sky-50 dark:bg-[#0b1d46] border border-slate-300 dark:border-[#1e3f8f]"
                     >
                       <div>
-                        <span className="text-xs font-bold text-white block">{c.label}</span>
-                        <span className="text-xs text-[#9db6dd] tabular-nums font-mono">{c.phone}</span>
+                        <span className="text-xs font-bold text-slate-900 dark:text-white block">{c.label}</span>
+                        <span className="text-xs text-slate-600 dark:text-[#9db6dd] tabular-nums font-mono">{c.phone}</span>
                       </div>
 
                       <div className="flex items-center gap-1.5">
@@ -921,7 +921,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                         <button
                           type="button"
                           onClick={() => handleSendWhatsAppTo(c.phone)}
-                          className="py-1.5 px-3 rounded-lg bg-emerald-950 border border-emerald-500 text-emerald-300 hover:bg-emerald-900 text-xs font-bold flex items-center gap-1 transition active:scale-95"
+                          className="py-1.5 px-3 rounded-lg bg-emerald-50 dark:bg-emerald-950 border border-emerald-400 dark:border-emerald-500 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-xs font-bold flex items-center gap-1 transition active:scale-95"
                           title="Enviar alerta por WhatsApp con GPS"
                         >
                           <Send className="w-3 h-3" />
@@ -945,7 +945,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                         onClose();
                         onOpenQrModal();
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-[#0b1d46] hover:bg-[#122e7a] border border-[#37c8ff]/60 text-xs font-bold text-[#37c8ff] hover:text-white transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                      className="py-2.5 px-3 rounded-xl bg-sky-50 dark:bg-[#0b1d46] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-[#37c8ff]/60 text-xs font-bold text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
                     >
                       <QrCode className="w-3.5 h-3.5" />
                       <span>Ver mi QR de Llavero</span>
@@ -954,7 +954,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setShowPinInput(true)}
-                    className={`py-2.5 px-3 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-[#1e5bff]/60 text-xs font-semibold text-gray-300 hover:text-white transition flex items-center justify-center gap-1.5 ${
+                    className={`py-2.5 px-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-[#122e7a] border border-blue-400 dark:border-[#1e5bff]/60 text-xs font-semibold text-gray-300 hover:text-white transition flex items-center justify-center gap-1.5 ${
                       !onOpenQrModal ? 'w-full' : ''
                     }`}
                   >
@@ -963,10 +963,10 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                   </button>
                 </div>
               ) : (
-                <div className="p-3.5 rounded-2xl bg-[#07122c] border border-[#37c8ff] space-y-2 animate-fade-in">
+                <div className="p-3.5 rounded-2xl bg-white dark:bg-[#07122c] border border-sky-500 dark:border-[#37c8ff] space-y-2 animate-fade-in">
                   {!showRecoveryMode ? (
                     <>
-                      <div className="flex items-center justify-between text-xs text-[#9db6dd]">
+                      <div className="flex items-center justify-between text-xs text-slate-600 dark:text-[#9db6dd]">
                         <span>Ingresá tu clave numérica para editar:</span>
                         <button
                           type="button"
@@ -976,7 +976,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                             setPinError('');
                             setPin('');
                           }}
-                          className="text-gray-400 hover:text-white"
+                          className="text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white"
                         >
                           Cancelar
                         </button>
@@ -994,13 +994,13 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                               if (pinError) setPinError('');
                             }}
                             onKeyDown={(e) => e.key === 'Enter' && handleUnlockEdit()}
-                            className="w-full py-2 pl-3 pr-10 rounded-xl bg-[#050b1f] border border-[#1e5bff] text-center text-lg text-white"
+                            className="w-full py-2 pl-3 pr-10 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-blue-500 dark:border-[#1e5bff] text-center text-lg text-slate-900 dark:text-white"
                             autoFocus
                           />
                           <button
                             type="button"
                             onClick={() => setShowUnlockPin((v) => !v)}
-                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white p-1"
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white p-1"
                             aria-label={showUnlockPin ? 'Ocultar clave PIN' : 'Mostrar clave PIN'}
                           >
                             {showUnlockPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -1014,7 +1014,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                           Abrir
                         </button>
                       </div>
-                      {pinError && <p className="text-xs text-red-400 font-semibold">{pinError}</p>}
+                      {pinError && <p className="text-xs text-red-700 dark:text-red-400 font-semibold">{pinError}</p>}
                       <div className="pt-0.5">
                         <button
                           type="button"
@@ -1023,7 +1023,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                             setPinError('');
                             setShowRecoveryMode(true);
                           }}
-                          className="text-xs text-[#37c8ff] hover:text-white underline underline-offset-4 flex items-center gap-1.5 font-semibold transition"
+                          className="text-xs text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white underline underline-offset-4 flex items-center gap-1.5 font-semibold transition"
                         >
                           <HelpCircle className="w-3.5 h-3.5" />
                           <span>¿Olvidaste tu clave? Recuperar</span>
@@ -1054,21 +1054,21 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
 
         {/* Bottom Fast Action Buttons: WhatsApp SOS & 107/911 */}
         {!isEditing && (
-          <div className="mt-4 pt-3 border-t border-red-500/30 space-y-2">
+          <div className="mt-4 pt-3 border-t border-red-300 dark:border-red-500/30 space-y-2">
             <div className="text-[11px] flex items-center justify-between gap-2 px-1 flex-wrap">
               {manualAccidentCoords ? (
-                <span className="text-cyan-300 font-semibold">
+                <span className="text-sky-700 dark:text-cyan-300 font-semibold">
                   📍 Esquina del accidente: {manualAccidentCoords.label}
                 </span>
               ) : activeEmergencyCoords ? (
-                <span className={`font-semibold ${freshness?.isStale ? 'text-amber-300' : 'text-emerald-300'}`}>
+                <span className={`font-semibold ${freshness?.isStale ? 'text-amber-700 dark:text-amber-300' : 'text-emerald-700 dark:text-emerald-300'}`}>
                   {freshness?.isStale ? '🕒 GPS anterior' : '✅ GPS real listo'} ({activeEmergencyCoords.lat.toFixed(4)}, {activeEmergencyCoords.lng.toFixed(4)}
                   {freshness?.accuracyMeters ? ` · ±${freshness.accuracyMeters}m` : ''}
                   {freshness?.ageLabel ? ` · ${freshness.ageLabel}` : ''}
                   {` · ${describePuntaAltaLocation(activeEmergencyCoords)}`})
                 </span>
               ) : (
-                <span className="text-amber-300 font-semibold">
+                <span className="text-amber-700 dark:text-amber-300 font-semibold">
                   ⚠️ {gpsStatus || 'GPS sin señal aún (podés marcar la esquina o enviar igual)'}
                 </span>
               )}
@@ -1078,7 +1078,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                     href={`https://www.google.com/maps?q=${activeEmergencyCoords.lat},${activeEmergencyCoords.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-200 hover:text-white underline font-bold inline-flex items-center gap-0.5"
+                    className="text-emerald-800 dark:text-emerald-200 hover:text-slate-950 dark:hover:text-white underline font-bold inline-flex items-center gap-0.5"
                   >
                     <ExternalLink className="w-3 h-3" />
                     <span>Ver punto</span>
@@ -1092,7 +1092,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                       setManualAccidentCoords(null);
                       onRequestCoords?.();
                     }}
-                    className="text-emerald-300 hover:text-white underline font-bold inline-flex items-center gap-1"
+                    className="text-emerald-700 dark:text-emerald-300 hover:text-slate-950 dark:hover:text-white underline font-bold inline-flex items-center gap-1"
                   >
                     <RefreshCw className="w-3 h-3" />
                     <span>Usar GPS</span>
@@ -1105,7 +1105,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                         playChirp('click');
                         onRequestCoords();
                       }}
-                      className="text-[#37c8ff] hover:text-white underline font-bold inline-flex items-center gap-1"
+                      className="text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white underline font-bold inline-flex items-center gap-1"
                     >
                       <RefreshCw className="w-3 h-3" />
                       <span>{activeEmergencyCoords ? 'Actualizar' : 'Activar GPS'}</span>
@@ -1118,7 +1118,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                     setShowCornerPicker((v) => !v);
                     setCornerError('');
                   }}
-                  className="text-cyan-300 hover:text-white underline font-bold inline-flex items-center gap-1"
+                  className="text-sky-700 dark:text-cyan-300 hover:text-slate-950 dark:hover:text-white underline font-bold inline-flex items-center gap-1"
                 >
                   <Edit3 className="w-3 h-3" />
                   <span>{showCornerPicker ? 'Cerrar' : 'Esquina'}</span>
@@ -1127,7 +1127,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
             </div>
 
             {showCornerPicker && (
-              <div className="p-2.5 rounded-xl bg-[#040a1b] border border-cyan-400/50 space-y-2 text-xs animate-fade-in">
+              <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#040a1b] border border-sky-300 dark:border-cyan-400/50 space-y-2 text-xs animate-fade-in">
                 <form onSubmit={handleApplyManualCorner} className="flex gap-1.5">
                   <input
                     type="text"
@@ -1137,7 +1137,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                       if (cornerError) setCornerError('');
                     }}
                     placeholder="Calle o esquina del accidente (ej: Brown y Paso)"
-                    className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#07122c] border border-[#1e4594] text-white text-xs"
+                    className="flex-1 py-1.5 px-2.5 rounded-lg bg-white dark:bg-[#07122c] border border-slate-300 dark:border-[#1e4594] text-slate-900 dark:text-white text-xs"
                   />
                   <button
                     type="submit"
@@ -1147,7 +1147,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                     {isResolvingCorner ? '…' : 'Fijar'}
                   </button>
                 </form>
-                {cornerError && <p className="text-[11px] text-red-300 font-semibold">{cornerError}</p>}
+                {cornerError && <p className="text-[11px] text-red-700 dark:text-red-300 font-semibold">{cornerError}</p>}
                 <div className="flex flex-wrap gap-1">
                   {POPULAR_PUNTA_ALTA_SPOTS.slice(0, 4).map((spot) => (
                     <button
@@ -1158,7 +1158,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                         setManualAccidentCoords({ ...spot.coords, source: 'manual', label: spot.label });
                         setShowCornerPicker(false);
                       }}
-                      className="px-2 py-0.5 rounded bg-[#0a1838] border border-[#1e3f8f] text-[10px] text-gray-200"
+                      className="px-2 py-0.5 rounded bg-white dark:bg-[#0a1838] border border-slate-300 dark:border-[#1e3f8f] text-[10px] text-slate-700 dark:text-gray-200"
                     >
                       {spot.label}
                     </button>
@@ -1182,7 +1182,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               <button
                 type="button"
                 onClick={() => triggerDirectCall('107', '107 Emergencias Médicas', 'emergency')}
-                className="py-3 px-3 rounded-xl bg-emerald-900/90 hover:bg-emerald-800 border border-emerald-500 text-emerald-200 text-xs font-bold flex items-center justify-center gap-1.5 shadow"
+                className="py-3 px-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/90 hover:bg-emerald-800 border border-emerald-400 dark:border-emerald-500 text-emerald-800 dark:text-emerald-200 text-xs font-bold flex items-center justify-center gap-1.5 shadow"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span>107 Ambulancia</span>
@@ -1191,7 +1191,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               <button
                 type="button"
                 onClick={() => triggerDirectCall('911', '911 Policía Punta Alta', 'emergency')}
-                className="py-3 px-3 rounded-xl bg-rose-900/90 hover:bg-rose-800 border border-red-500 text-red-200 text-xs font-bold flex items-center justify-center gap-1.5 shadow"
+                className="py-3 px-3 rounded-xl bg-rose-50 dark:bg-rose-900/90 hover:bg-rose-800 border border-red-400 dark:border-red-500 text-red-800 dark:text-red-200 text-xs font-bold flex items-center justify-center gap-1.5 shadow"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span>911 Policía</span>
@@ -1204,18 +1204,18 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
       {/* Fullscreen Photo Zoom Preview */}
       {isPhotoZoomOpen && record?.foto && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/75 dark:bg-black/90 backdrop-blur-md"
           onClick={() => setIsPhotoZoomOpen(false)}
         >
           <div
-            className="w-full max-w-sm rounded-3xl bg-[#07122c] border-2 border-[#37c8ff] p-5 shadow-2xl space-y-3 text-center text-white"
+            className="w-full max-w-sm rounded-3xl bg-white dark:bg-[#07122c] border-2 border-sky-500 dark:border-[#37c8ff] p-5 shadow-2xl space-y-3 text-center text-slate-900 dark:text-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-xs font-black uppercase tracking-wider text-[#37c8ff] flex items-center justify-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <div className="text-xs font-black uppercase tracking-wider text-sky-700 dark:text-[#37c8ff] flex items-center justify-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
               <span>Fotografía del Titular</span>
             </div>
-            <div className="w-64 h-64 sm:w-72 sm:h-72 mx-auto rounded-2xl overflow-hidden border-2 border-white shadow-xl bg-[#050b1f]">
+            <div className="w-64 h-64 sm:w-72 sm:h-72 mx-auto rounded-2xl overflow-hidden border-2 border-white shadow-xl bg-slate-50 dark:bg-[#050b1f]">
               <img
                 src={record.foto}
                 alt={record.nombre || 'Foto del titular'}
@@ -1223,7 +1223,7 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
               />
             </div>
             {record.nombre && (
-              <div className="text-lg font-black font-heading text-white">{record.nombre}</div>
+              <div className="text-lg font-black font-heading text-slate-900 dark:text-white">{record.nombre}</div>
             )}
             <button
               type="button"

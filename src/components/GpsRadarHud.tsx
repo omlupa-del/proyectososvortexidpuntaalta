@@ -156,10 +156,10 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
   }
 
   return (
-    <div className="mb-4 rounded-2xl bg-[#071330] border border-[#1e5bff]/50 p-4 shadow-lg text-white">
+    <div className="mb-4 rounded-2xl bg-white dark:bg-[#071330] border border-blue-400 dark:border-[#1e5bff]/50 p-4 shadow-lg text-slate-900 dark:text-white">
       {/* Toast de confirmación */}
       {toastMessage && (
-        <div className="mb-3 py-1.5 px-3 rounded-xl bg-emerald-600/90 text-white font-bold text-xs flex items-center justify-between animate-fade-in shadow">
+        <div className="mb-3 py-1.5 px-3 rounded-xl bg-emerald-100 dark:bg-emerald-600/90 text-white font-bold text-xs flex items-center justify-between animate-fade-in shadow">
           <span>✓ {toastMessage}</span>
           <button type="button" onClick={() => setToastMessage('')} className="text-[10px] uppercase underline ml-2">
             Cerrar
@@ -173,21 +173,21 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
           <div
             className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${
               hasLiveGpsInCity
-                ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
+                ? 'bg-emerald-100 dark:bg-emerald-500/20 border-emerald-400 text-emerald-700 dark:text-emerald-300'
                 : isUsingCenterFallback
-                ? 'bg-amber-500/20 border-amber-400 text-amber-300'
-                : 'bg-cyan-500/20 border-cyan-400 text-cyan-300'
+                ? 'bg-amber-50 dark:bg-amber-500/20 border-amber-400 dark:border-amber-400 text-amber-700 dark:text-amber-300'
+                : 'bg-sky-100 dark:bg-cyan-500/20 border-cyan-400 text-sky-700 dark:text-cyan-300'
             }`}
           >
             {isUsingCenterFallback ? (
-              <AlertTriangle className="w-5 h-5 text-amber-400" />
+              <AlertTriangle className="w-5 h-5 text-amber-700 dark:text-amber-400" />
             ) : (
-              <MapPin className={`w-5 h-5 ${hasLiveGpsInCity ? 'text-emerald-400' : 'text-cyan-400'}`} />
+              <MapPin className={`w-5 h-5 ${hasLiveGpsInCity ? 'text-emerald-700 dark:text-emerald-400' : 'text-sky-700 dark:text-cyan-400'}`} />
             )}
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] font-black uppercase tracking-wider text-cyan-300">
+              <span className="text-[10px] font-black uppercase tracking-wider text-sky-700 dark:text-cyan-300">
                 Punto de Origen
               </span>
               {hasLiveGpsInCity && (
@@ -201,7 +201,7 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
                 </span>
               )}
               {originMode === 'gps' && !rawGpsCoords && (
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-500/30 text-amber-200 border border-amber-400/60 uppercase">
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-50 dark:bg-amber-500/30 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-400/60 uppercase">
                   Sin GPS activo · Centro
                 </span>
               )}
@@ -216,10 +216,10 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
                 </span>
               )}
             </div>
-            <h3 className="text-base font-bold text-white leading-tight mt-0.5 truncate">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white leading-tight mt-0.5 truncate">
               {headingTitle}
             </h3>
-            <p className={`text-[11px] leading-snug mt-0.5 ${isUsingCenterFallback ? 'text-amber-200' : 'text-[#9db6dd]'}`}>
+            <p className={`text-[11px] leading-snug mt-0.5 ${isUsingCenterFallback ? 'text-amber-800 dark:text-amber-200' : 'text-slate-600 dark:text-[#9db6dd]'}`}>
               {subtitleText}
             </p>
           </div>
@@ -234,7 +234,7 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
             className={`py-1.5 px-3 rounded-xl text-xs font-bold flex items-center gap-1.5 transition active:scale-95 border ${
               originMode !== 'gps'
                 ? 'bg-emerald-600 hover:bg-emerald-500 border-emerald-400 text-white shadow'
-                : 'bg-[#0c235c] hover:bg-[#12368a] border-cyan-400/60 text-cyan-200 hover:text-white'
+                : 'bg-sky-50 dark:bg-[#0c235c] hover:bg-sky-100 dark:hover:bg-[#12368a] border-sky-300 dark:border-cyan-400/60 text-sky-800 dark:text-cyan-200 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
             {originMode !== 'gps' ? (
@@ -257,7 +257,7 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
               setIsSearchingStreet(!isSearchingStreet);
               setSearchError('');
             }}
-            className="py-1.5 px-3 rounded-xl bg-[#0a1838] hover:bg-[#0e214d] border border-white/20 hover:border-cyan-400 text-gray-200 hover:text-white text-xs font-bold flex items-center gap-1.5 transition active:scale-95"
+            className="py-1.5 px-3 rounded-xl bg-white dark:bg-[#0a1838] hover:bg-sky-100 dark:hover:bg-[#0e214d] border border-slate-200 dark:border-white/20 hover:border-sky-500 dark:hover:border-cyan-400 text-slate-700 dark:text-gray-200 hover:text-slate-950 dark:hover:text-white text-xs font-bold flex items-center gap-1.5 transition active:scale-95"
           >
             <Search className="w-3.5 h-3.5" />
             <span>{isSearchingStreet ? 'Cerrar' : 'Elegir mi calle'}</span>
@@ -268,7 +268,7 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
 
       {/* Buscador de Calle / Barrio Plegable */}
       {isSearchingStreet && (
-        <div className="mt-3 pt-3 border-t border-[#1e4594]/60 space-y-2.5 text-xs animate-fade-in">
+        <div className="mt-3 pt-3 border-t border-slate-300 dark:border-[#1e4594]/60 space-y-2.5 text-xs animate-fade-in">
           <form onSubmit={(e) => handleManualSearchSubmit(e)} className="flex gap-2">
             <input
               type="text"
@@ -278,7 +278,7 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
                 if (searchError) setSearchError('');
               }}
               placeholder="Escribí tu calle o esquina (ej: Brown 1500, Paso y Mitre, Yrigoyen 800)..."
-              className="flex-1 py-2 px-3 rounded-xl bg-[#030919] border border-cyan-400/70 text-white placeholder-gray-500 text-xs focus:outline-none focus:border-cyan-300"
+              className="flex-1 py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#030919] border border-sky-300 dark:border-cyan-400/70 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 text-xs focus:outline-none focus:border-sky-500 dark:focus:border-cyan-300"
               autoFocus
             />
             <button
@@ -291,14 +291,14 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
           </form>
 
           {searchError && (
-            <div className="p-2 rounded-lg bg-red-950/70 border border-red-500/60 text-red-200 text-[11px] font-semibold">
+            <div className="p-2 rounded-lg bg-red-50 dark:bg-red-950/70 border border-red-300 dark:border-red-500/60 text-red-800 dark:text-red-200 text-[11px] font-semibold">
               ⚠️ {searchError}
             </div>
           )}
 
           {/* Atajos por zonas y barrios de Punta Alta */}
           <div className="flex items-center gap-1.5 flex-wrap pt-0.5 text-[11px]">
-            <span className="text-[#9db6dd] font-semibold">Zonas rápidas:</span>
+            <span className="text-slate-600 dark:text-[#9db6dd] font-semibold">Zonas rápidas:</span>
             {POPULAR_PUNTA_ALTA_SPOTS.slice(0, 7).map((spot) => (
               <button
                 key={spot.id}
@@ -308,7 +308,7 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
                   triggerToast(`Ubicación fijada en ${spot.label}`);
                   setIsSearchingStreet(false);
                 }}
-                className="px-2.5 py-1 rounded-lg bg-[#0a1838] hover:bg-[#122e7a] border border-[#1e3f8f] text-gray-200 hover:text-white transition"
+                className="px-2.5 py-1 rounded-lg bg-white dark:bg-[#0a1838] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-slate-300 dark:border-[#1e3f8f] text-slate-700 dark:text-gray-200 hover:text-slate-950 dark:hover:text-white transition"
               >
                 📍 {spot.label}
               </button>
@@ -321,7 +321,7 @@ export const GpsRadarHud: React.FC<GpsRadarHudProps> = ({
                   triggerToast('Fijado en tu domicilio');
                   setIsSearchingStreet(false);
                 }}
-                className="px-2.5 py-1 rounded-lg bg-amber-600/30 hover:bg-amber-600/50 border border-amber-400/50 text-amber-200 font-semibold transition"
+                className="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-amber-600/30 hover:bg-amber-600/50 border border-amber-400/50 text-amber-800 dark:text-amber-200 font-semibold transition"
               >
                 🏠 Mi Domicilio
               </button>

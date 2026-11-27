@@ -538,7 +538,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
   }, [selectedDate, paTime]);
 
   return (
-    <section id="farmacias" className="my-5 rounded-2xl bg-[#050e24] border border-[#1e4594] p-4 sm:p-5 shadow-xl text-white space-y-4">
+    <section id="farmacias" className="my-5 rounded-2xl bg-slate-50 dark:bg-[#050e24] border border-slate-300 dark:border-[#1e4594] p-4 sm:p-5 shadow-xl text-slate-900 dark:text-white space-y-4">
       
       {/* 1. Barra de Ubicación de Usuario */}
       <GpsRadarHud
@@ -574,7 +574,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
 
       {/* 2. TARJETA DESTACADA PRINCIPAL: FARMACIA DE TURNO (GUARDIA 24 HS) MÁS CERCANA */}
       {closestDutyPharmacy ? (
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#06241a] via-[#082a20] to-[#061838] border-2 border-emerald-400 shadow-xl relative overflow-hidden">
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-50 dark:from-[#06241a] via-teal-50/70 dark:via-[#082a20] to-slate-50 dark:to-[#061838] border-2 border-emerald-400 dark:border-emerald-400 shadow-xl relative overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 flex-wrap">
@@ -582,25 +582,25 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                   <Star className="w-3 h-3 fill-black" />
                   <span>FARMACIA DE TURNO MÁS CERCANA</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/40">
                   GUARDIA 24 HS ABIERTA
                 </span>
-                <span className="text-xs text-emerald-300 font-bold font-mono">
+                <span className="text-xs text-emerald-700 dark:text-emerald-300 font-bold font-mono">
                   {closestDutyPharmacy.distMeters != null
                     ? `${formatPharmacyDistanceBadge(closestDutyPharmacy.distMeters, { includeApprox: true })} de ${currentOriginDescription}`
                     : ''}
                 </span>
               </div>
 
-              <h3 className="text-2xl font-black font-heading text-white mt-1.5">
+              <h3 className="text-2xl font-black font-heading text-slate-900 dark:text-white mt-1.5">
                 {closestDutyPharmacy.name}
               </h3>
 
-              <p className="text-sm text-[#c8e2ff] flex items-center gap-1.5 mt-0.5">
-                <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+              <p className="text-sm text-slate-700 dark:text-[#c8e2ff] flex items-center gap-1.5 mt-0.5">
+                <MapPin className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
                 <span className="font-semibold">{closestDutyPharmacy.address}</span>
                 {closestDutyPharmacy.notes && (
-                  <span className="text-gray-300 text-xs hidden sm:inline">({closestDutyPharmacy.notes})</span>
+                  <span className="text-slate-700 dark:text-gray-300 text-xs hidden sm:inline">({closestDutyPharmacy.notes})</span>
                 )}
               </p>
             </div>
@@ -623,7 +623,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                   href={`https://wa.me/${formatWhatsAppNumber(closestDutyPharmacy.whatsapp)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-2.5 px-3 rounded-xl bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-400 text-emerald-300 font-bold text-xs flex items-center gap-1.5 active:scale-95 transition shadow"
+                  className="py-2.5 px-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 hover:bg-emerald-100 dark:hover:bg-emerald-900 border border-emerald-400 dark:border-emerald-400 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center gap-1.5 active:scale-95 transition shadow"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>WhatsApp</span>
@@ -639,7 +639,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                 }, effectiveCoords)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-2.5 px-3.5 rounded-xl bg-[#0a235c] hover:bg-[#12368a] border border-cyan-400 text-cyan-200 hover:text-white font-bold text-xs flex items-center gap-1.5 active:scale-95 transition shadow"
+                className="py-2.5 px-3.5 rounded-xl bg-sky-50 dark:bg-[#0a235c] hover:bg-sky-100 dark:hover:bg-[#12368a] border border-sky-400 dark:border-cyan-400 text-sky-800 dark:text-cyan-200 hover:text-slate-950 dark:hover:text-white font-bold text-xs flex items-center gap-1.5 active:scale-95 transition shadow"
               >
                 <Navigation className="w-4 h-4" />
                 <span>Cómo llegar</span>
@@ -651,14 +651,14 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                 className={`py-2.5 px-3.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow ${
                   isSpeaking && currentlySpeakingId === 'pharmacy_section_duty'
                     ? 'bg-red-600 hover:bg-red-500 text-white border border-red-300'
-                    : 'bg-[#09214f] hover:bg-[#12368a] border border-cyan-300 text-cyan-100'
+                    : 'bg-sky-50 dark:bg-[#09214f] hover:bg-sky-100 dark:hover:bg-[#12368a] border border-sky-400 dark:border-cyan-300 text-sky-800 dark:text-cyan-100'
                 }`}
                 aria-label={isSpeaking ? 'Detener voz de farmacias de turno' : 'Escuchar farmacias de turno por voz'}
               >
                 {isSpeaking && currentlySpeakingId === 'pharmacy_section_duty' ? (
                   <VolumeX className="w-4 h-4 shrink-0" />
                 ) : (
-                  <Volume2 className="w-4 h-4 text-cyan-300 shrink-0" />
+                  <Volume2 className="w-4 h-4 text-sky-700 dark:text-cyan-300 shrink-0" />
                 )}
                 <span>{isSpeaking && currentlySpeakingId === 'pharmacy_section_duty' ? 'Detener voz' : 'Escuchar turno'}</span>
               </button>
@@ -666,34 +666,34 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
           </div>
         </div>
       ) : (
-        <div className="p-4 rounded-xl bg-[#071330] border border-amber-500/40 text-center text-amber-200 text-xs">
-          <AlertCircle className="w-5 h-5 mx-auto mb-1.5 text-amber-400" />
+        <div className="p-4 rounded-xl bg-white dark:bg-[#071330] border border-amber-300 dark:border-amber-500/40 text-center text-amber-800 dark:text-amber-200 text-xs">
+          <AlertCircle className="w-5 h-5 mx-auto mb-1.5 text-amber-700 dark:text-amber-400" />
           No se encontraron farmacias de turno registradas para esta fecha.
         </div>
       )}
 
       {/* 3. ENCABEZADO Y CONTROL DE TURNOS (REGLA 08:30 HS A 08:30 HS) */}
       <div className="pt-1">
-        <div className="p-3.5 rounded-xl bg-[#071330] border border-[#1e4594] space-y-3">
+        <div className="p-3.5 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e4594] space-y-3">
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5">
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <h4 className="text-base font-black text-white tracking-wide">
+                <h4 className="text-base font-black text-slate-900 dark:text-white tracking-wide">
                   FARMACIAS DE TURNO · PUNTA ALTA
                 </h4>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-[#0c2356] text-cyan-300 border border-cyan-500/30">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-sky-50 dark:bg-[#0c2356] text-sky-700 dark:text-cyan-300 border border-sky-300 dark:border-cyan-500/30">
                   🕒 Hora local: {dutyInfo.currentTimeInPuntaAlta}
                 </span>
                 {dutyInfo.isCustomOverride && (
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-500/40">
                     Ajuste personalizado activo
                   </span>
                 )}
               </div>
-              <p className="text-xs text-[#9db6dd] mt-1">
-                {dutyInfo.shiftLabel} <span className="text-cyan-300">({dutyInfo.activeWindow})</span>
+              <p className="text-xs text-slate-600 dark:text-[#9db6dd] mt-1">
+                {dutyInfo.shiftLabel} <span className="text-sky-700 dark:text-cyan-300">({dutyInfo.activeWindow})</span>
               </p>
             </div>
 
@@ -706,13 +706,13 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                   className={`py-1.5 px-3 rounded-lg text-xs font-bold flex items-center gap-1.5 transition active:scale-95 border ${
                     isSpeaking && currentlySpeakingId === 'pharmacy_section_duty'
                       ? 'bg-red-600 hover:bg-red-500 border-red-300 text-white shadow'
-                      : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-400/70 text-cyan-200 hover:text-white'
+                      : 'bg-sky-100 dark:bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-400/70 text-sky-800 dark:text-cyan-200 hover:text-white'
                   }`}
                 >
                   {isSpeaking && currentlySpeakingId === 'pharmacy_section_duty' ? (
                     <VolumeX className="w-3.5 h-3.5" />
                   ) : (
-                    <Volume2 className="w-3.5 h-3.5 text-cyan-300" />
+                    <Volume2 className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-300" />
                   )}
                   <span>
                     {isSpeaking && currentlySpeakingId === 'pharmacy_section_duty'
@@ -726,11 +726,11 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                 href="https://www.elrosalenio.com.ar"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-1.5 px-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white text-xs flex items-center gap-1 transition"
+                className="py-1.5 px-2.5 rounded-lg bg-slate-50 dark:bg-white/5 hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white text-xs flex items-center gap-1 transition"
                 title="Consultar diario local El Rosalenio"
               >
                 <span>El Rosalenio</span>
-                <ExternalLink className="w-3 h-3 text-cyan-400" />
+                <ExternalLink className="w-3 h-3 text-sky-700 dark:text-cyan-400" />
               </a>
 
               {/* Ícono críptico especial (invisible en propósito para el usuario común) */}
@@ -750,8 +750,8 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                 aria-label="Vtx"
                 className={`p-1.5 rounded-lg transition-all duration-300 group relative ${
                   isAdminDutyUnlocked
-                    ? 'bg-cyan-500/20 border border-cyan-400/60 opacity-100 shadow-[0_0_12px_rgba(55,200,255,0.35)]'
-                    : 'bg-transparent hover:bg-white/5 opacity-30 hover:opacity-80'
+                    ? 'bg-sky-100 dark:bg-cyan-500/20 border border-cyan-400/60 opacity-100 shadow-[0_0_12px_rgba(55,200,255,0.35)]'
+                    : 'bg-transparent hover:bg-slate-200/70 dark:hover:bg-white/5 opacity-30 hover:opacity-80'
                 }`}
               >
                 <svg
@@ -765,20 +765,20 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                     points="16,2 28,9 28,23 16,30 4,23 4,9"
                     stroke="currentColor"
                     strokeWidth="1.2"
-                    className={isAdminDutyUnlocked ? 'text-cyan-300' : 'text-[#5b7db8]'}
+                    className={isAdminDutyUnlocked ? 'text-sky-700 dark:text-cyan-300' : 'text-slate-600 dark:text-[#5b7db8]'}
                   />
                   {/* Triángulos entrelazados (astrolabio Vortex) */}
                   <polygon
                     points="16,6 24.5,21 7.5,21"
                     stroke="currentColor"
                     strokeWidth="1"
-                    className="text-cyan-400/80"
+                    className="text-sky-700 dark:text-cyan-400/80"
                   />
                   <polygon
                     points="16,26 24.5,11 7.5,11"
                     stroke="currentColor"
                     strokeWidth="1"
-                    className="text-indigo-400/70"
+                    className="text-indigo-600 dark:text-indigo-400/70"
                   />
                   {/* Órbita e iris central */}
                   <circle
@@ -787,14 +787,14 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                     r="3.2"
                     stroke="currentColor"
                     strokeWidth="1.3"
-                    className={isAdminDutyUnlocked ? 'text-emerald-300' : 'text-cyan-300'}
+                    className={isAdminDutyUnlocked ? 'text-emerald-700 dark:text-emerald-300' : 'text-sky-700 dark:text-cyan-300'}
                   />
                   <circle
                     cx="16"
                     cy="16"
                     r="1.1"
                     fill="currentColor"
-                    className={isAdminDutyUnlocked ? 'text-emerald-400' : 'text-cyan-200'}
+                    className={isAdminDutyUnlocked ? 'text-emerald-700 dark:text-emerald-400' : 'text-sky-800 dark:text-cyan-200'}
                   />
                 </svg>
               </button>
@@ -803,7 +803,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
 
           {/* Prompt discreto de clave PIN tras tocar el glifo críptico */}
           {showAdminPinPrompt && !isAdminDutyUnlocked && (
-            <div className="pt-2 border-t border-cyan-500/20 space-y-2 animate-fade-in">
+            <div className="pt-2 border-t border-sky-300 dark:border-cyan-500/20 space-y-2 animate-fade-in">
               {!showDutyRecovery ? (
                 <div className="flex flex-wrap items-center justify-end gap-2">
                   <button
@@ -812,7 +812,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                       setDutyRecError('');
                       setShowDutyRecovery(true);
                     }}
-                    className="text-[11px] text-cyan-300/80 hover:text-cyan-200 underline underline-offset-2 flex items-center gap-1 mr-auto"
+                    className="text-[11px] text-sky-700 dark:text-cyan-300/80 hover:text-sky-800 dark:hover:text-cyan-200 underline underline-offset-2 flex items-center gap-1 mr-auto"
                   >
                     <HelpCircle className="w-3 h-3" />
                     <span>¿Olvidaste tu clave?</span>
@@ -833,13 +833,13 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                           handleVerifyAdminGlyphPin();
                         }
                       }}
-                      className="w-36 py-1 pl-2.5 pr-7 rounded-lg bg-[#040a1b] border border-cyan-500/40 text-xs text-white text-center font-mono focus:outline-none focus:border-cyan-400"
+                      className="w-36 py-1 pl-2.5 pr-7 rounded-lg bg-slate-50 dark:bg-[#040a1b] border border-sky-300 dark:border-cyan-500/40 text-xs text-slate-900 dark:text-white text-center font-mono focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
                       autoFocus
                     />
                     <button
                       type="button"
                       onClick={() => setShowAdminPin((prev) => !prev)}
-                      className="absolute right-1.5 top-1/2 -translate-y-1/2 text-cyan-300/80 hover:text-white p-0.5"
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 text-sky-700 dark:text-cyan-300/80 hover:text-slate-950 dark:hover:text-white p-0.5"
                       aria-label={showAdminPin ? 'Ocultar clave' : 'Ver clave'}
                     >
                       {showAdminPin ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -855,34 +855,34 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                   <button
                     type="button"
                     onClick={() => setShowAdminPinPrompt(false)}
-                    className="py-1 px-2 rounded-lg text-gray-400 hover:text-white text-xs"
+                    className="py-1 px-2 rounded-lg text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white text-xs"
                   >
                     ✕
                   </button>
                   {adminPinError && (
-                    <span className="text-[11px] text-red-400 font-semibold w-full text-right">
+                    <span className="text-[11px] text-red-700 dark:text-red-400 font-semibold w-full text-right">
                       {adminPinError}
                     </span>
                   )}
                 </div>
               ) : (
-                <div className="p-2.5 rounded-xl bg-[#040a1b] border border-cyan-500/40 space-y-2 text-xs">
+                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#040a1b] border border-sky-300 dark:border-cyan-500/40 space-y-2 text-xs">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-cyan-300 flex items-center gap-1.5">
+                    <span className="font-bold text-sky-700 dark:text-cyan-300 flex items-center gap-1.5">
                       <KeyRound className="w-3.5 h-3.5" />
                       <span>Recuperar clave única de Admin</span>
                     </span>
                     <button
                       type="button"
                       onClick={() => setShowDutyRecovery(false)}
-                      className="text-[11px] text-gray-400 hover:text-white"
+                      className="text-[11px] text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white"
                     >
                       Volver
                     </button>
                   </div>
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     {isAdmin ? (
-                      <span className="text-[11px] text-emerald-300 flex items-center gap-1">
+                      <span className="text-[11px] text-emerald-700 dark:text-emerald-300 flex items-center gap-1">
                         <ShieldCheck className="w-3.5 h-3.5" />
                         <span>Google Admin ({user?.email})</span>
                       </span>
@@ -900,7 +900,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                       value={dutyRecIdentity}
                       onChange={(e) => setDutyRecIdentity(e.target.value)}
                       placeholder="O correo / WhatsApp"
-                      className="flex-1 min-w-[140px] py-1 px-2 rounded-lg bg-[#081333] border border-cyan-500/40 text-xs text-white"
+                      className="flex-1 min-w-[140px] py-1 px-2 rounded-lg bg-white dark:bg-[#081333] border border-sky-300 dark:border-cyan-500/40 text-xs text-slate-900 dark:text-white"
                     />
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
@@ -911,12 +911,12 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                         value={dutyRecNewPin}
                         onChange={(e) => setDutyRecNewPin(e.target.value)}
                         placeholder="Nueva clave (vacío = 1234)"
-                        className="w-full py-1 pl-2.5 pr-7 rounded-lg bg-[#081333] border border-cyan-500/40 text-xs text-white font-mono"
+                        className="w-full py-1 pl-2.5 pr-7 rounded-lg bg-white dark:bg-[#081333] border border-sky-300 dark:border-cyan-500/40 text-xs text-slate-900 dark:text-white font-mono"
                       />
                       <button
                         type="button"
                         onClick={() => setShowDutyRecPin((p) => !p)}
-                        className="absolute right-1.5 top-1/2 -translate-y-1/2 text-cyan-300/80 hover:text-white"
+                        className="absolute right-1.5 top-1/2 -translate-y-1/2 text-sky-700 dark:text-cyan-300/80 hover:text-slate-950 dark:hover:text-white"
                         aria-label={showDutyRecPin ? 'Ocultar nueva clave' : 'Ver nueva clave'}
                       >
                         {showDutyRecPin ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -932,7 +932,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                     </button>
                   </div>
                   {dutyRecError && (
-                    <p className="text-[11px] text-red-400 font-semibold">{dutyRecError}</p>
+                    <p className="text-[11px] text-red-700 dark:text-red-400 font-semibold">{dutyRecError}</p>
                   )}
                 </div>
               )}
@@ -941,8 +941,8 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
 
           {/* Barra oculta de gestión exclusiva de administrador */}
           {isAdminDutyUnlocked && (
-            <div className="pt-2 border-t border-cyan-400/30 flex items-center justify-between gap-2 flex-wrap animate-fade-in">
-              <span className="text-[11px] font-mono text-cyan-300 uppercase tracking-wider">
+            <div className="pt-2 border-t border-sky-300 dark:border-cyan-400/30 flex items-center justify-between gap-2 flex-wrap animate-fade-in">
+              <span className="text-[11px] font-mono text-sky-700 dark:text-cyan-300 uppercase tracking-wider">
                 Gestión de Turnos (Admin)
               </span>
               <div className="flex items-center gap-2 flex-wrap">
@@ -954,14 +954,14 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                   }}
                   className="py-1.5 px-3 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 border border-cyan-400 text-white text-xs font-black flex items-center gap-1.5 active:scale-95 transition shadow-md"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+                  <Sparkles className="w-3.5 h-3.5 text-sky-800 dark:text-cyan-200" />
                   <span>📥 Cargar Turnos Colegio</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleOpenDutyEditor}
-                  className="py-1.5 px-3 rounded-lg bg-[#0c2356] hover:bg-[#143b91] border border-cyan-400/80 text-cyan-200 text-xs font-bold flex items-center gap-1.5 active:scale-95 transition shadow"
+                  className="py-1.5 px-3 rounded-lg bg-sky-50 dark:bg-[#0c2356] hover:bg-sky-100 dark:hover:bg-[#143b91] border border-sky-300 dark:border-cyan-400/80 text-sky-800 dark:text-cyan-200 text-xs font-bold flex items-center gap-1.5 active:scale-95 transition shadow"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
                   <span>¿Cambió la guardia? Corregir</span>
@@ -971,10 +971,10 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
           )}
 
           {/* Selector de Guardia Activa vs Próximo Turno & Fechas */}
-          <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="pt-2 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             
             {/* Toggles de Turno Activo / Próximo Turno */}
-            <div className="inline-flex rounded-lg bg-[#040a1b] p-0.5 border border-[#1e4594]">
+            <div className="inline-flex rounded-lg bg-slate-50 dark:bg-[#040a1b] p-0.5 border border-slate-300 dark:border-[#1e4594]">
               <button
                 type="button"
                 onClick={() => {
@@ -984,7 +984,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                 className={`py-1 px-3 rounded-md text-xs font-bold flex items-center gap-1.5 transition ${
                   shiftPreference === 'active_now'
                     ? 'bg-emerald-600 text-white shadow'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 <Moon className="w-3 h-3" />
@@ -1000,7 +1000,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                 className={`py-1 px-3 rounded-md text-xs font-bold flex items-center gap-1.5 transition ${
                   shiftPreference === 'next_shift'
                     ? 'bg-[#1e5bff] text-white shadow'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 <Sun className="w-3 h-3" />
@@ -1013,7 +1013,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
               <button
                 type="button"
                 onClick={() => handleDayOffset(-1)}
-                className="px-2.5 py-1 text-xs rounded-lg hover:bg-white/10 text-[#9db6dd] transition"
+                className="px-2.5 py-1 text-xs rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-600 dark:text-[#9db6dd] transition"
               >
                 Ayer
               </button>
@@ -1024,7 +1024,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                   setSelectedDate(new Date());
                 }}
                 className={`px-3 py-1 text-xs font-bold rounded-lg transition ${
-                  isToday ? 'bg-[#1e5bff] text-white shadow' : 'text-[#9db6dd] hover:bg-white/10'
+                  isToday ? 'bg-[#1e5bff] text-white shadow' : 'text-slate-600 dark:text-[#9db6dd] hover:bg-slate-200/70 dark:hover:bg-white/10'
                 }`}
               >
                 Hoy
@@ -1032,7 +1032,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
               <button
                 type="button"
                 onClick={() => handleDayOffset(1)}
-                className="px-2.5 py-1 text-xs rounded-lg hover:bg-white/10 text-[#9db6dd] transition"
+                className="px-2.5 py-1 text-xs rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-600 dark:text-[#9db6dd] transition"
               >
                 Mañana
               </button>
@@ -1042,21 +1042,21 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
 
         {/* MODAL / PANEL DE EDICIÓN RÁPIDA DE GUARDIA */}
         {isEditingDuty && (
-          <div className="mt-3 p-4 rounded-xl bg-[#030919] border-2 border-cyan-400 shadow-2xl space-y-3 animate-fade-in">
-            <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
+          <div className="mt-3 p-4 rounded-xl bg-slate-50 dark:bg-[#030919] border-2 border-sky-400 dark:border-cyan-400 shadow-2xl space-y-3 animate-fade-in">
+            <div className="flex items-center justify-between gap-2 border-b border-slate-200 dark:border-white/10 pb-2">
               <div>
-                <h5 className="font-bold text-white text-sm flex items-center gap-1.5">
-                  <Edit3 className="w-4 h-4 text-cyan-400" />
+                <h5 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1.5">
+                  <Edit3 className="w-4 h-4 text-sky-700 dark:text-cyan-400" />
                   <span>Ajustar Farmacias de Guardia para el {dutyInfo.dateKey}</span>
                 </h5>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-slate-600 dark:text-gray-400">
                   Seleccioná las farmacias de guardia confirmadas hoy por el Colegio de Farmacéuticos:
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsEditingDuty(false)}
-                className="p-1 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white"
+                className="p-1 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1068,11 +1068,11 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
               placeholder="Filtrar por nombre o calle (ej: Garcia, Maciel, Argentina, Espora)..."
               value={editSearch}
               onChange={(e) => setEditSearch(e.target.value)}
-              className="w-full py-1.5 px-3 rounded-lg bg-[#071330] border border-[#1e4594] text-white placeholder-gray-500 text-xs focus:outline-none"
+              className="w-full py-1.5 px-3 rounded-lg bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e4594] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 text-xs focus:outline-none"
             />
 
             {/* Lista seleccionable de las 20 farmacias */}
-            <div className="max-h-56 overflow-y-auto space-y-1.5 pr-1 divide-y divide-white/5">
+            <div className="max-h-56 overflow-y-auto space-y-1.5 pr-1 divide-y divide-slate-200 dark:divide-white/5">
               {PUNTA_ALTA_PHARMACIES.filter(
                 (p) =>
                   !editSearch ||
@@ -1087,17 +1087,17 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                     onClick={() => handleToggleDutyPharmacy(p.id)}
                     className={`w-full text-left p-2 rounded-lg flex items-center justify-between gap-2 text-xs transition ${
                       isSelected
-                        ? 'bg-emerald-950/70 border border-emerald-400 text-white'
-                        : 'hover:bg-white/5 text-gray-300'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-400 dark:border-emerald-400 text-slate-900 dark:text-white'
+                        : 'hover:bg-slate-200/70 dark:hover:bg-white/5 text-slate-700 dark:text-gray-300'
                     }`}
                   >
                     <div>
                       <span className="font-bold">{p.name}</span>
-                      <span className="text-gray-400 ml-2">({p.address})</span>
+                      <span className="text-slate-600 dark:text-gray-400 ml-2">({p.address})</span>
                     </div>
                     <div
                       className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-emerald-500 text-black font-black' : 'border border-gray-600'
+                        isSelected ? 'bg-emerald-500 text-black font-black' : 'border border-slate-300 dark:border-gray-600'
                       }`}
                     >
                       {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -1108,17 +1108,17 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
             </div>
 
             {dutyEditError && (
-              <div className="p-2.5 rounded-lg bg-red-950/70 border border-red-500 text-red-200 text-xs font-semibold">
+              <div className="p-2.5 rounded-lg bg-red-50 dark:bg-red-950/70 border border-red-400 dark:border-red-500 text-red-800 dark:text-red-200 text-xs font-semibold">
                 {dutyEditError}
               </div>
             )}
 
             {/* Botones de acción del editor */}
-            <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/10 flex-wrap">
+            <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-white/10 flex-wrap">
               <button
                 type="button"
                 onClick={handleResetDutyOfficial}
-                className="py-1.5 px-3 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs flex items-center gap-1.5 transition"
+                className="py-1.5 px-3 rounded-lg bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-300 text-xs flex items-center gap-1.5 transition"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Restablecer oficial</span>
@@ -1128,7 +1128,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsEditingDuty(false)}
-                  className="py-1.5 px-3 rounded-lg hover:bg-white/10 text-gray-400 text-xs"
+                  className="py-1.5 px-3 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-600 dark:text-gray-400 text-xs"
                 >
                   Cancelar
                 </button>
@@ -1148,7 +1148,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
         {/* LISTA DE OTRAS FARMACIAS DE GUARDIA HOY (sin duplicar la más cercana ya destacada arriba) */}
         {dutyPharmaciesWithDist.length > 1 && (
           <div className="mt-3 space-y-2.5">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-cyan-300/90 px-1">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-sky-700 dark:text-cyan-300/90 px-1">
               Otras farmacias también de turno hoy ({dutyPharmaciesWithDist.length - 1}):
             </p>
             {dutyPharmaciesWithDist.slice(1).map((pharmacy) => {
@@ -1167,34 +1167,34 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
               return (
                 <div
                   key={pharmacy.id}
-                  className="p-3.5 sm:p-4 rounded-xl transition bg-[#071330] border border-[#1e4594] hover:border-cyan-400/50"
+                  className="p-3.5 sm:p-4 rounded-xl transition bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e4594] hover:border-sky-500 dark:hover:border-cyan-400/50"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-lg font-black text-white">
+                        <h4 className="text-lg font-black text-slate-900 dark:text-white">
                           {pharmacy.name}
                         </h4>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-50 dark:bg-cyan-950 text-sky-700 dark:text-cyan-300 border border-sky-300 dark:border-cyan-500/40 uppercase">
                           De guardia 24 hs
                         </span>
-                        <span className="text-xs text-emerald-300 font-bold font-mono">
+                        <span className="text-xs text-emerald-700 dark:text-emerald-300 font-bold font-mono">
                           {formatPharmacyDistanceBadge(pharmacy.distMeters)}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 mt-1 text-xs text-[#b8d6ff]">
+                      <div className="flex items-center gap-2 mt-1 text-xs text-sky-800 dark:text-[#b8d6ff]">
                         <a
                           href={mapUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hover:text-cyan-300 underline decoration-dotted inline-flex items-center gap-1"
+                          className="hover:text-sky-800 dark:hover:text-cyan-300 underline decoration-dotted inline-flex items-center gap-1"
                         >
-                          <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+                          <MapPin className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-400" />
                           <span>{pharmacy.address}</span>
                         </a>
                         {pharmacy.notes && (
-                          <span className="text-gray-400 hidden sm:inline">· {pharmacy.notes}</span>
+                          <span className="text-slate-600 dark:text-gray-400 hidden sm:inline">· {pharmacy.notes}</span>
                         )}
                       </div>
                     </div>
@@ -1218,7 +1218,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                           href={`https://wa.me/${waNumber}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="py-1.5 px-2.5 rounded-lg bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 hover:text-white text-xs font-semibold flex items-center gap-1"
+                          className="py-1.5 px-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/50 text-emerald-700 dark:text-emerald-300 hover:text-slate-950 dark:hover:text-white text-xs font-semibold flex items-center gap-1"
                         >
                           <MessageSquare className="w-3 h-3" />
                           <span>WhatsApp</span>
@@ -1229,7 +1229,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                         href={dirUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="py-1.5 px-3 rounded-lg bg-[#0a235c] hover:bg-[#12368a] border border-cyan-400/80 text-cyan-200 hover:text-white text-xs font-bold flex items-center gap-1 transition"
+                        className="py-1.5 px-3 rounded-lg bg-sky-50 dark:bg-[#0a235c] hover:bg-sky-100 dark:hover:bg-[#12368a] border border-sky-300 dark:border-cyan-400/80 text-sky-800 dark:text-cyan-200 hover:text-slate-950 dark:hover:text-white text-xs font-bold flex items-center gap-1 transition"
                       >
                         <Navigation className="w-3.5 h-3.5" />
                         <span>Cómo llegar</span>
@@ -1244,12 +1244,12 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
       </div>
 
       {/* 4. ASISTENTE DE VOZ ACCESIBLE */}
-      <div className="py-2.5 px-3.5 rounded-xl bg-[#071330] border border-[#1e4594] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-        <div className="flex items-center gap-2 text-gray-300">
-          <Volume2 className="w-4 h-4 text-cyan-400 shrink-0" />
+      <div className="py-2.5 px-3.5 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e4594] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+        <div className="flex items-center gap-2 text-slate-700 dark:text-gray-300">
+          <Volume2 className="w-4 h-4 text-sky-700 dark:text-cyan-400 shrink-0" />
           <span>Voz accesible:</span>
           {isSpeaking && spokenSubtitle && (
-            <span className="text-emerald-300 font-semibold truncate max-w-xs sm:max-w-md">
+            <span className="text-emerald-700 dark:text-emerald-300 font-semibold truncate max-w-xs sm:max-w-md">
               "{spokenSubtitle}"
             </span>
           )}
@@ -1260,7 +1260,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
           className={`py-1.5 px-3 rounded-lg text-xs font-bold transition flex items-center gap-1.5 self-start sm:self-auto ${
             isSpeaking && currentlySpeakingId === 'pharmacy_section_duty'
               ? 'bg-red-600 hover:bg-red-500 text-white'
-              : 'bg-[#0a235c] hover:bg-[#12368a] border border-cyan-400 text-cyan-200'
+              : 'bg-sky-50 dark:bg-[#0a235c] hover:bg-sky-100 dark:hover:bg-[#12368a] border border-sky-400 dark:border-cyan-400 text-sky-800 dark:text-cyan-200'
           }`}
         >
           {isSpeaking && currentlySpeakingId === 'pharmacy_section_duty' ? (
@@ -1277,24 +1277,24 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
       </div>
 
       {/* 5. ACORDEÓN: GUÍA COMPLETA DE TODAS LAS 20 FARMACIAS (HORARIO COMERCIAL) */}
-      <div className="pt-2 border-t border-[#1e4594]/40">
+      <div className="pt-2 border-t border-slate-300 dark:border-[#1e4594]/40">
         <button
           type="button"
           onClick={() => setShowAllList(!showAllList)}
-          className="w-full flex items-center justify-between py-2 px-3 rounded-xl bg-[#071330] hover:bg-[#0c1f4a] border border-white/10 text-xs transition"
+          className="w-full flex items-center justify-between py-2 px-3 rounded-xl bg-white dark:bg-[#071330] hover:bg-sky-100 dark:hover:bg-[#0c1f4a] border border-slate-200 dark:border-white/10 text-xs transition"
         >
-          <span className="font-bold text-gray-300 flex items-center gap-2">
-            <Search className="w-3.5 h-3.5 text-cyan-400" />
+          <span className="font-bold text-slate-700 dark:text-gray-300 flex items-center gap-2">
+            <Search className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-400" />
             <span>Guía de las 20 farmacias de Punta Alta por cercanía (horario comercial diurno)</span>
           </span>
-          <span className="text-[#37c8ff] font-semibold">
+          <span className="text-sky-700 dark:text-[#37c8ff] font-semibold">
             {showAllList ? 'Ocultar' : 'Ver lista completa'}
           </span>
         </button>
 
         {showAllList && (
-          <div className="mt-2.5 p-3 rounded-xl bg-[#030919] border border-[#1e4594] space-y-2 text-xs animate-fade-in">
-            <p className="text-[11px] text-gray-400">
+          <div className="mt-2.5 p-3 rounded-xl bg-slate-50 dark:bg-[#030919] border border-slate-300 dark:border-[#1e4594] space-y-2 text-xs animate-fade-in">
+            <p className="text-[11px] text-slate-600 dark:text-gray-400">
               * Nota: Durante la noche y madrugadas sólo atienden las de turno arriba indicadas. En horario de comercio habitual (08:30 a 12:30 y 16:30 a 20:30 hs) atienden todas.
             </p>
             <input
@@ -1302,16 +1302,16 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
               placeholder="Buscar por nombre o calle (ej: Garcia, Argentina, Brown, Mitre)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full py-1.5 px-3 rounded-lg bg-[#071330] border border-[#1e4594] text-white placeholder-gray-500 text-xs focus:outline-none"
+              className="w-full py-1.5 px-3 rounded-lg bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e4594] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 text-xs focus:outline-none"
             />
-            <div className="max-h-64 overflow-y-auto space-y-1.5 pr-1 divide-y divide-white/5">
+            <div className="max-h-64 overflow-y-auto space-y-1.5 pr-1 divide-y divide-slate-200 dark:divide-white/5">
               {filteredAllPharmacies.map((p) => (
                 <div key={p.id} className="pt-1.5 first:pt-0 flex items-center justify-between gap-2">
                   <div>
-                    <span className="font-bold text-white mr-2">{p.name}</span>
-                    <span className="text-gray-400">{p.address}</span>
+                    <span className="font-bold text-slate-900 dark:text-white mr-2">{p.name}</span>
+                    <span className="text-slate-600 dark:text-gray-400">{p.address}</span>
                     {p.distMeters != null && (
-                      <span className="text-emerald-400 font-semibold ml-2">
+                      <span className="text-emerald-700 dark:text-emerald-400 font-semibold ml-2">
                         · {formatPharmacyDistanceBadge(p.distMeters)}
                       </span>
                     )}
@@ -1321,7 +1321,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                       <button
                         type="button"
                         onClick={() => triggerDirectCall(p.phones[0], p.name, 'pharmacy')}
-                        className="py-1 px-2 rounded bg-emerald-600/80 hover:bg-emerald-500 text-white font-semibold text-[11px]"
+                        className="py-1 px-2 rounded bg-emerald-100 dark:bg-emerald-600/80 hover:bg-emerald-500 text-white font-semibold text-[11px]"
                       >
                         Llamar
                       </button>
@@ -1330,7 +1330,7 @@ export const PharmacySection: React.FC<PharmacySectionProps> = ({
                       href={getDirectionsUrl({ name: p.name, address: p.address, lat: p.lat, lng: p.lng }, effectiveCoords)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="py-1 px-2 rounded bg-[#0a235c] hover:bg-[#12368a] text-cyan-200 text-[11px]"
+                      className="py-1 px-2 rounded bg-sky-50 dark:bg-[#0a235c] hover:bg-sky-100 dark:hover:bg-[#12368a] text-sky-800 dark:text-cyan-200 text-[11px]"
                     >
                       Ir
                     </a>

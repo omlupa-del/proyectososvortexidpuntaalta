@@ -347,29 +347,29 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 dark:bg-black/85 backdrop-blur-md animate-fade-in overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-lg bg-gradient-to-b from-[#0a1f55] via-[#071536] to-[#050b1f] border-2 border-[#37c8ff] rounded-3xl p-5 sm:p-6 shadow-2xl shadow-blue-950/90 my-auto text-white space-y-4">
+      <div className="w-full max-w-lg bg-gradient-to-b from-white dark:from-[#0a1f55] via-sky-50/70 dark:via-[#071536] to-slate-50 dark:to-[#050b1f] border-2 border-sky-500 dark:border-[#37c8ff] rounded-3xl p-5 sm:p-6 shadow-2xl shadow-blue-950/90 my-auto text-slate-900 dark:text-white space-y-4">
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-[#1e3f8f]/60 pb-3">
+        <div className="flex items-start justify-between border-b border-slate-300 dark:border-[#1e3f8f]/60 pb-3">
           <div className="flex items-center gap-2.5">
             <span className="p-2.5 rounded-2xl bg-gradient-to-tr from-blue-600 to-[#37c8ff] text-white shadow-md shadow-blue-900/50">
               <Smartphone className="w-6 h-6" />
             </span>
             <div>
-              <h2 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-white">
+              <h2 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-slate-900 dark:text-white">
                 INSTALAR APLICACIÓN
               </h2>
-              <p className="text-xs text-[#37c8ff] font-bold uppercase">
+              <p className="text-xs text-sky-700 dark:text-[#37c8ff] font-bold uppercase">
                 Vortex ID · Punta Alta
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-white/10 text-gray-300 hover:text-white transition"
+            className="p-2 rounded-full hover:bg-slate-200/70 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white transition"
             aria-label="Cerrar ventana"
           >
             <X className="w-6 h-6" />
@@ -377,25 +377,25 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
         </div>
 
         {/* Highlight Banner */}
-        <div className="p-3.5 rounded-2xl bg-gradient-to-r from-[#0d2a6e] to-[#0a1b42] border border-[#37c8ff]/40 text-xs leading-relaxed space-y-1">
-          <p className="font-bold text-white flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-yellow-300 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-gradient-to-r from-white dark:from-[#0d2a6e] to-slate-50 dark:to-[#0a1b42] border border-[#37c8ff]/40 text-xs leading-relaxed space-y-1">
+          <p className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-amber-700 dark:text-yellow-300 shrink-0" />
             <span>Instalá la app en tu celular, PC o laptop en 30 segundos</span>
           </p>
-          <p className="text-[#9db6dd]">
+          <p className="text-slate-600 dark:text-[#9db6dd]">
             Compatible con Android, iPhone, Windows y Mac sin ocupar memoria y 100% offline: la ficha médica de auxilio y las farmacias de turno quedan listas en tu pantalla principal o escritorio.
           </p>
         </div>
 
         {/* Direct Install Button (Always visible right below the 30-second banner) */}
         {isInstalled || alreadyInstalledInBrowser ? (
-          <div className="p-3.5 rounded-2xl bg-emerald-950/80 border-2 border-emerald-400/80 flex items-center gap-2.5 text-xs">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+          <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/80 border-2 border-emerald-300 dark:border-emerald-400/80 flex items-center gap-2.5 text-xs">
+            <CheckCircle2 className="w-5 h-5 text-emerald-700 dark:text-emerald-400 shrink-0" />
             <div>
-              <strong className="text-emerald-200 block">
+              <strong className="text-emerald-800 dark:text-emerald-200 block">
                 ¡Vortex ID ya está instalada en este dispositivo!
               </strong>
-              <span className="text-emerald-100/80">
+              <span className="text-emerald-800 dark:text-emerald-100/80">
                 {isInstalled
                   ? 'Podés abrirla desde tu pantalla principal o escritorio incluso sin internet.'
                   : 'Ya figura instalada en tu navegador: podés abrirla desde tu Escritorio, Menú Inicio o el ícono "Abrir en aplicación" en la barra de direcciones.'}
@@ -403,9 +403,9 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             </div>
           </div>
         ) : isInIframe ? (
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-green-950 border-2 border-emerald-400 shadow-xl space-y-2.5">
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 dark:from-emerald-950 via-emerald-50 dark:via-emerald-900 to-green-50 dark:to-green-950 border-2 border-emerald-400 dark:border-emerald-400 shadow-xl space-y-2.5">
+            <span className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
               <span>Instalación en 1 toque (abrir pestaña directa)</span>
             </span>
             <a
@@ -418,16 +418,16 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
               <ExternalLink className="w-5 h-5 shrink-0" />
               <span>Abrir en pestaña directa para instalar en 1 toque</span>
             </a>
-            <p className="text-[11px] text-cyan-100/90 bg-black/35 border border-cyan-400/40 rounded-xl p-2 leading-snug">
+            <p className="text-[11px] text-sky-800 dark:text-cyan-100/90 bg-slate-100 dark:bg-black/35 border border-sky-300 dark:border-cyan-400/40 rounded-xl p-2 leading-snug">
               La vista previa embebida bloquea la descarga directa del navegador. Al abrir{' '}
-              <strong className="font-mono text-cyan-300">{currentOriginHost}</strong>{' '}
+              <strong className="font-mono text-sky-700 dark:text-cyan-300">{currentOriginHost}</strong>{' '}
               en pestaña directa se habilita la instalación nativa en Chrome / Edge.
             </p>
           </div>
         ) : deferredPrompt ? (
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-green-950 border-2 border-emerald-400 shadow-xl space-y-2.5">
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 dark:from-emerald-950 via-emerald-50 dark:via-emerald-900 to-green-50 dark:to-green-950 border-2 border-emerald-400 dark:border-emerald-400 shadow-xl space-y-2.5">
+            <span className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
               <span>
                 {isMobileDevice
                   ? 'Tu celular está listo para instalación en 1 toque'
@@ -449,15 +449,15 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             </button>
 
             {installHint && (
-              <p className="text-[11px] text-emerald-100 bg-black/40 border border-emerald-400/40 rounded-xl p-2.5 leading-snug">
+              <p className="text-[11px] text-emerald-800 dark:text-emerald-100 bg-slate-100 dark:bg-black/40 border border-emerald-300 dark:border-emerald-400/40 rounded-xl p-2.5 leading-snug">
                 {installHint}
               </p>
             )}
           </div>
         ) : (
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-[#07193a] via-[#0a2352] to-[#081533] border-2 border-cyan-400/70 shadow-xl space-y-2.5">
-            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cyan-300">
-              <Monitor className="w-4 h-4 text-cyan-300 shrink-0" />
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-white dark:from-[#07193a] via-sky-50/70 dark:via-[#0a2352] to-slate-50 dark:to-[#081533] border-2 border-sky-300 dark:border-cyan-400/70 shadow-xl space-y-2.5">
+            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-sky-700 dark:text-cyan-300">
+              <Monitor className="w-4 h-4 text-sky-700 dark:text-cyan-300 shrink-0" />
               <span>
                 {isMobileDevice
                   ? 'Instalá la app desde el menú de tu navegador'
@@ -468,7 +468,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             </div>
 
             {!isMobileDevice && !isIOS ? (
-              <div className="text-[11px] text-[#cfe0ff] space-y-2 leading-relaxed">
+              <div className="text-[11px] text-slate-700 dark:text-[#cfe0ff] space-y-2 leading-relaxed">
                 <p>
                   {isFirefoxDesktop
                     ? 'Firefox de escritorio no admite instalar aplicaciones web (PWA). Copiá el enlace de abajo y abrilo en Google Chrome o Microsoft Edge para instalarla en 1 clic:'
@@ -476,15 +476,15 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                       ? 'Cerraste el aviso automático de instalación. Por seguridad del navegador, ahora debés instalarla desde la barra superior:'
                       : 'Si no aparece el botón automático es porque Chrome/Edge ya tiene una copia instalada, estás en modo Incógnito o cerraste un aviso anterior. Instalala directo así:'}
                 </p>
-                <div className="p-2.5 rounded-xl bg-black/45 border border-cyan-400/40 space-y-1">
+                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-black/45 border border-sky-300 dark:border-cyan-400/40 space-y-1">
                   <p>
-                    <strong className="text-emerald-300">Opción 1 (barra de dirección):</strong> Mirá arriba a la derecha de la URL y tocá el ícono de{' '}
-                    <strong className="text-white">Instalar (monitor con flecha ↓)</strong>. Si dice{' '}
+                    <strong className="text-emerald-700 dark:text-emerald-300">Opción 1 (barra de dirección):</strong> Mirá arriba a la derecha de la URL y tocá el ícono de{' '}
+                    <strong className="text-slate-900 dark:text-white">Instalar (monitor con flecha ↓)</strong>. Si dice{' '}
                     <em>«Abrir en Vortex ID»</em>, es porque ya está instalada en tu PC.
                   </p>
                   <p>
-                    <strong className="text-cyan-300">Opción 2 (menú):</strong> Tocá{' '}
-                    <strong className="text-white">(⋮) → Guardar y compartir → Instalar página como aplicación</strong> (en Edge: <em>Aplicaciones → Instalar</em>).
+                    <strong className="text-sky-700 dark:text-cyan-300">Opción 2 (menú):</strong> Tocá{' '}
+                    <strong className="text-slate-900 dark:text-white">(⋮) → Guardar y compartir → Instalar página como aplicación</strong> (en Edge: <em>Aplicaciones → Instalar</em>).
                   </p>
                 </div>
                 <button
@@ -495,9 +495,9 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                     setCopiedLink(true);
                     setTimeout(() => setCopiedLink(false), 2500);
                   }}
-                  className="w-full py-2 px-3 rounded-xl bg-[#0b1f50] hover:bg-[#143078] border border-cyan-400/60 text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+                  className="w-full py-2 px-3 rounded-xl bg-sky-50 dark:bg-[#0b1f50] hover:bg-sky-100 dark:hover:bg-[#143078] border border-sky-300 dark:border-cyan-400/60 text-sky-800 dark:text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
                 >
-                  {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedLink ? '¡Enlace copiado! Pegalo en Chrome o Edge' : `Copiar enlace actual (${currentOriginHost})`}</span>
                 </button>
               </div>
@@ -513,7 +513,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             )}
 
             {installHint && (
-              <p className="text-[11px] text-emerald-100 bg-black/40 border border-emerald-400/40 rounded-xl p-2.5 leading-snug">
+              <p className="text-[11px] text-emerald-800 dark:text-emerald-100 bg-slate-100 dark:bg-black/40 border border-emerald-300 dark:border-emerald-400/40 rounded-xl p-2.5 leading-snug">
                 {installHint}
               </p>
             )}
@@ -521,30 +521,30 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
         )}
 
         {/* Membresía del Servicio Vortex ID */}
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-950/80 via-[#1f1704] to-[#0a1f55] border-2 border-amber-400 shadow-xl space-y-2.5">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 dark:from-amber-950/80 via-yellow-50/70 dark:via-[#1f1704] to-slate-50 dark:to-[#0a1f55] border-2 border-amber-400 dark:border-amber-400 shadow-xl space-y-2.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-400">
+              <span className="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-400 dark:border-amber-400">
                 <DollarSign className="w-4 h-4" />
               </span>
-              <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-200">
+              <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-800 dark:text-amber-200">
                 Membresía Mensual del Servicio
               </h3>
             </div>
-            <span className="text-base sm:text-lg font-black text-amber-300 bg-black/60 px-3 py-0.5 rounded-xl border border-amber-400/60 font-mono">
+            <span className="text-base sm:text-lg font-black text-amber-700 dark:text-amber-300 bg-slate-100 dark:bg-black/60 px-3 py-0.5 rounded-xl border border-amber-300 dark:border-amber-400/60 font-mono">
               {formatCurrency(systemConfig.monthlyFee)} / mes
             </span>
           </div>
 
-          <p className="text-xs text-amber-100/90 leading-snug">
+          <p className="text-xs text-amber-800 dark:text-amber-100/90 leading-snug">
             Cubre la instalación, la vinculación del llavero físico numerado, guardado seguro en la nube y asistencia ante accidentes en Punta Alta.
           </p>
 
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className={`text-[11px] font-black px-2.5 py-1 rounded-full border ${
               systemConfig.isMembershipRequired
-                ? 'bg-rose-950/90 text-rose-200 border-rose-400/70'
-                : 'bg-emerald-950/90 text-emerald-200 border-emerald-400/70'
+                ? 'bg-rose-50 dark:bg-rose-950/90 text-rose-800 dark:text-rose-200 border-rose-300 dark:border-rose-400/70'
+                : 'bg-emerald-50 dark:bg-emerald-950/90 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-400/70'
             }`}>
               {systemConfig.isMembershipRequired
                 ? '🔒 Bloqueo Activo (Exige Pago + WhatsApp + Código)'
@@ -553,30 +553,30 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
           </div>
 
           <div className="pt-1 flex items-center justify-between gap-2 text-xs">
-            <div className="w-full flex items-center gap-1.5 bg-black/50 px-3 py-1.5 rounded-xl border border-amber-500/40 font-mono">
-              <span className="text-gray-400">Alias MP:</span>
-              <span className="font-bold text-white select-all">{systemConfig.paymentAlias || 'vortex.id.auxilio'}</span>
+            <div className="w-full flex items-center gap-1.5 bg-slate-100 dark:bg-black/50 px-3 py-1.5 rounded-xl border border-amber-300 dark:border-amber-500/40 font-mono">
+              <span className="text-slate-600 dark:text-gray-400">Alias MP:</span>
+              <span className="font-bold text-slate-900 dark:text-white select-all">{systemConfig.paymentAlias || 'vortex.id.auxilio'}</span>
               <button
                 type="button"
                 onClick={handleCopyAlias}
-                className="ml-auto text-amber-300 hover:text-white p-0.5"
+                className="ml-auto text-amber-700 dark:text-amber-300 hover:text-slate-950 dark:hover:text-white p-0.5"
                 title="Copiar alias"
               >
-                {copiedAlias ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedAlias ? <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
             </div>
           </div>
         </div>
 
         {/* Operating System, QR & Brand Tabs */}
-        <div className="grid grid-cols-5 gap-1 p-1 rounded-2xl bg-[#050b1f] border border-[#1e3f8f]">
+        <div className="grid grid-cols-5 gap-1 p-1 rounded-2xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f]">
           <button
             type="button"
             onClick={() => setActiveTab('qr')}
             className={`py-2 px-1 rounded-xl font-bold text-[11px] flex items-center justify-center gap-1 transition ${
               activeTab === 'qr'
                 ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-black shadow-md'
-                : 'text-gray-300 hover:text-white'
+                : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
             <QrCode className="w-3.5 h-3.5 shrink-0" />
@@ -588,7 +588,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             className={`py-2 px-1 rounded-xl font-bold text-[11px] flex items-center justify-center gap-1 transition ${
               activeTab === 'android'
                 ? 'bg-gradient-to-r from-blue-600 to-[#1e5bff] text-white shadow-md'
-                : 'text-gray-300 hover:text-white'
+                : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
             <span className="truncate">🤖 Android</span>
@@ -599,7 +599,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             className={`py-2 px-1 rounded-xl font-bold text-[11px] flex items-center justify-center gap-1 transition ${
               activeTab === 'iphone'
                 ? 'bg-gradient-to-r from-blue-600 to-[#1e5bff] text-white shadow-md'
-                : 'text-gray-300 hover:text-white'
+                : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
             <span className="truncate">🍎 iPhone</span>
@@ -610,10 +610,10 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             className={`py-2 px-1 rounded-xl font-bold text-[11px] flex items-center justify-center gap-1 transition ${
               activeTab === 'pc'
                 ? 'bg-gradient-to-r from-blue-600 to-[#1e5bff] text-white shadow-md'
-                : 'text-gray-300 hover:text-white'
+                : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
-            <Monitor className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+            <Monitor className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-300 shrink-0" />
             <span className="truncate">PC</span>
           </button>
           <button
@@ -622,26 +622,26 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             className={`py-2 px-1 rounded-xl font-bold text-[11px] flex items-center justify-center gap-1 transition ${
               activeTab === 'marca'
                 ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
-                : 'text-gray-300 hover:text-white'
+                : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
             }`}
           >
-            <Palette className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+            <Palette className="w-3.5 h-3.5 text-sky-700 dark:text-cyan-300 shrink-0" />
             <span className="truncate">Marca</span>
           </button>
         </div>
 
         {/* Step-by-Step Instructions or QR Showcase */}
         {activeTab === 'qr' ? (
-          <div className="p-4 rounded-2xl bg-[#050b1f] border border-cyan-500/80 space-y-3.5 animate-fade-in text-center">
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050b1f] border border-sky-300 dark:border-cyan-500/80 space-y-3.5 animate-fade-in text-center">
             {/* Mode selector: QR Oficial Futurista vs Bienvenida vs Llavero */}
-            <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-[#071330] border border-[#1e4594]">
+            <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e4594]">
               <button
                 type="button"
                 onClick={() => setQrMode('oficial')}
                 className={`py-1.5 px-2 rounded-lg text-[11px] font-bold transition ${
                   qrMode === 'oficial'
                     ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-black shadow'
-                    : 'text-gray-300 hover:text-white'
+                    : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 🛡️ QR Oficial App
@@ -652,7 +652,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                 className={`py-1.5 px-2 rounded-lg text-[11px] font-bold transition ${
                   qrMode === 'app'
                     ? 'bg-emerald-400 text-black font-black shadow'
-                    : 'text-gray-300 hover:text-white'
+                    : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 💳 Alta + Pago
@@ -663,7 +663,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                 className={`py-1.5 px-2 rounded-lg text-[11px] font-bold transition ${
                   qrMode === 'keychain'
                     ? 'bg-amber-400 text-black font-black shadow'
-                    : 'text-gray-300 hover:text-white'
+                    : 'text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 🪪 Llavero #ID
@@ -671,17 +671,17 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             </div>
 
             {qrMode === 'keychain' && (
-              <div className="flex items-center justify-center gap-2 p-2 bg-[#071330] rounded-xl border border-amber-500/40 text-xs">
-                <span className="text-gray-400">Número de Llavero:</span>
+              <div className="flex items-center justify-center gap-2 p-2 bg-white dark:bg-[#071330] rounded-xl border border-amber-300 dark:border-amber-500/40 text-xs">
+                <span className="text-slate-600 dark:text-gray-400">Número de Llavero:</span>
                 <input
                   type="text"
                   maxLength={6}
                   value={customKeychainNum}
                   onChange={(e) => setCustomKeychainNum(e.target.value)}
                   placeholder="0001"
-                  className="w-20 py-1 px-2 rounded-lg bg-black border border-amber-400 text-amber-300 font-mono font-bold text-center uppercase"
+                  className="w-20 py-1 px-2 rounded-lg bg-black border border-amber-400 dark:border-amber-400 text-amber-700 dark:text-amber-300 font-mono font-bold text-center uppercase"
                 />
-                <span className="text-[11px] text-[#9db6dd]">
+                <span className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                   (ej: 0001, 0042)
                 </span>
               </div>
@@ -689,7 +689,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
 
             {/* QR Image Display */}
             <div className="flex flex-col items-center justify-center space-y-2">
-              <div className="p-2.5 bg-white rounded-2xl shadow-xl shadow-cyan-950/60 inline-block border-4 border-cyan-400">
+              <div className="p-2.5 bg-white rounded-2xl shadow-xl shadow-cyan-950/60 inline-block border-4 border-sky-400 dark:border-cyan-400">
                 {qrDataUrl ? (
                   <img
                     src={qrDataUrl}
@@ -698,19 +698,19 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="w-56 h-56 flex items-center justify-center text-gray-500 font-mono text-xs">
+                  <div className="w-56 h-56 flex items-center justify-center text-slate-500 dark:text-gray-500 font-mono text-xs">
                     Generando QR...
                   </div>
                 )}
               </div>
-              <div className="text-[11px] text-cyan-300 font-bold">
+              <div className="text-[11px] text-sky-700 dark:text-cyan-300 font-bold">
                 {qrMode === 'oficial'
                   ? 'QR Oficial Vortex ID · Escudo Integrado (900×900 HD)'
                   : qrMode === 'app'
                     ? 'QR Directo de Alta y Membresía · Escudo Vortex ID (900×900 HD)'
                     : 'Escudo oficial Vortex en el centro (Escaneo HD Nivel H)'}
               </div>
-              <p className="text-xs text-cyan-100/90 font-medium max-w-xs">
+              <p className="text-xs text-sky-800 dark:text-cyan-100/90 font-medium max-w-xs">
                 {qrMode === 'oficial'
                   ? `Escaneando este código se abre: ${productionBase.replace(/^https?:\/\//, '')}.`
                   : qrMode === 'app'
@@ -735,9 +735,9 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                 type="button"
                 onClick={handleDownloadPrintablePoster}
                 disabled={generatingPoster}
-                className="py-2.5 px-3 rounded-xl bg-[#0b1f50] hover:bg-[#143078] border border-cyan-400/70 text-cyan-100 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition disabled:opacity-60"
+                className="py-2.5 px-3 rounded-xl bg-sky-50 dark:bg-[#0b1f50] hover:bg-sky-100 dark:hover:bg-[#143078] border border-sky-300 dark:border-cyan-400/70 text-sky-800 dark:text-cyan-100 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition disabled:opacity-60"
               >
-                <QrCode className="w-4 h-4 text-cyan-300" />
+                <QrCode className="w-4 h-4 text-sky-700 dark:text-cyan-300" />
                 <span>{generatingPoster ? 'Armando cartel…' : 'Cartel para Imprimir'}</span>
               </button>
             </div>
@@ -759,25 +759,25 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   onClose();
                   onOpenWelcomePreview();
                 }}
-                className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-blue-500/20 hover:from-amber-500/30 hover:to-blue-500/30 border border-cyan-400/50 text-xs font-bold text-cyan-200 flex items-center justify-center gap-2 transition shadow-inner"
+                className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-blue-500/20 hover:from-amber-500/30 hover:to-blue-500/30 border border-sky-300 dark:border-cyan-400/50 text-xs font-bold text-sky-800 dark:text-cyan-200 flex items-center justify-center gap-2 transition shadow-inner"
               >
-                <Sparkles className="w-4 h-4 text-yellow-300 animate-spin" />
+                <Sparkles className="w-4 h-4 text-amber-700 dark:text-yellow-300 animate-spin" />
                 <span>🎉 Probar Bienvenida con Confites y Voz (cómo lo verá la persona)</span>
               </button>
             )}
           </div>
         ) : activeTab === 'android' ? (
-          <div className="p-4 rounded-2xl bg-[#050b1f] border border-[#1e3f8f]/80 space-y-3">
-            <h3 className="text-sm font-black text-emerald-400 flex items-center gap-1.5 uppercase">
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f]/80 space-y-3">
+            <h3 className="text-sm font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 uppercase">
               <span>Pasos para instalar en Android (Google Chrome):</span>
             </h3>
-            <ol className="space-y-2.5 text-xs text-[#eaf3ff] leading-relaxed">
+            <ol className="space-y-2.5 text-xs text-slate-900 dark:text-[#eaf3ff] leading-relaxed">
               <li className="flex items-start gap-2.5">
                 <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-black flex items-center justify-center shrink-0 text-xs">
                   1
                 </span>
                 <span>
-                  Abrí este enlace en el navegador <strong className="text-white">Google Chrome</strong> del celular.
+                  Abrí este enlace en el navegador <strong className="text-slate-900 dark:text-white">Google Chrome</strong> del celular.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -785,7 +785,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   2
                 </span>
                 <span>
-                  Tocá los <strong className="text-white">tres puntitos verticales (⋮)</strong> que están arriba a la derecha.
+                  Tocá los <strong className="text-slate-900 dark:text-white">tres puntitos verticales (⋮)</strong> que están arriba a la derecha.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -793,7 +793,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   3
                 </span>
                 <span>
-                  Tocá en <strong className="text-emerald-400">"Instalar aplicación"</strong> (o <em>"Agregar a la pantalla principal"</em>).
+                  Tocá en <strong className="text-emerald-700 dark:text-emerald-400">"Instalar aplicación"</strong> (o <em>"Agregar a la pantalla principal"</em>).
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -801,23 +801,23 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   ✓
                 </span>
                 <span>
-                  <strong className="text-emerald-300">¡Listo!</strong> La app se guardará con su ícono oficial en la pantalla del celular como cualquier otra app.
+                  <strong className="text-emerald-700 dark:text-emerald-300">¡Listo!</strong> La app se guardará con su ícono oficial en la pantalla del celular como cualquier otra app.
                 </span>
               </li>
             </ol>
           </div>
         ) : activeTab === 'iphone' ? (
-          <div className="p-4 rounded-2xl bg-[#050b1f] border border-[#1e3f8f]/80 space-y-3">
-            <h3 className="text-sm font-black text-cyan-400 flex items-center gap-1.5 uppercase">
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f]/80 space-y-3">
+            <h3 className="text-sm font-black text-sky-700 dark:text-cyan-400 flex items-center gap-1.5 uppercase">
               <span>Pasos para instalar en iPhone (Safari):</span>
             </h3>
-            <ol className="space-y-2.5 text-xs text-[#eaf3ff] leading-relaxed">
+            <ol className="space-y-2.5 text-xs text-slate-900 dark:text-[#eaf3ff] leading-relaxed">
               <li className="flex items-start gap-2.5">
                 <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-black flex items-center justify-center shrink-0 text-xs">
                   1
                 </span>
                 <span>
-                  Abrí este enlace en el navegador <strong className="text-white">Safari</strong> del iPhone.
+                  Abrí este enlace en el navegador <strong className="text-slate-900 dark:text-white">Safari</strong> del iPhone.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -825,7 +825,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   2
                 </span>
                 <span>
-                  Tocá el botón <strong className="text-white">Compartir</strong> abajo al centro (el icono de un cuadrado con una flecha hacia arriba ⎋).
+                  Tocá el botón <strong className="text-slate-900 dark:text-white">Compartir</strong> abajo al centro (el icono de un cuadrado con una flecha hacia arriba ⎋).
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -833,7 +833,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   3
                 </span>
                 <span>
-                  Deslizá hacia abajo en el menú y tocá <strong className="text-cyan-300">"Agregar al inicio"</strong> (o <em>"Add to Home Screen"</em>).
+                  Deslizá hacia abajo en el menú y tocá <strong className="text-sky-700 dark:text-cyan-300">"Agregar al inicio"</strong> (o <em>"Add to Home Screen"</em>).
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -841,24 +841,24 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   ✓
                 </span>
                 <span>
-                  Tocá <strong className="text-emerald-300">"Agregar"</strong> arriba a la derecha. ¡Ya queda instalada en tu iPhone!
+                  Tocá <strong className="text-emerald-700 dark:text-emerald-300">"Agregar"</strong> arriba a la derecha. ¡Ya queda instalada en tu iPhone!
                 </span>
               </li>
             </ol>
           </div>
         ) : activeTab === 'pc' ? (
-          <div className="p-4 rounded-2xl bg-[#050b1f] border border-[#1e3f8f]/80 space-y-3">
-            <h3 className="text-sm font-black text-cyan-300 flex items-center gap-1.5 uppercase">
-              <Monitor className="w-4 h-4 text-cyan-300 shrink-0" />
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f]/80 space-y-3">
+            <h3 className="text-sm font-black text-sky-700 dark:text-cyan-300 flex items-center gap-1.5 uppercase">
+              <Monitor className="w-4 h-4 text-sky-700 dark:text-cyan-300 shrink-0" />
               <span>Pasos para instalar en PC o Laptop (Chrome / Edge):</span>
             </h3>
-            <ol className="space-y-2.5 text-xs text-[#eaf3ff] leading-relaxed">
+            <ol className="space-y-2.5 text-xs text-slate-900 dark:text-[#eaf3ff] leading-relaxed">
               <li className="flex items-start gap-2.5">
                 <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-black flex items-center justify-center shrink-0 text-xs">
                   1
                 </span>
                 <span>
-                  Abrí <strong className="text-white font-mono">{currentOriginHost}</strong> en <strong className="text-white">Google Chrome</strong> o <strong className="text-white">Microsoft Edge</strong> desde tu computadora o notebook.
+                  Abrí <strong className="text-slate-900 dark:text-white font-mono">{currentOriginHost}</strong> en <strong className="text-slate-900 dark:text-white">Google Chrome</strong> o <strong className="text-slate-900 dark:text-white">Microsoft Edge</strong> desde tu computadora o notebook.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -866,7 +866,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   2
                 </span>
                 <span>
-                  Arriba a la derecha en la barra de direcciones vas a ver el ícono de <strong className="text-cyan-300">«Instalar Vortex ID»</strong> (un monitor con una flecha hacia abajo ↓). También podés tocar el menú <strong className="text-white">(⋮) → Guardar y compartir / Aplicaciones → Instalar</strong>.
+                  Arriba a la derecha en la barra de direcciones vas a ver el ícono de <strong className="text-sky-700 dark:text-cyan-300">«Instalar Vortex ID»</strong> (un monitor con una flecha hacia abajo ↓). También podés tocar el menú <strong className="text-slate-900 dark:text-white">(⋮) → Guardar y compartir / Aplicaciones → Instalar</strong>.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -874,7 +874,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   3
                 </span>
                 <span>
-                  Hacé clic en <strong className="text-emerald-400">«Instalar»</strong> en el cuadro que aparece.
+                  Hacé clic en <strong className="text-emerald-700 dark:text-emerald-400">«Instalar»</strong> en el cuadro que aparece.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -882,18 +882,18 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   ✓
                 </span>
                 <span>
-                  <strong className="text-emerald-300">¡Listo!</strong> Se crea el ícono oficial de Vortex ID en tu Escritorio y Menú Inicio, y se abre como un programa propio incluso sin internet.
+                  <strong className="text-emerald-700 dark:text-emerald-300">¡Listo!</strong> Se crea el ícono oficial de Vortex ID en tu Escritorio y Menú Inicio, y se abre como un programa propio incluso sin internet.
                 </span>
               </li>
             </ol>
           </div>
         ) : (
           /* TAB 3: MARCA, LOGO Y CONSEJOS DE PROMOCIÓN */
-          <div className="p-4 rounded-2xl bg-gradient-to-b from-[#0a1838] to-[#050b1f] border border-purple-500/60 space-y-4 animate-fade-in">
+          <div className="p-4 rounded-2xl bg-gradient-to-b from-white dark:from-[#0a1838] to-slate-50 dark:to-[#050b1f] border border-purple-300 dark:border-purple-500/60 space-y-4 animate-fade-in">
             {/* Logo Emblem & Official QR Showcase */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#07122c] p-3.5 rounded-2xl border border-purple-400/40">
-              <div className="flex flex-col items-center text-center gap-2 p-2.5 rounded-xl bg-[#050b1f] border border-cyan-500/40">
-                <div className="w-28 h-28 rounded-2xl overflow-hidden border-2 border-cyan-400 shadow-xl bg-gradient-to-b from-[#0b2247] to-[#040c1f]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white dark:bg-[#07122c] p-3.5 rounded-2xl border border-purple-300 dark:border-purple-400/40">
+              <div className="flex flex-col items-center text-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-sky-300 dark:border-cyan-500/40">
+                <div className="w-28 h-28 rounded-2xl overflow-hidden border-2 border-sky-400 dark:border-cyan-400 shadow-xl bg-gradient-to-b from-white dark:from-[#0b2247] to-slate-50 dark:to-[#040c1f]">
                   <img
                     src="/assets/aistudio/image__2__7d12aee0.png"
                     alt="Emblema Oficial Vortex ID"
@@ -901,7 +901,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                   />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-xs font-black text-white">Escudo Oficial Vortex ID</h4>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white">Escudo Oficial Vortex ID</h4>
                   <a
                     href="/assets/aistudio/image__2__7d12aee0.png"
                     download="vortex_id_escudo_oficial.png"
@@ -913,15 +913,15 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
                 </div>
               </div>
 
-              <div className="flex flex-col items-center text-center gap-2 p-2.5 rounded-xl bg-[#050b1f] border border-cyan-500/40">
+              <div className="flex flex-col items-center text-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-sky-300 dark:border-cyan-500/40">
                 <img
                   src={OFFICIAL_FUTURISTIC_QR_URL}
                   alt="QR Oficial Vortex ID Futurista"
-                  className="w-28 h-28 rounded-2xl object-contain bg-white p-1 border-2 border-cyan-400 shadow-xl"
+                  className="w-28 h-28 rounded-2xl object-contain bg-white p-1 border-2 border-sky-400 dark:border-cyan-400 shadow-xl"
                   referrerPolicy="no-referrer"
                 />
                 <div className="space-y-1">
-                  <h4 className="text-xs font-black text-white">QR Oficial con Logo Central</h4>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white">QR Oficial con Logo Central</h4>
                   <a
                     href={OFFICIAL_FUTURISTIC_QR_URL}
                     download="vortex_id_qr_futurista_punta_alta.png"
@@ -936,42 +936,42 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
 
             {/* Guía Rápida de Promoción Local en Punta Alta */}
             <div className="space-y-2 text-xs">
-              <span className="font-black text-cyan-300 uppercase tracking-wider block">
+              <span className="font-black text-sky-700 dark:text-cyan-300 uppercase tracking-wider block">
                 🚀 5 Canales Prácticos para Difusión en Punta Alta:
               </span>
-              <ul className="space-y-2 text-[#eaf3ff]">
-                <li className="p-2.5 rounded-xl bg-[#071330] border border-[#1e3f8f] flex items-start gap-2">
-                  <span className="font-bold text-emerald-400 shrink-0">1.</span>
+              <ul className="space-y-2 text-slate-900 dark:text-[#eaf3ff]">
+                <li className="p-2.5 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e3f8f] flex items-start gap-2">
+                  <span className="font-bold text-emerald-700 dark:text-emerald-400 shrink-0">1.</span>
                   <div>
-                    <strong className="text-white block">Farmacias de Turno (El Gancho Inicial):</strong>
+                    <strong className="text-slate-900 dark:text-white block">Farmacias de Turno (El Gancho Inicial):</strong>
                     Dejá stickers QR en mostradores de farmacias: <em>"Mirá qué farmacia está de guardia hoy gratis en tu celular"</em>. La gente la guarda al instante.
                   </div>
                 </li>
-                <li className="p-2.5 rounded-xl bg-[#071330] border border-[#1e3f8f] flex items-start gap-2">
-                  <span className="font-bold text-emerald-400 shrink-0">2.</span>
+                <li className="p-2.5 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e3f8f] flex items-start gap-2">
+                  <span className="font-bold text-emerald-700 dark:text-emerald-400 shrink-0">2.</span>
                   <div>
-                    <strong className="text-white block">Remises y Taxis de Punta Alta:</strong>
+                    <strong className="text-slate-900 dark:text-white block">Remises y Taxis de Punta Alta:</strong>
                     Colocar un pequeño código adhesivo en el respaldo: <em>"En caso de urgencia en viaje: guardias médicas y SAME 107 a 1 toque"</em>.
                   </div>
                 </li>
-                <li className="p-2.5 rounded-xl bg-[#071330] border border-[#1e3f8f] flex items-start gap-2">
-                  <span className="font-bold text-emerald-400 shrink-0">3.</span>
+                <li className="p-2.5 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e3f8f] flex items-start gap-2">
+                  <span className="font-bold text-emerald-700 dark:text-emerald-400 shrink-0">3.</span>
                   <div>
-                    <strong className="text-white block">Centros de Jubilados, PAMI y Familias:</strong>
+                    <strong className="text-slate-900 dark:text-white block">Centros de Jubilados, PAMI y Familias:</strong>
                     Ofrecer el llavero físico numerado (#ID) para adultos mayores: sus hijos se sienten tranquilos de que ante caídas o descompensaciones el 107 tiene sus datos.
                   </div>
                 </li>
-                <li className="p-2.5 rounded-xl bg-[#071330] border border-[#1e3f8f] flex items-start gap-2">
-                  <span className="font-bold text-emerald-400 shrink-0">4.</span>
+                <li className="p-2.5 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e3f8f] flex items-start gap-2">
+                  <span className="font-bold text-emerald-700 dark:text-emerald-400 shrink-0">4.</span>
                   <div>
-                    <strong className="text-white block">Mochilas Escolares y Ciclistas:</strong>
+                    <strong className="text-slate-900 dark:text-white block">Mochilas Escolares y Ciclistas:</strong>
                     Ideal para deportistas que entrenan en Ruta 229 o Arroyo Pareja, y niños en escuelas: el llavero en la mochila salva vidas en accidentes.
                   </div>
                 </li>
-                <li className="p-2.5 rounded-xl bg-[#071330] border border-[#1e3f8f] flex items-start gap-2">
-                  <span className="font-bold text-emerald-400 shrink-0">5.</span>
+                <li className="p-2.5 rounded-xl bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e3f8f] flex items-start gap-2">
+                  <span className="font-bold text-emerald-700 dark:text-emerald-400 shrink-0">5.</span>
                   <div>
-                    <strong className="text-white block">Grupos de WhatsApp Barriales:</strong>
+                    <strong className="text-slate-900 dark:text-white block">Grupos de WhatsApp Barriales:</strong>
                     Compartir el link directo del portal en grupos de Ciudad Atlántida, Nueva Bahía Blanca y centro como servicio vecinal gratuito.
                   </div>
                 </li>
@@ -981,30 +981,30 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
         )}
 
         {/* Share Section for friends and customers */}
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#0a1838] to-[#07122c] border border-emerald-500/60 space-y-3">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-white dark:from-[#0a1838] to-slate-50 dark:to-[#07122c] border border-emerald-300 dark:border-emerald-500/60 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="p-1 rounded-lg bg-emerald-500/20 text-emerald-400">
+              <span className="p-1 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-400">
                 <Share2 className="w-4 h-4" />
               </span>
-              <h4 className="text-xs font-black uppercase tracking-wider text-white">
+              <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
                 Compartir este servicio a familiares o clientes
               </h4>
             </div>
-            <span className="text-[10px] text-emerald-300 font-bold bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/40">
+            <span className="text-[10px] text-emerald-700 dark:text-emerald-300 font-bold bg-emerald-50 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300 dark:border-emerald-500/40">
               Público
             </span>
           </div>
 
           {/* Enlace público visualizado */}
-          <div className="p-2.5 rounded-xl bg-black/60 border border-[#37c8ff]/40 text-xs flex items-center justify-between gap-2 overflow-hidden">
-            <span className="font-mono text-[11px] text-[#37c8ff] truncate select-all">{effectiveShareUrl}</span>
+          <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-black/60 border border-[#37c8ff]/40 text-xs flex items-center justify-between gap-2 overflow-hidden">
+            <span className="font-mono text-[11px] text-sky-700 dark:text-[#37c8ff] truncate select-all">{effectiveShareUrl}</span>
             <button
               type="button"
               onClick={handleCopyLink}
               className="px-2.5 py-1 rounded-lg bg-[#1e5bff] hover:bg-blue-600 text-white font-bold text-[11px] shrink-0 flex items-center gap-1 active:scale-95 transition"
             >
-              {copiedLink ? <Check className="w-3 h-3 text-emerald-300" /> : <Copy className="w-3 h-3" />}
+              {copiedLink ? <Check className="w-3 h-3 text-emerald-700 dark:text-emerald-300" /> : <Copy className="w-3 h-3" />}
               <span>{copiedLink ? 'Copiado' : 'Copiar'}</span>
             </button>
           </div>
@@ -1022,9 +1022,9 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
             <button
               type="button"
               onClick={handleCopyLink}
-              className="py-3 px-3 rounded-xl bg-[#0b1d46] hover:bg-[#122e7a] border border-[#37c8ff]/60 text-white font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95"
+              className="py-3 px-3 rounded-xl bg-sky-50 dark:bg-[#0b1d46] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-[#37c8ff]/60 text-slate-900 dark:text-white font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95"
             >
-              {copiedLink ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-[#37c8ff]" />}
+              {copiedLink ? <Check className="w-4 h-4 text-emerald-700 dark:text-emerald-400" /> : <Copy className="w-4 h-4 text-sky-700 dark:text-[#37c8ff]" />}
               <span>{copiedLink ? '¡Enlace copiado!' : 'Copiar enlace público'}</span>
             </button>
           </div>
@@ -1035,7 +1035,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="w-full py-3 rounded-xl bg-[#0a1f55] hover:bg-[#133075] border border-gray-600 text-white font-bold text-xs active:scale-95 transition"
+          className="w-full py-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#133075] border border-slate-300 dark:border-gray-600 text-slate-900 dark:text-white font-bold text-xs active:scale-95 transition"
         >
           Cerrar
         </button>

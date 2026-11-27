@@ -166,51 +166,51 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
   const getEventIcon = (type: ClinicalEvent['type']) => {
     switch (type) {
       case 'cirugia':
-        return <Syringe className="w-4 h-4 text-rose-400" />;
+        return <Syringe className="w-4 h-4 text-rose-700 dark:text-rose-400" />;
       case 'internacion':
-        return <HeartPulse className="w-4 h-4 text-amber-400" />;
+        return <HeartPulse className="w-4 h-4 text-amber-700 dark:text-amber-400" />;
       case 'antecedente':
-        return <Dna className="w-4 h-4 text-cyan-400" />;
+        return <Dna className="w-4 h-4 text-sky-700 dark:text-cyan-400" />;
       default:
-        return <FileText className="w-4 h-4 text-blue-400" />;
+        return <FileText className="w-4 h-4 text-blue-700 dark:text-blue-400" />;
     }
   };
 
   const getEventBadge = (type: ClinicalEvent['type']) => {
     switch (type) {
       case 'cirugia':
-        return { label: 'Cirugía', color: 'bg-rose-950 text-rose-300 border-rose-500/50' };
+        return { label: 'Cirugía', color: 'bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-500/50' };
       case 'internacion':
-        return { label: 'Internación', color: 'bg-amber-950 text-amber-300 border-amber-500/50' };
+        return { label: 'Internación', color: 'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-500/50' };
       case 'antecedente':
-        return { label: 'Antecedente Familiar', color: 'bg-cyan-950 text-cyan-300 border-cyan-500/50' };
+        return { label: 'Antecedente Familiar', color: 'bg-sky-50 dark:bg-cyan-950 text-sky-700 dark:text-cyan-300 border-sky-300 dark:border-cyan-500/50' };
       default:
-        return { label: 'Historial', color: 'bg-blue-950 text-blue-300 border-blue-500/50' };
+        return { label: 'Historial', color: 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-500/50' };
     }
   };
 
   const isProtected = !isRescuerView && (currentRecord?.historialClinicoProtected !== false);
 
   return (
-    <div className="my-3.5 rounded-3xl bg-gradient-to-br from-[#0c1836] via-[#08122c] to-[#040a1c] border-2 border-[#1e5bff]/80 p-4 sm:p-5 shadow-2xl space-y-3.5">
+    <div className="my-3.5 rounded-3xl bg-gradient-to-br from-white dark:from-[#0c1836] via-sky-50/70 dark:via-[#08122c] to-slate-50 dark:to-[#040a1c] border-2 border-blue-400 dark:border-[#1e5bff]/80 p-4 sm:p-5 shadow-2xl space-y-3.5">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#1e3f8f]/60 pb-3">
+      <div className="flex items-center justify-between border-b border-slate-300 dark:border-[#1e3f8f]/60 pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="p-2 rounded-xl bg-blue-600/20 text-[#37c8ff] border border-blue-500/50">
-            <FileText className="w-5 h-5 text-[#37c8ff]" />
+          <span className="p-2 rounded-xl bg-blue-100 dark:bg-blue-600/20 text-sky-700 dark:text-[#37c8ff] border border-blue-500/50">
+            <FileText className="w-5 h-5 text-sky-700 dark:text-[#37c8ff]" />
           </span>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm sm:text-base font-black font-heading text-white uppercase tracking-wider">
+              <h3 className="text-sm sm:text-base font-black font-heading text-slate-900 dark:text-white uppercase tracking-wider">
                 HISTORIAL CLÍNICO Y ANTECEDENTES
               </h3>
               {isProtected && (
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-blue-950 text-[#37c8ff] border border-[#37c8ff]/40 flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-blue-50 dark:bg-blue-950 text-sky-700 dark:text-[#37c8ff] border border-[#37c8ff]/40 flex items-center gap-1">
                   <Lock className="w-2.5 h-2.5" /> PIN PROTEGIDO
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-[#9db6dd]">
+            <p className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
               Internaciones previas · Cirugías importantes · Antecedentes familiares
             </p>
           </div>
@@ -221,9 +221,9 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
           <button
             type="button"
             onClick={handleLock}
-            className="px-2.5 py-1 rounded-xl bg-[#0a1838] hover:bg-[#122e7a] border border-gray-600 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1.5 transition active:scale-95"
+            className="px-2.5 py-1 rounded-xl bg-white dark:bg-[#0a1838] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-slate-300 dark:border-gray-600 text-xs font-bold text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white flex items-center gap-1.5 transition active:scale-95"
           >
-            <Lock className="w-3.5 h-3.5 text-amber-400" />
+            <Lock className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
             <span>Bloquear</span>
           </button>
         )}
@@ -231,16 +231,16 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
 
       {/* STATE 1: LOCKED WITH PIN */}
       {isProtected && !isUnlocked && !isEditing ? (
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#071330] via-[#061026] to-[#050b1f] border border-amber-400/50 space-y-3">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-white dark:from-[#071330] via-sky-50/70 dark:via-[#061026] to-slate-50 dark:to-[#050b1f] border border-amber-300 dark:border-amber-400/50 space-y-3">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-400/60 flex items-center justify-center text-amber-300 shrink-0">
-              <Lock className="w-5 h-5 text-amber-400" />
+            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/60 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+              <Lock className="w-5 h-5 text-amber-700 dark:text-amber-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="text-xs sm:text-sm font-black uppercase text-amber-200">
+              <h4 className="text-xs sm:text-sm font-black uppercase text-amber-800 dark:text-amber-200">
                 Información Confidencial Protegida
               </h4>
-              <p className="text-xs text-[#9db6dd] leading-snug mt-0.5">
+              <p className="text-xs text-slate-600 dark:text-[#9db6dd] leading-snug mt-0.5">
                 Por privacidad del titular, el historial de internaciones, cirugías previas y antecedentes familiares está protegido con clave PIN.
               </p>
             </div>
@@ -248,16 +248,16 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
 
           {/* Quick Summary Pill Badges */}
           <div className="flex flex-wrap gap-1.5 pt-1">
-            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-gray-700 text-[10px] text-gray-300 font-semibold flex items-center gap-1">
-              <HeartPulse className="w-3 h-3 text-amber-400" />
+            <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-black/40 border border-slate-300 dark:border-gray-700 text-[10px] text-slate-700 dark:text-gray-300 font-semibold flex items-center gap-1">
+              <HeartPulse className="w-3 h-3 text-amber-700 dark:text-amber-400" />
               <span>Internaciones previas: {currentRecord?.internacionesPrevias ? 'Registradas' : 'Protegidas'}</span>
             </span>
-            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-gray-700 text-[10px] text-gray-300 font-semibold flex items-center gap-1">
-              <Syringe className="w-3 h-3 text-rose-400" />
+            <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-black/40 border border-slate-300 dark:border-gray-700 text-[10px] text-slate-700 dark:text-gray-300 font-semibold flex items-center gap-1">
+              <Syringe className="w-3 h-3 text-rose-700 dark:text-rose-400" />
               <span>Cirugías previas: {currentRecord?.cirugiasPrevias ? 'Registradas' : 'Protegidas'}</span>
             </span>
-            <span className="px-2.5 py-1 rounded-lg bg-black/40 border border-gray-700 text-[10px] text-gray-300 font-semibold flex items-center gap-1">
-              <Dna className="w-3 h-3 text-cyan-400" />
+            <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-black/40 border border-slate-300 dark:border-gray-700 text-[10px] text-slate-700 dark:text-gray-300 font-semibold flex items-center gap-1">
+              <Dna className="w-3 h-3 text-sky-700 dark:text-cyan-400" />
               <span>Antecedentes familiares: {currentRecord?.antecedentesFamiliares ? 'Registrados' : 'Protegidos'}</span>
             </span>
           </div>
@@ -278,12 +278,12 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                     }}
                     onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
                     placeholder="Ingresá PIN (4 a 6 números)"
-                    className="w-full py-2.5 pl-3.5 pr-10 rounded-xl bg-[#050b1f] border border-[#1e3f8f] text-sm text-white font-mono focus:outline-none focus:border-[#37c8ff]"
+                    className="w-full py-2.5 pl-3.5 pr-10 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-sm text-slate-900 dark:text-white font-mono focus:outline-none focus:border-sky-600 dark:focus:border-[#37c8ff]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPin((prev) => !prev)}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-cyan-300/80 hover:text-white transition"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-sky-700 dark:text-cyan-300/80 hover:text-slate-950 dark:hover:text-white transition"
                     aria-label={showPin ? 'Ocultar PIN' : 'Ver PIN'}
                   >
                     {showPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -298,7 +298,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                   <span>Desbloquear Historial</span>
                 </button>
               </div>
-              {pinError && <p className="text-xs text-red-400 font-bold">{pinError}</p>}
+              {pinError && <p className="text-xs text-red-700 dark:text-red-400 font-bold">{pinError}</p>}
               <div className="pt-1">
                 <button
                   type="button"
@@ -307,7 +307,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                     setPinError('');
                     setShowRecoveryMode(true);
                   }}
-                  className="text-xs text-[#37c8ff] hover:text-white underline underline-offset-4 flex items-center gap-1.5 font-semibold transition"
+                  className="text-xs text-sky-700 dark:text-[#37c8ff] hover:text-slate-950 dark:hover:text-white underline underline-offset-4 flex items-center gap-1.5 font-semibold transition"
                 >
                   <HelpCircle className="w-3.5 h-3.5" />
                   <span>¿Olvidaste tu clave? Recuperar</span>
@@ -335,13 +335,13 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
           {/* Quick Summary Cards (Internaciones, Cirugías, Antecedentes Familiares) */}
           <div className="grid grid-cols-1 gap-2.5">
             {/* 1. Cirugías Importantes */}
-            <div className="p-3.5 rounded-2xl bg-[#071536] border border-rose-500/40 space-y-1.5">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#071536] border border-rose-300 dark:border-rose-500/40 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Syringe className="w-4 h-4 text-rose-400" />
+                <span className="text-xs font-black text-rose-700 dark:text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <Syringe className="w-4 h-4 text-rose-700 dark:text-rose-400" />
                   <span>Cirugías Importantes / Intervenciones</span>
                 </span>
-                <span className="text-[10px] font-bold text-rose-400/80">Quirúrgico</span>
+                <span className="text-[10px] font-bold text-rose-700 dark:text-rose-400/80">Quirúrgico</span>
               </div>
               {isEditing ? (
                 <input
@@ -349,10 +349,10 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                   value={currentRecord?.cirugiasPrevias || ''}
                   onChange={(e) => onFormChange && onFormChange('cirugiasPrevias', e.target.value)}
                   placeholder="Ej: Apendicectomía (2018 - Hospital Naval), Prótesis de cadera derecha"
-                  className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-rose-500/60 text-xs text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-rose-300 dark:border-rose-500/60 text-xs text-slate-900 dark:text-white"
                 />
               ) : (
-                <p className="text-xs sm:text-sm font-semibold text-white leading-relaxed">
+                <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white leading-relaxed">
                   {currentRecord?.cirugiasPrevias ||
                     rawEvents.find((e) => e.type === 'cirugia')?.title ||
                     'Sin cirugías previas declaradas.'}
@@ -361,13 +361,13 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
             </div>
 
             {/* 2. Internaciones Previas */}
-            <div className="p-3.5 rounded-2xl bg-[#071536] border border-amber-500/40 space-y-1.5">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#071536] border border-amber-300 dark:border-amber-500/40 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <HeartPulse className="w-4 h-4 text-amber-400" />
+                <span className="text-xs font-black text-amber-700 dark:text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <HeartPulse className="w-4 h-4 text-amber-700 dark:text-amber-400" />
                   <span>Internaciones Previas y Fechas</span>
                 </span>
-                <span className="text-[10px] font-bold text-amber-400/80">Hospitalario</span>
+                <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400/80">Hospitalario</span>
               </div>
               {isEditing ? (
                 <input
@@ -375,10 +375,10 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                   value={currentRecord?.internacionesPrevias || ''}
                   onChange={(e) => onFormChange && onFormChange('internacionesPrevias', e.target.value)}
                   placeholder="Ej: Neumonía bilateral (Julio 2021 - Hospital Eva Perón, 7 días)"
-                  className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-amber-500/60 text-xs text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-amber-300 dark:border-amber-500/60 text-xs text-slate-900 dark:text-white"
                 />
               ) : (
-                <p className="text-xs sm:text-sm font-semibold text-white leading-relaxed">
+                <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white leading-relaxed">
                   {currentRecord?.internacionesPrevias ||
                     rawEvents.find((e) => e.type === 'internacion')?.title ||
                     'Sin internaciones previas registradas.'}
@@ -387,13 +387,13 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
             </div>
 
             {/* 3. Antecedentes Familiares */}
-            <div className="p-3.5 rounded-2xl bg-[#071536] border border-cyan-500/40 space-y-1.5">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-[#071536] border border-sky-300 dark:border-cyan-500/40 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Dna className="w-4 h-4 text-cyan-400" />
+                <span className="text-xs font-black text-sky-700 dark:text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <Dna className="w-4 h-4 text-sky-700 dark:text-cyan-400" />
                   <span>Antecedentes Clínicos Familiares (Hereditarios)</span>
                 </span>
-                <span className="text-[10px] font-bold text-cyan-400/80">Genético</span>
+                <span className="text-[10px] font-bold text-sky-700 dark:text-cyan-400/80">Genético</span>
               </div>
               {isEditing ? (
                 <input
@@ -401,10 +401,10 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                   value={currentRecord?.antecedentesFamiliares || ''}
                   onChange={(e) => onFormChange && onFormChange('antecedentesFamiliares', e.target.value)}
                   placeholder="Ej: Padre: Infarto a los 62 años. Madre: Hipertensión arterial y Diabetes"
-                  className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-cyan-500/60 text-xs text-white"
+                  className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-sky-300 dark:border-cyan-500/60 text-xs text-slate-900 dark:text-white"
                 />
               ) : (
-                <p className="text-xs sm:text-sm font-semibold text-white leading-relaxed">
+                <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white leading-relaxed">
                   {currentRecord?.antecedentesFamiliares ||
                     rawEvents.find((e) => e.type === 'antecedente')?.title ||
                     'Sin antecedentes familiares declarados.'}
@@ -416,7 +416,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
           {/* Timeline of Clinical Events */}
           <div className="space-y-2.5 pt-1">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-gray-300 uppercase tracking-wider">
+              <span className="text-xs font-black text-slate-700 dark:text-gray-300 uppercase tracking-wider">
                 Eventos e intervenciones detalladas ({rawEvents.length}):
               </span>
 
@@ -443,7 +443,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                     className={`px-2.5 py-1 rounded-lg font-bold capitalize transition shrink-0 ${
                       activeFilter === filter
                         ? 'bg-blue-600 text-white shadow'
-                        : 'bg-[#050b1f] text-gray-400 hover:text-white border border-[#1e3f8f]'
+                        : 'bg-slate-50 dark:bg-[#050b1f] text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white border border-slate-300 dark:border-[#1e3f8f]'
                     }`}
                   >
                     {filter === 'all' ? 'Todos' : filter === 'cirugia' ? 'Cirugías' : filter === 'internacion' ? 'Internaciones' : 'Familiares'}
@@ -453,7 +453,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
             )}
 
             {filteredEvents.length === 0 ? (
-              <p className="text-xs text-gray-400 italic text-center py-2">
+              <p className="text-xs text-slate-600 dark:text-gray-400 italic text-center py-2">
                 No hay eventos específicos cargados en esta categoría.
               </p>
             ) : (
@@ -463,18 +463,18 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                   return (
                     <div
                       key={ev.id}
-                      className="p-3 rounded-2xl bg-[#050d24] border border-[#1e3f8f]/70 hover:border-[#37c8ff]/60 transition space-y-1.5"
+                      className="p-3 rounded-2xl bg-slate-50 dark:bg-[#050d24] border border-slate-300 dark:border-[#1e3f8f]/70 hover:border-[#37c8ff]/60 transition space-y-1.5"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <span className="p-1.5 rounded-lg bg-black/40 border border-gray-700">
+                          <span className="p-1.5 rounded-lg bg-slate-100 dark:bg-black/40 border border-slate-300 dark:border-gray-700">
                             {getEventIcon(ev.type)}
                           </span>
                           <div>
                             <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${badge.color}`}>
                               {badge.label}
                             </span>
-                            <h4 className="text-xs sm:text-sm font-bold text-white mt-0.5">
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mt-0.5">
                               {ev.title}
                             </h4>
                           </div>
@@ -484,7 +484,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                           <button
                             type="button"
                             onClick={() => handleDeleteEvent(ev.id)}
-                            className="text-gray-400 hover:text-red-400 p-1"
+                            className="text-slate-600 dark:text-gray-400 hover:text-red-400 p-1"
                             title="Eliminar evento"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -493,15 +493,15 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                       </div>
 
                       {/* Date & Institution metadata */}
-                      <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#9db6dd]">
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-600 dark:text-[#9db6dd]">
                         {ev.date && (
-                          <span className="flex items-center gap-1 font-mono font-bold text-gray-200">
-                            <Calendar className="w-3 h-3 text-[#37c8ff]" />
+                          <span className="flex items-center gap-1 font-mono font-bold text-slate-700 dark:text-gray-200">
+                            <Calendar className="w-3 h-3 text-sky-700 dark:text-[#37c8ff]" />
                             {ev.date}
                           </span>
                         )}
                         {ev.institution && (
-                          <span className="flex items-center gap-1 text-[#37c8ff]">
+                          <span className="flex items-center gap-1 text-sky-700 dark:text-[#37c8ff]">
                             <Building2 className="w-3 h-3" />
                             {ev.institution}
                           </span>
@@ -509,7 +509,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                       </div>
 
                       {ev.details && (
-                        <p className="text-xs text-[#eaf3ff] bg-black/30 p-2 rounded-xl border border-gray-800 leading-snug">
+                        <p className="text-xs text-slate-900 dark:text-[#eaf3ff] bg-slate-100 dark:bg-black/30 p-2 rounded-xl border border-slate-200 dark:border-gray-800 leading-snug">
                           {ev.details}
                         </p>
                       )}
@@ -522,12 +522,12 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
 
           {/* Privacy Protection Switch in Edit Mode */}
           {isEditing && (
-            <div className="pt-2 p-3 rounded-2xl bg-[#050b1f] border border-[#1e3f8f] flex items-center justify-between gap-3">
+            <div className="pt-2 p-3 rounded-2xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] flex items-center justify-between gap-3">
               <div>
-                <span className="text-xs font-bold text-white block">
+                <span className="text-xs font-bold text-slate-900 dark:text-white block">
                   Exigir clave PIN para ver este historial
                 </span>
-                <span className="text-[11px] text-[#9db6dd]">
+                <span className="text-[11px] text-slate-600 dark:text-[#9db6dd]">
                   Mantiene protegida tu información clínica ante personas no autorizadas.
                 </span>
               </div>
@@ -542,17 +542,17 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
 
           {/* Modal to Add New Clinical Event */}
           {showAddModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/80 backdrop-blur-sm animate-fade-in">
-              <div className="w-full max-w-sm bg-gradient-to-b from-[#0a1f55] to-[#07122c] border-2 border-[#37c8ff] rounded-3xl p-5 shadow-2xl space-y-3 text-white">
-                <div className="flex items-center justify-between pb-2 border-b border-[#1e3f8f]">
-                  <h4 className="text-sm font-black uppercase text-white flex items-center gap-1.5">
-                    <Plus className="w-4 h-4 text-emerald-400" />
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-slate-950/65 dark:bg-black/80 backdrop-blur-sm animate-fade-in">
+              <div className="w-full max-w-sm bg-gradient-to-b from-white dark:from-[#0a1f55] to-slate-50 dark:to-[#07122c] border-2 border-sky-500 dark:border-[#37c8ff] rounded-3xl p-5 shadow-2xl space-y-3 text-slate-900 dark:text-white">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-300 dark:border-[#1e3f8f]">
+                  <h4 className="text-sm font-black uppercase text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <Plus className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                     <span>Nuevo Registro Clínico</span>
                   </h4>
                   <button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="text-gray-400 hover:text-white"
+                    className="text-slate-600 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white"
                   >
                     ✕
                   </button>
@@ -560,7 +560,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
 
                 <div className="space-y-2.5 text-xs">
                   <div>
-                    <label className="block text-gray-300 font-bold mb-1">Tipo de Evento:</label>
+                    <label className="block text-slate-700 dark:text-gray-300 font-bold mb-1">Tipo de Evento:</label>
                     <div className="grid grid-cols-3 gap-1">
                       {(['cirugia', 'internacion', 'antecedente'] as const).map((t) => (
                         <button
@@ -569,8 +569,8 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                           onClick={() => setNewType(t)}
                           className={`py-1.5 px-1 rounded-lg font-bold capitalize transition border text-[11px] ${
                             newType === t
-                              ? 'bg-blue-600 text-white border-[#37c8ff]'
-                              : 'bg-[#050b1f] text-gray-300 border-gray-700'
+                              ? 'bg-blue-600 text-white border-sky-500 dark:border-[#37c8ff]'
+                              : 'bg-slate-50 dark:bg-[#050b1f] text-slate-700 dark:text-gray-300 border-slate-300 dark:border-gray-700'
                           }`}
                         >
                           {t === 'cirugia' ? 'Cirugía' : t === 'internacion' ? 'Internación' : 'Familiar'}
@@ -580,35 +580,35 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-gray-300 font-bold mb-1">Título / Diagnóstico / Cirugía:</label>
+                    <label className="block text-slate-700 dark:text-gray-300 font-bold mb-1">Título / Diagnóstico / Cirugía:</label>
                     <input
                       type="text"
                       value={newTitle}
                       onChange={(e) => setNewTitle(e.target.value)}
                       placeholder="Ej: Colecistectomía / Internación por Neumonía"
-                      className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-[#1e3f8f] text-white"
+                      className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-gray-300 font-bold mb-1">Fecha / Año:</label>
+                      <label className="block text-slate-700 dark:text-gray-300 font-bold mb-1">Fecha / Año:</label>
                       <input
                         type="text"
                         value={newDate}
                         onChange={(e) => setNewDate(e.target.value)}
                         placeholder="Ej: Octubre 2022"
-                        className="w-full py-2 px-2.5 rounded-xl bg-[#050b1f] border border-[#1e3f8f] text-white"
+                        className="w-full py-2 px-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-300 font-bold mb-1">Institución / Hospital:</label>
+                      <label className="block text-slate-700 dark:text-gray-300 font-bold mb-1">Institución / Hospital:</label>
                       <input
                         type="text"
                         value={newInstitution}
                         onChange={(e) => setNewInstitution(e.target.value)}
                         placeholder="Hospital Eva Perón"
-                        className="w-full py-2 px-2.5 rounded-xl bg-[#050b1f] border border-[#1e3f8f] text-white"
+                        className="w-full py-2 px-2.5 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white"
                       />
                     </div>
                   </div>
@@ -620,7 +620,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                         key={inst}
                         type="button"
                         onClick={() => setNewInstitution(inst)}
-                        className="text-[10px] px-2 py-0.5 rounded-md bg-[#07183d] text-[#37c8ff] hover:bg-[#0d2866] border border-[#1e3f8f]"
+                        className="text-[10px] px-2 py-0.5 rounded-md bg-white dark:bg-[#07183d] text-sky-700 dark:text-[#37c8ff] hover:bg-sky-100 dark:hover:bg-[#0d2866] border border-slate-300 dark:border-[#1e3f8f]"
                       >
                         + {inst}
                       </button>
@@ -628,13 +628,13 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-gray-300 font-bold mb-1">Detalles / Anestesia / Observaciones:</label>
+                    <label className="block text-slate-700 dark:text-gray-300 font-bold mb-1">Detalles / Anestesia / Observaciones:</label>
                     <textarea
                       rows={2}
                       value={newDetails}
                       onChange={(e) => setNewDetails(e.target.value)}
                       placeholder="Sin complicaciones, buena tolerancia anestésica, prótesis..."
-                      className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-[#1e3f8f] text-white resize-none"
+                      className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] text-slate-900 dark:text-white resize-none"
                     />
                   </div>
 
@@ -650,7 +650,7 @@ export const ClinicalHistorySection: React.FC<ClinicalHistorySectionProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowAddModal(false)}
-                      className="px-3 py-2.5 rounded-xl bg-gray-800 text-gray-300 text-xs font-bold"
+                      className="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 text-xs font-bold"
                     >
                       Cancelar
                     </button>

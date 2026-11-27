@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
@@ -9,6 +10,17 @@
 
   body {
     font-family: var(--font-body);
+    background-color: #f4f7fb;
+    background-image:
+      radial-gradient(ellipse 80% 45% at 50% 0%, rgba(14, 165, 233, 0.1) 0%, transparent 70%),
+      linear-gradient(rgba(2, 132, 199, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(2, 132, 199, 0.045) 1px, transparent 1px);
+    background-size: 100% 100%, 32px 32px, 32px 32px;
+    color: #0f172a;
+    transition: background-color 200ms cubic-bezier(0.16, 1, 0.3, 1), color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html.dark body {
     background-color: #030816;
     background-image:
       radial-gradient(ellipse 80% 45% at 50% 0%, rgba(16, 46, 108, 0.35) 0%, transparent 70%),
@@ -130,13 +142,22 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #07122c;
+  background: #e2e8f0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e3f8f;
+  background: #94a3b8;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: #07122c;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #1e3f8f;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
   background: #37c8ff;
 }
 
@@ -145,6 +166,9 @@
   font-size: 1rem !important;
   line-height: 1.4 !important;
   font-weight: 700 !important;
+  color: #0f172a !important;
+}
+html.dark .vortex-large-text label {
   color: #ffffff !important;
 }
 .vortex-large-text input,
@@ -154,11 +178,20 @@
   line-height: 1.5 !important;
   padding: 0.8rem 0.95rem !important;
   border-width: 2px !important;
+  border-color: #0284c7 !important;
+}
+html.dark .vortex-large-text input,
+html.dark .vortex-large-text select,
+html.dark .vortex-large-text textarea {
   border-color: #37c8ff !important;
 }
 .vortex-large-text input::placeholder,
 .vortex-large-text textarea::placeholder {
   font-size: 1rem !important;
+  color: #64748b !important;
+}
+html.dark .vortex-large-text input::placeholder,
+html.dark .vortex-large-text textarea::placeholder {
   color: #9db6dd !important;
 }
 .vortex-large-text p {

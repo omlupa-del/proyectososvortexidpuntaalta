@@ -191,8 +191,8 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
       aria-label="Modo Viajero y Asistencia en Ruta"
       className={`my-5 rounded-2xl border transition-all shadow-xl overflow-hidden ${
         isExpanded
-          ? 'bg-gradient-to-b from-[#071936] via-[#07132c] to-[#050b1f] border-2 border-cyan-400/80 shadow-cyan-950/40'
-          : 'bg-[#060d20] border-[#1a3366] hover:border-cyan-400/60'
+          ? 'bg-gradient-to-b from-white dark:from-[#071936] via-sky-50/70 dark:via-[#07132c] to-slate-50 dark:to-[#050b1f] border-2 border-sky-300 dark:border-cyan-400/80 shadow-cyan-950/40'
+          : 'bg-slate-50 dark:bg-[#060d20] border-slate-200 dark:border-[#1a3366] hover:border-sky-500 dark:hover:border-cyan-400/60'
       }`}
     >
       {/* Compact Header / Toggle Bar (minimal footprint when collapsed) */}
@@ -205,29 +205,29 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
           <div
             className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${
               isExpanded
-                ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300'
-                : 'bg-[#0a1a3d] border-[#25498a] text-cyan-300'
+                ? 'bg-sky-100 dark:bg-cyan-500/20 border-cyan-400 text-sky-700 dark:text-cyan-300'
+                : 'bg-white dark:bg-[#0a1a3d] border-slate-300 dark:border-[#25498a] text-sky-700 dark:text-cyan-300'
             }`}
           >
             <Compass className={`w-5 h-5 ${isExpanded ? 'animate-pulse' : ''}`} aria-hidden="true" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-sm sm:text-base font-bold font-heading tracking-wide text-white">
+              <h2 className="text-sm sm:text-base font-bold font-heading tracking-wide text-slate-900 dark:text-white">
                 MODO VIAJERO · RUTA Y VACACIONES
               </h2>
               {isOutsidePuntaAlta && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-400/60">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-400/60">
                   Fuera de Punta Alta
                 </span>
               )}
               {isExpanded && !isOutsidePuntaAlta && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-400/50">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 dark:bg-cyan-500/20 text-sky-800 dark:text-cyan-200 border border-cyan-400/50">
                   Activo
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-[#9db6dd] truncate">
+            <p className="text-[11px] text-slate-600 dark:text-[#9db6dd] truncate">
               Guardias cercanas, emergencias nacionales (911/107/149) y aviso GPS en ruta
             </p>
           </div>
@@ -238,8 +238,8 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
           onClick={handleToggleTravelerMode}
           className={`px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1 shrink-0 transition active:scale-95 ${
             isExpanded
-              ? 'bg-[#0b1f50] hover:bg-[#143078] border border-cyan-400/60 text-cyan-200'
-              : 'bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/60 text-cyan-200'
+              ? 'bg-sky-50 dark:bg-[#0b1f50] hover:bg-sky-100 dark:hover:bg-[#143078] border border-sky-300 dark:border-cyan-400/60 text-sky-800 dark:text-cyan-200'
+              : 'bg-sky-100 dark:bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/60 text-sky-800 dark:text-cyan-200'
           }`}
           aria-expanded={isExpanded}
         >
@@ -250,24 +250,24 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
 
       {/* Expanded Traveler Workspace */}
       {isExpanded && (
-        <div className="px-4 pb-4 pt-2 border-t border-cyan-500/30 space-y-4 animate-fade-in">
+        <div className="px-4 pb-4 pt-2 border-t border-sky-300 dark:border-cyan-500/30 space-y-4 animate-fade-in">
           {/* 1. Live Location & Destination Search */}
-          <div className="p-3 rounded-xl bg-[#050b1f] border border-[#1e3f8f] space-y-2.5">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-slate-300 dark:border-[#1e3f8f] space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="min-w-0">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300 block">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-cyan-300 block">
                   Posición actual en viaje
                 </span>
                 {verifiedCoords ? (
-                  <p className="text-xs font-semibold text-emerald-300 mt-0.5">
+                  <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 mt-0.5">
                     ✅ {resolvedRouteLabel || describePuntaAltaLocation(verifiedCoords)} ·{' '}
-                    <span className="font-mono text-[11px] text-cyan-200">
+                    <span className="font-mono text-[11px] text-sky-800 dark:text-cyan-200">
                       {verifiedCoords.lat.toFixed(4)}, {verifiedCoords.lng.toFixed(4)}
                     </span>
                     {freshness?.ageLabel ? ` (${freshness.ageLabel})` : ''}
                   </p>
                 ) : (
-                  <p className="text-xs font-semibold text-amber-300 mt-0.5">
+                  <p className="text-xs font-semibold text-amber-700 dark:text-amber-300 mt-0.5">
                     ⚠️ {gpsStatus || 'Activá el GPS o escribí la ciudad/ruta donde estás.'}
                   </p>
                 )}
@@ -279,7 +279,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
                     href={`https://www.google.com/maps?q=${verifiedCoords.lat},${verifiedCoords.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-2.5 py-1.5 rounded-lg bg-emerald-900/70 hover:bg-emerald-800 border border-emerald-500/60 text-emerald-200 text-xs font-bold flex items-center gap-1 transition"
+                    className="px-2.5 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/70 hover:bg-emerald-800 border border-emerald-300 dark:border-emerald-500/60 text-emerald-800 dark:text-emerald-200 text-xs font-bold flex items-center gap-1 transition"
                   >
                     <ExternalLink className="w-3 h-3" />
                     <span>Mi punto</span>
@@ -288,7 +288,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
                 <button
                   type="button"
                   onClick={onRequestCoords}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#0a1f55] hover:bg-[#122e7a] border border-[#37c8ff]/60 text-[#37c8ff] text-xs font-bold flex items-center gap-1 transition"
+                  className="px-2.5 py-1.5 rounded-lg bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-[#37c8ff]/60 text-sky-700 dark:text-[#37c8ff] text-xs font-bold flex items-center gap-1 transition"
                 >
                   <RefreshCw className="w-3 h-3" />
                   <span>{verifiedCoords ? 'Actualizar GPS' : 'Activar GPS'}</span>
@@ -297,20 +297,20 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
             </div>
 
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
+              <MapPin className="w-4 h-4 text-sky-700 dark:text-cyan-400 shrink-0" />
               <input
                 type="text"
                 value={customCityQuery}
                 onChange={(e) => setCustomCityQuery(e.target.value)}
                 placeholder="Ciudad, balneario o ruta manual (ej: Pehuen Co, Bahía Blanca, Ruta 3)"
-                className="w-full py-1.5 px-3 rounded-lg bg-[#071330] border border-[#1e4594] text-xs text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400"
+                className="w-full py-1.5 px-3 rounded-lg bg-white dark:bg-[#071330] border border-slate-300 dark:border-[#1e4594] text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 focus:outline-none focus:border-sky-500 dark:focus:border-cyan-400"
               />
             </div>
           </div>
 
           {/* 2. 1-Tap Radar for Hospitals, Pharmacies, Police & Fuel Anywhere */}
           <div className="space-y-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-sky-700 dark:text-cyan-300 flex items-center gap-1.5">
               <Navigation className="w-3.5 h-3.5" />
               <span>Buscar cerca tuyo en Google Maps {customCityQuery.trim() ? `(${customCityQuery.trim()})` : ''}</span>
             </span>
@@ -320,7 +320,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
                 href={buildNearbySearchLink('hospital guardia medica emergencias')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-rose-950/50 hover:bg-rose-900/60 border border-rose-500/60 text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
+                className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-300 dark:border-rose-500/60 text-slate-900 dark:text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
               >
                 <span className="text-lg">🏥</span>
                 <span className="text-xs font-bold leading-tight">Guardia / Hospital</span>
@@ -330,7 +330,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
                 href={buildNearbySearchLink('farmacia de turno abierta')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-500/60 text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
+                className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-300 dark:border-emerald-500/60 text-slate-900 dark:text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
               >
                 <span className="text-lg">💊</span>
                 <span className="text-xs font-bold leading-tight">Farmacia Abierta</span>
@@ -340,7 +340,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
                 href={buildNearbySearchLink('comisaria policia')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-blue-950/60 hover:bg-blue-900/60 border border-blue-500/60 text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
+                className="p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-300 dark:border-blue-500/60 text-slate-900 dark:text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
               >
                 <span className="text-lg">🚓</span>
                 <span className="text-xs font-bold leading-tight">Comisaría</span>
@@ -350,7 +350,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
                 href={buildNearbySearchLink('estacion de servicio gomería auxilio')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-amber-950/50 hover:bg-amber-900/60 border border-amber-500/60 text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
+                className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-500/60 text-slate-900 dark:text-white flex flex-col items-center text-center gap-1 transition active:scale-95"
               >
                 <span className="text-lg">⛽</span>
                 <span className="text-xs font-bold leading-tight">Combustible / Auxilio</span>
@@ -360,7 +360,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
 
           {/* 3. National & Highway Emergency Direct Dial */}
           <div className="space-y-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-rose-300 flex items-center gap-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300 flex items-center gap-1.5">
               <Phone className="w-3.5 h-3.5" />
               <span>Emergencias Nacionales, Ruta y Costa (1 toque)</span>
             </span>
@@ -371,16 +371,16 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
                   key={item.id}
                   type="button"
                   onClick={() => triggerDirectCall(item.number, item.title, 'emergency')}
-                  className="p-2.5 rounded-xl bg-[#07122c] hover:bg-[#10234f] border border-[#1e3f8f] hover:border-emerald-400/70 text-left flex items-center justify-between gap-2 transition active:scale-95"
+                  className="p-2.5 rounded-xl bg-white dark:bg-[#07122c] hover:bg-sky-100 dark:hover:bg-[#10234f] border border-slate-300 dark:border-[#1e3f8f] hover:border-emerald-500 dark:hover:border-emerald-400/70 text-left flex items-center justify-between gap-2 transition active:scale-95"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm">{item.icon}</span>
-                      <span className="text-xs font-bold text-white truncate">{item.title}</span>
+                      <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{item.title}</span>
                     </div>
-                    <span className="text-[10px] text-[#9db6dd] block truncate">{item.subtitle}</span>
+                    <span className="text-[10px] text-slate-600 dark:text-[#9db6dd] block truncate">{item.subtitle}</span>
                   </div>
-                  <span className="text-sm font-black font-mono text-emerald-400 shrink-0">
+                  <span className="text-sm font-black font-mono text-emerald-700 dark:text-emerald-400 shrink-0">
                     {item.number}
                   </span>
                 </button>
@@ -389,8 +389,8 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
           </div>
 
           {/* 4. Traveler Check-in & Route SOS via WhatsApp */}
-          <div className="p-3 rounded-xl bg-[#050b1f] border border-emerald-500/40 space-y-2.5">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-300 block">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050b1f] border border-emerald-300 dark:border-emerald-500/40 space-y-2.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 block">
               📲 Avisar ubicación en viaje por WhatsApp
             </span>
 
@@ -420,7 +420,7 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
             <button
               type="button"
               onClick={onOpenQrModal}
-              className="py-2 px-3 rounded-xl bg-[#0a1f55] hover:bg-[#122e7a] border border-cyan-400/60 text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
+              className="py-2 px-3 rounded-xl bg-sky-50 dark:bg-[#0a1f55] hover:bg-sky-100 dark:hover:bg-[#122e7a] border border-sky-300 dark:border-cyan-400/60 text-sky-800 dark:text-cyan-200 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"
             >
               <QrCode className="w-4 h-4" />
               <span>
@@ -433,28 +433,28 @@ export const TravelerModeSection: React.FC<TravelerModeSectionProps> = ({
             <button
               type="button"
               onClick={() => setShowChecklist((v) => !v)}
-              className="py-2 px-3 rounded-xl bg-[#071330] hover:bg-[#0c2050] border border-[#1e3f8f] text-[#9db6dd] hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition"
+              className="py-2 px-3 rounded-xl bg-white dark:bg-[#071330] hover:bg-sky-100 dark:hover:bg-[#0c2050] border border-slate-300 dark:border-[#1e3f8f] text-slate-600 dark:text-[#9db6dd] hover:text-slate-950 dark:hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition"
             >
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <ShieldCheck className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
               <span>Checklist de ruta ({completedChecklistCount}/{checklist.length})</span>
             </button>
           </div>
 
           {showChecklist && (
-            <div className="p-3 rounded-xl bg-[#040919] border border-[#1e3f8f] space-y-2 animate-fade-in">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#040919] border border-slate-300 dark:border-[#1e3f8f] space-y-2 animate-fade-in">
               {checklist.map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => toggleChecklistItem(item.id)}
-                  className="w-full flex items-center gap-2.5 text-left text-xs text-gray-200 hover:text-white py-1"
+                  className="w-full flex items-center gap-2.5 text-left text-xs text-slate-700 dark:text-gray-200 hover:text-slate-950 dark:hover:text-white py-1"
                 >
                   {item.checked ? (
-                    <CheckSquare className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <CheckSquare className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
                   ) : (
-                    <Square className="w-4 h-4 text-gray-500 shrink-0" />
+                    <Square className="w-4 h-4 text-slate-500 dark:text-gray-500 shrink-0" />
                   )}
-                  <span className={item.checked ? 'line-through text-emerald-300/80' : ''}>
+                  <span className={item.checked ? 'line-through text-emerald-700 dark:text-emerald-300/80' : ''}>
                     {item.label}
                   </span>
                 </button>
