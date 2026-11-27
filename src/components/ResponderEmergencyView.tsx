@@ -27,7 +27,9 @@ import {
   CheckCircle2,
   Smartphone,
   Baby,
-  Shield
+  Shield,
+  BadgeCheck,
+  Award
 } from 'lucide-react';
 import {
   MedicalRecord,
@@ -53,7 +55,7 @@ import {
 import { triggerDirectCall, formatWhatsAppNumber, playChirp } from '../utils/callHandler';
 import { PUNTA_ALTA_PHARMACIES, getDutyPharmaciesForDate, syncDutyScheduleFromServer } from '../data/puntaAltaData';
 import { ClinicalHistorySection } from './ClinicalHistorySection';
-import { DonorAndBloodStatusCard } from './BloodAndDonorFields';
+import { DonorAndBloodStatusCard, getMedicalValidationStatus } from './BloodAndDonorFields';
 import {
   speakNaturalSpanish,
   stopVoiceAssistant,
@@ -434,7 +436,7 @@ export const ResponderEmergencyView: React.FC<ResponderEmergencyViewProps> = ({
                 Tocá la foto para ampliar y corroborar el rostro.
               </p>
 
-              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-2 text-xs text-white">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 mt-2 text-xs text-white">
                 {record.dni && (
                   <span className="font-mono tabular-nums font-bold bg-black/35 px-2 py-0.5 rounded border border-white/25">
                     DNI {record.dni}
@@ -445,6 +447,25 @@ export const ResponderEmergencyView: React.FC<ResponderEmergencyViewProps> = ({
                     {record.sexo}
                   </span>
                 )}
+                {(() => {
+                  const v = getMedicalValidationStatus(record);
+                  if (v.isDonorValidated) {
+                    return (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-950/90 border border-amber-300/80 text-amber-200 font-black uppercase text-[10px] tracking-wider shadow">
+                        <Award className="w-3 h-3 text-amber-300 shrink-0" />
+                        <span>Donante INCUCAI ✓</span>
+                      </span>
+                    );
+                  }
+                  if (v.donorState === 'si') {
+                    return (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-950/85 border border-emerald-400/70 text-emerald-200 font-bold uppercase text-[10px] tracking-wider">
+                        <span>💚 Donante Declarado</span>
+                      </span>
+                    );
+                  }
+                  return null;
+                })()}
                 {record.domicilio && (
                   <span className="font-medium flex items-center gap-1 text-white/95 truncate max-w-full">
                     <MapPin className="w-3.5 h-3.5 text-yellow-300 shrink-0" />
@@ -515,43 +536,71 @@ export const ResponderEmergencyView: React.FC<ResponderEmergencyViewProps> = ({
         </div>
 
         {/* Integrated Critical Blood Type Bar inside Hero */}
-        {record.sangre && (
-          <div className="px-3.5 py-2.5 sm:px-4 bg-black/45 border-t border-white/25 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-white/15 border border-white/30 flex items-center justify-center shrink-0">
-                <Heart className="w-5 h-5 text-white fill-white" />
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[11px] font-mono uppercase font-black tracking-wider text-red-100 block">
-                    Grupo Sanguíneo y Factor
-                  </span>
-                  {(record.sangreCertificado || record.sangreTieneDoc) ? (
-                    <span className="px-1.5 py-0.5 rounded bg-emerald-500/25 border border-emerald-300/60 text-[9px] font-mono font-bold uppercase text-emerald-100">
-                      ✓ Con constancia
-                    </span>
-                  ) : record.sangreLaboratorio ? (
-                    <span className="px-1.5 py-0.5 rounded bg-cyan-500/25 border border-cyan-300/60 text-[9px] font-mono font-bold uppercase text-cyan-100">
-                      Lab. declarado
-                    </span>
+        {record.sangre && (() => {
+          const v = getMedicalValidationStatus(record);
+          return (
+            <div className="px-3.5 py-2.5 sm:px-4 bg-black/45 border-t border-white/25 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div
+                  className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 ${
+                    v.isBloodValidated
+                      ? 'bg-emerald-500/25 border-emerald-300/80 shadow-md shadow-emerald-950'
+                      : 'bg-white/15 border-white/30'
+                  }`}
+                >
+                  {v.isBloodValidated ? (
+                    <BadgeCheck className="w-5 h-5 text-emerald-300" />
                   ) : (
-                    <span className="px-1.5 py-0.5 rounded bg-white/15 border border-white/25 text-[9px] font-mono font-bold uppercase text-white/90">
-                      Declarado
-                    </span>
+                    <Heart className="w-5 h-5 text-white fill-white" />
                   )}
                 </div>
-                <span className="text-[11px] text-white/85 block truncate">
-                  {record.sangreLaboratorio
-                    ? `Validado: ${record.sangreLaboratorio}`
-                    : 'Dato crítico para guardia y transfusión'}
-                </span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[11px] font-mono uppercase font-black tracking-wider text-red-100 block">
+                      Grupo Sanguíneo y Factor
+                    </span>
+                    {v.hasBloodCert ? (
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/30 border border-amber-300/80 text-[9px] font-mono font-black uppercase text-amber-100 inline-flex items-center gap-1 shadow">
+                        <BadgeCheck className="w-3 h-3 text-emerald-300" />
+                        <span>VALIDADO · CONSTANCIA</span>
+                      </span>
+                    ) : v.hasBloodLab ? (
+                      <span className="px-2 py-0.5 rounded-full bg-cyan-500/25 border border-cyan-300/70 text-[9px] font-mono font-black uppercase text-cyan-100 inline-flex items-center gap-1">
+                        <BadgeCheck className="w-3 h-3 text-cyan-300" />
+                        <span>VALIDADO POR LAB.</span>
+                      </span>
+                    ) : (
+                      <span className="px-1.5 py-0.5 rounded bg-white/15 border border-white/25 text-[9px] font-mono font-bold uppercase text-white/90">
+                        Declarado
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[11px] text-white/85 block truncate">
+                    {record.sangreLaboratorio
+                      ? `Validado: ${record.sangreLaboratorio}`
+                      : 'Dato crítico para guardia y transfusión'}
+                  </span>
+                </div>
+              </div>
+              <div className="relative shrink-0">
+                <div
+                  className={`px-4 py-1.5 rounded-xl bg-white text-red-700 font-black font-heading text-2xl sm:text-3xl shadow-lg tracking-wider border-2 ${
+                    v.isBloodValidated
+                      ? 'border-amber-300 ring-2 ring-emerald-400/80'
+                      : 'border-red-200'
+                  }`}
+                >
+                  {record.sangre}
+                </div>
+                {v.isBloodValidated && (
+                  <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-1.5 py-0.2 rounded-full bg-emerald-600 border border-amber-300 text-[8px] font-mono font-black uppercase text-white tracking-wider shadow whitespace-nowrap">
+                    ✓ VALIDADO
+                  </span>
+                )}
               </div>
             </div>
-            <div className="px-4 py-1.5 rounded-xl bg-white text-red-700 font-black font-heading text-2xl sm:text-3xl shadow-lg tracking-wider border border-red-200 shrink-0">
-              {record.sangre}
-            </div>
-          </div>
-        )}
+          );
+        })()}
       </section>
 
       {/* Subtítulos de Asistente de Voz en Vivo (visible al instante debajo de la tarjeta principal) */}

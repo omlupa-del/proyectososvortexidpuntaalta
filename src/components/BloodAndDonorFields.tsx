@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   FileCheck2,
   Upload,
@@ -10,12 +10,83 @@ import {
   ZoomIn,
   Building2,
   AlertCircle,
-  X
+  X,
+  BadgeCheck,
+  Award,
+  Check
 } from 'lucide-react';
 import { MedicalRecord } from '../utils/medicalData';
 import { compressDocumentCertificate } from '../utils/imageCompressor';
 
 export const INCUCAI_OFFICIAL_URL = 'https://www.argentina.gob.ar/salud/incucai';
+
+export interface MedicalValidationStatus {
+  hasBlood: boolean;
+  hasBloodCert: boolean;
+  hasBloodLab: boolean;
+  isBloodValidated: boolean;
+  donorState: 'si' | 'no' | '';
+  hasDonorCert: boolean;
+  hasDonorReg: boolean;
+  isDonorValidated: boolean;
+  isDualVerified: boolean;
+}
+
+export function getMedicalValidationStatus(
+  record: MedicalRecord | null | undefined
+): MedicalValidationStatus {
+  const hasBlood = Boolean(record?.sangre);
+  const hasBloodCert = Boolean(record?.sangreCertificado || record?.sangreTieneDoc);
+  const hasBloodLab = Boolean(record?.sangreLaboratorio?.trim());
+  const isBloodValidated = hasBlood && (hasBloodCert || hasBloodLab);
+
+  const donorState = (record?.donanteOrganos || '') as 'si' | 'no' | '';
+  const hasDonorCert = Boolean(record?.donanteCertificado || record?.donanteTieneDoc);
+  const hasDonorReg = Boolean(record?.donanteRegistro?.trim());
+  const isDonorValidated = donorState === 'si' && (hasDonorCert || hasDonorReg);
+
+  return {
+    hasBlood,
+    hasBloodCert,
+    hasBloodLab,
+    isBloodValidated,
+    donorState,
+    hasDonorCert,
+    hasDonorReg,
+    isDonorValidated,
+    isDualVerified: isBloodValidated && isDonorValidated
+  };
+}
+
+/**
+ * Crisp rosette seal SVG used to visually distinguish validated blood type / organ donor backing
+ */
+export const ValidationSealEmblem: React.FC<{
+  tone?: 'gold' | 'emerald';
+  size?: 'sm' | 'md' | 'lg';
+}> = ({ tone = 'gold', size = 'md' }) => {
+  const dim = size === 'sm' ? 'w-7 h-7' : size === 'lg' ? 'w-12 h-12' : 'w-10 h-10';
+  const strokeMain = tone === 'gold' ? '#fbbf24' : '#34d399';
+  const fillBg = tone === 'gold' ? 'rgba(245, 158, 11, 0.22)' : 'rgba(16, 185, 129, 0.22)';
+  const checkColor = tone === 'gold' ? '#fef3c7' : '#d1fae5';
+
+  return (
+    <div className={`relative ${dim} shrink-0 flex items-center justify-center`} aria-hidden="true">
+      <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-md">
+        <circle cx="24" cy="24" r="21" fill={fillBg} stroke={strokeMain} strokeWidth="2.4" strokeDasharray="4 2" />
+        <circle cx="24" cy="24" r="16" fill="#061423" stroke={strokeMain} strokeWidth="2" />
+        <path
+          d="M16.5 24.5L21.5 29.5L32 18.5"
+          fill="none"
+          stroke={checkColor}
+          strokeWidth="3.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+};
 
 interface BloodAndDonorFieldsProps {
   formData: MedicalRecord;
@@ -34,6 +105,41 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
   const [donorUploading, setDonorUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [previewDoc, setPreviewDoc] = useState<{ title: string; subtitle?: string; src: string } | null>(null);
+  const [donorFlashKey, setDonorFlashKey] = useState(0);
+  const [donorScaleActive, setDonorScaleActive] = useState(false);
+  const [donorSavedToast, setDonorSavedToast] = useState(false);
+  const flashTimerRef = useRef<number | null>(null);
+  const toastTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (flashTimerRef.current) window.clearTimeout(flashTimerRef.current);
+      if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    };
+  }, []);
+
+  const triggerDonorFeedback = () => {
+    if (flashTimerRef.current) window.clearTimeout(flashTimerRef.current);
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+
+    setDonorScaleActive(false);
+    setDonorFlashKey((k) => k + 1);
+    setDonorSavedToast(true);
+
+    window.requestAnimationFrame(() => {
+      setDonorScaleActive(true);
+    });
+
+    flashTimerRef.current = window.setTimeout(() => {
+      setDonorScaleActive(false);
+    }, 520);
+
+    toastTimerRef.current = window.setTimeout(() => {
+      setDonorSavedToast(false);
+    }, 2200);
+  };
+
+  const validation = getMedicalValidationStatus(formData);
 
   const handleUploadCertificate = async (
     file: File | undefined,
@@ -57,45 +163,107 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
 
   const handleSelectDonor = (val: 'si' | 'no' | '') => {
     onChange('donanteOrganos', val);
-    if (val !== 'si') {
-      // Keep fields clean if user explicitly picks no or unsets
-      if (val === 'no') {
-        onChange('donanteRegistro', '');
-        onChange('donanteCertificado', '');
-      }
+    if (val === 'si') {
+      triggerDonorFeedback();
+    } else {
+      setDonorScaleActive(false);
+      setDonorSavedToast(false);
+    }
+    if (val === 'no') {
+      onChange('donanteRegistro', '');
+      onChange('donanteCertificado', '');
     }
   };
 
   return (
     <div className="space-y-3">
+      {/* Live Distinction Banner inside Edit Form when blood/donor backing is confirmed */}
+      {(validation.isBloodValidated || validation.isDonorValidated) && (
+        <div
+          className={`rounded-2xl border-2 p-3 flex items-center justify-between gap-3 shadow-lg animate-fade-in ${
+            validation.isDualVerified
+              ? 'bg-gradient-to-r from-amber-950/60 via-[#0c261f] to-emerald-950/75 border-amber-400/80'
+              : 'bg-gradient-to-r from-[#07211d] to-[#0a1b36] border-emerald-400/70'
+          }`}
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            <ValidationSealEmblem
+              tone={validation.isDualVerified ? 'gold' : 'emerald'}
+              size="md"
+            />
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span
+                  className={`text-[11px] font-black uppercase tracking-wider ${
+                    validation.isDualVerified ? 'text-amber-300' : 'text-emerald-300'
+                  }`}
+                >
+                  {validation.isDualVerified
+                    ? '★ Distinción Doble Activa en Ficha'
+                    : '✓ Sello de Respaldo Activo'}
+                </span>
+              </div>
+              <p className="text-xs font-bold text-white leading-snug">
+                {validation.isDualVerified
+                  ? `Grupo ${formData.sangre} validado + Donante de órganos confirmado.`
+                  : validation.isBloodValidated
+                    ? `Grupo sanguíneo ${formData.sangre} con respaldo visual confirmado.`
+                    : 'Condición de donante de órganos con respaldo confirmado.'}
+              </p>
+              <p className="text-[10px] text-[#b4ccf0]">
+                Los rescatistas verán este sello dorado/verde al escanear tu QR o abrir tu credencial.
+              </p>
+            </div>
+          </div>
+          <Award
+            className={`w-6 h-6 shrink-0 hidden sm:block ${
+              validation.isDualVerified ? 'text-amber-300' : 'text-emerald-300'
+            }`}
+          />
+        </div>
+      )}
+
       {/* 1. Validación / Constancia de Grupo Sanguíneo */}
       <div
-        className={`rounded-2xl border bg-[#07122c] border-rose-500/40 ${
-          compact ? 'p-3 space-y-2.5' : 'p-3.5 space-y-3'
-        }`}
+        className={`rounded-2xl border transition-all ${
+          validation.isBloodValidated
+            ? 'bg-gradient-to-br from-[#091c2f] to-[#07122c] border-emerald-400/65 shadow-md'
+            : 'bg-[#07122c] border-rose-500/40'
+        } ${compact ? 'p-3 space-y-2.5' : 'p-3.5 space-y-3'}`}
       >
         <div className="flex items-start justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-400/50 flex items-center justify-center shrink-0">
-              <FileCheck2 className="w-4 h-4 text-rose-300" />
+            <div
+              className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 ${
+                validation.isBloodValidated
+                  ? 'bg-emerald-500/20 border-emerald-400/60'
+                  : 'bg-rose-500/20 border-rose-400/50'
+              }`}
+            >
+              {validation.isBloodValidated ? (
+                <BadgeCheck className="w-4 h-4 text-emerald-300" />
+              ) : (
+                <FileCheck2 className="w-4 h-4 text-rose-300" />
+              )}
             </div>
             <div>
               <span className="text-xs sm:text-sm font-black text-white block leading-tight">
                 Respaldo de Grupo Sanguíneo {formData.sangre ? `(${formData.sangre})` : '(opcional)'}
               </span>
               <span className="text-[11px] text-[#9db6dd] block leading-tight">
-                Subí tu estudio de laboratorio, libreta o carnet de donante para darle validez visual en la guardia.
+                Subí tu estudio de laboratorio o carnet para activar el sello visual de validación.
               </span>
             </div>
           </div>
 
-          {formData.sangreCertificado ? (
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/50">
-              ✓ Constancia adjunta
+          {validation.isBloodValidated ? (
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/25 text-emerald-200 border border-emerald-400/60 inline-flex items-center gap-1">
+              <BadgeCheck className="w-3 h-3 text-emerald-300" />
+              <span>{formData.sangreCertificado ? 'Validado con estudio' : 'Validado por lab.'}</span>
             </span>
-          ) : formData.sangreLaboratorio ? (
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-400/50">
-              Lab. declarado
+          ) : formData.sangre ? (
+            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-500/15 text-amber-200 border border-amber-400/40">
+              Sin respaldo adjunto
             </span>
           ) : null}
         </div>
@@ -112,7 +280,7 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
               placeholder="Ej: Hosp. Naval Puerto Belgrano / Lab. Central"
               value={formData.sangreLaboratorio || ''}
               onChange={(e) => onChange('sangreLaboratorio', e.target.value)}
-              className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-rose-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-rose-300"
+              className="w-full py-2 px-3 rounded-xl bg-[#050b1f] border border-rose-500/40 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-300"
             />
           </div>
 
@@ -159,7 +327,7 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
         </div>
 
         {formData.sangreCertificado && (
-          <div className="flex items-center gap-3 p-2 rounded-xl bg-[#050b1f] border border-emerald-500/40">
+          <div className="flex items-center gap-3 p-2 rounded-xl bg-[#050b1f] border border-emerald-500/50">
             <button
               type="button"
               onClick={() =>
@@ -182,9 +350,12 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
               </span>
             </button>
             <div className="min-w-0 flex-1 text-[11px]">
-              <div className="font-bold text-emerald-300">Estudio o carnet cargado y comprimido</div>
+              <div className="font-bold text-emerald-300 flex items-center gap-1">
+                <BadgeCheck className="w-3.5 h-3.5" />
+                <span>Estudio cargado · Distinción de validez activa</span>
+              </div>
               <p className="text-[#9db6dd] leading-snug">
-                Tocá la miniatura para verificar que el texto se lea nítido. En guardia hospitalaria igualmente se realiza prueba cruzada.
+                Tocá la miniatura para revisar nitidez. En guardia hospitalaria igualmente rige la prueba cruzada.
               </p>
             </div>
           </div>
@@ -193,42 +364,99 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
 
       {/* 2. Donante de Órganos y Tejidos (INCUCAI / Ley Justina 27.447) */}
       <div
-        className={`rounded-2xl border-2 transition-all ${
+        className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-300 ${
+          donorScaleActive ? 'animate-donor-scale-up ring-2 ring-emerald-300/60' : ''
+        } ${
           formData.donanteOrganos === 'si'
-            ? 'bg-gradient-to-br from-emerald-950/65 via-[#07211d] to-[#07122c] border-emerald-400/75 shadow-lg shadow-emerald-950/30'
+            ? validation.isDonorValidated
+              ? 'bg-gradient-to-br from-emerald-950/75 via-[#07261e] to-[#0a1c2e] border-amber-400/75 shadow-lg shadow-emerald-950/40'
+              : 'bg-gradient-to-br from-emerald-950/65 via-[#07211d] to-[#07122c] border-emerald-400/75 shadow-lg shadow-emerald-950/30'
             : formData.donanteOrganos === 'no'
               ? 'bg-[#0b1328] border-amber-400/50'
               : 'bg-[#07122c] border-emerald-500/30'
         } ${compact ? 'p-3 space-y-2.5' : 'p-4 space-y-3'}`}
       >
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-400/60 flex items-center justify-center shrink-0">
-            <HeartHandshake className="w-5 h-5 text-emerald-300" />
+        {donorFlashKey > 0 && formData.donanteOrganos === 'si' && (
+          <span
+            key={donorFlashKey}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-emerald-300/25 to-transparent animate-donor-shimmer"
+          />
+        )}
+
+        <div className="relative flex items-start justify-between gap-2 flex-wrap">
+          <div className="flex items-center gap-2.5">
+            <div
+              className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 transition-all duration-300 ${
+                formData.donanteOrganos === 'si'
+                  ? 'bg-emerald-500/30 border-emerald-300/80 shadow-sm shadow-emerald-400/30'
+                  : 'bg-emerald-500/20 border-emerald-400/60'
+              } ${donorScaleActive ? 'scale-110' : ''}`}
+            >
+              <HeartHandshake className="w-5 h-5 text-emerald-300" />
+            </div>
+            <div>
+              <span className="text-xs sm:text-sm font-black text-white block leading-tight">
+                Donante de Órganos y Tejidos (INCUCAI · Ley 27.447)
+              </span>
+              <span className="text-[11px] text-[#9db6dd] block leading-tight">
+                Indicá tu voluntad y adjuntá credencial Mi Argentina / INCUCAI para activar la distinción verificada.
+              </span>
+            </div>
           </div>
-          <div>
-            <span className="text-xs sm:text-sm font-black text-white block leading-tight">
-              Donante de Órganos y Tejidos (INCUCAI · Ley 27.447)
-            </span>
-            <span className="text-[11px] text-[#9db6dd] block leading-tight">
-              Indicá tu voluntad expresa y adjuntá tu credencial de Mi Argentina o acta INCUCAI si la tenés.
-            </span>
+
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {donorSavedToast && formData.donanteOrganos === 'si' && (
+              <span
+                key={`toast-${donorFlashKey}`}
+                className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-400/25 text-emerald-100 border border-emerald-300/80 inline-flex items-center gap-1 animate-donor-badge-pop shadow-sm shadow-emerald-500/25"
+              >
+                <Check className="w-3 h-3 text-emerald-300 stroke-[3]" />
+                <span>Marcado en ficha</span>
+              </span>
+            )}
+            {validation.isDonorValidated && (
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400/20 text-amber-200 border border-amber-300/70 inline-flex items-center gap-1">
+                <Award className="w-3 h-3 text-amber-300" />
+                <span>Donante confirmado</span>
+              </span>
+            )}
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="relative grid grid-cols-3 gap-2">
           <button
             type="button"
+            aria-pressed={formData.donanteOrganos === 'si'}
             onClick={() => handleSelectDonor('si')}
-            className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition active:scale-95 ${
+            className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition-all duration-200 active:scale-95 inline-flex items-center justify-center gap-1.5 ${
+              donorScaleActive ? 'animate-donor-scale-up' : ''
+            } ${
               formData.donanteOrganos === 'si'
-                ? 'bg-emerald-600/35 border-emerald-400 text-emerald-100 shadow'
+                ? 'bg-emerald-600/40 border-emerald-300 text-emerald-50 shadow-md shadow-emerald-900/50'
                 : 'bg-[#050b1f] border-[#1e3f8f] text-gray-300 hover:border-emerald-400/60'
             }`}
           >
-            Sí, soy donante
+            <span
+              className={`w-4 h-4 rounded-[5px] border flex items-center justify-center shrink-0 transition-all duration-200 ${
+                formData.donanteOrganos === 'si'
+                  ? 'bg-emerald-400 border-emerald-200 text-slate-950 scale-105'
+                  : 'bg-[#07122c] border-[#365ec9] text-transparent'
+              }`}
+              aria-hidden="true"
+            >
+              <Check
+                key={donorFlashKey}
+                className={`w-3 h-3 stroke-[3] ${
+                  formData.donanteOrganos === 'si' ? 'animate-donor-badge-pop' : ''
+                }`}
+              />
+            </span>
+            <span>Sí, soy donante</span>
           </button>
           <button
             type="button"
+            aria-pressed={formData.donanteOrganos === 'no'}
             onClick={() => handleSelectDonor('no')}
             className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition active:scale-95 ${
               formData.donanteOrganos === 'no'
@@ -240,6 +468,7 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
           </button>
           <button
             type="button"
+            aria-pressed={!formData.donanteOrganos}
             onClick={() => handleSelectDonor('')}
             className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition active:scale-95 ${
               !formData.donanteOrganos
@@ -311,7 +540,7 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
             </div>
 
             {formData.donanteCertificado && (
-              <div className="flex items-center gap-3 p-2 rounded-xl bg-[#050b1f] border border-emerald-400/50">
+              <div className="flex items-center gap-3 p-2 rounded-xl bg-[#050b1f] border border-amber-400/60">
                 <button
                   type="button"
                   onClick={() =>
@@ -321,7 +550,7 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
                       src: formData.donanteCertificado!
                     })
                   }
-                  className="relative w-14 h-14 rounded-lg overflow-hidden border border-emerald-400/70 shrink-0 group"
+                  className="relative w-14 h-14 rounded-lg overflow-hidden border border-amber-300/80 shrink-0 group"
                   title="Ampliar constancia de donante"
                 >
                   <img
@@ -334,9 +563,12 @@ export const BloodAndDonorFields: React.FC<BloodAndDonorFieldsProps> = ({
                   </span>
                 </button>
                 <div className="min-w-0 flex-1 text-[11px]">
-                  <div className="font-bold text-emerald-300">Constancia de donante cargada</div>
+                  <div className="font-bold text-amber-200 flex items-center gap-1">
+                    <Award className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Constancia INCUCAI cargada · Distinción activa</span>
+                  </div>
                   <p className="text-[#9db6dd] leading-snug">
-                    Los rescatistas y el hospital podrán ampliar esta credencial. El registro oficial SINTRA / INCUCAI siempre prevalece legalmente.
+                    Los rescatistas y el hospital podrán ampliar esta credencial. El registro oficial SINTRA / INCUCAI prevalece legalmente.
                   </p>
                 </div>
               </div>
@@ -425,51 +657,136 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
 
   if (!record) return null;
 
-  const hasBlood = Boolean(record.sangre);
-  const hasBloodCert = Boolean(record.sangreCertificado);
-  const hasBloodFlagOnly = !hasBloodCert && Boolean(record.sangreTieneDoc);
-  const hasBloodLab = Boolean(record.sangreLaboratorio?.trim());
+  const status = getMedicalValidationStatus(record);
+  const hasBloodCertImg = Boolean(record.sangreCertificado);
+  const hasDonorCertImg = Boolean(record.donanteCertificado);
 
-  const donorState = record.donanteOrganos || '';
-  const hasDonorCert = Boolean(record.donanteCertificado);
-  const hasDonorFlagOnly = !hasDonorCert && Boolean(record.donanteTieneDoc);
-
-  if (!hasBlood && !donorState) return null;
+  if (!status.hasBlood && !status.donorState) return null;
 
   return (
     <>
       <div className={compact ? 'space-y-2' : 'space-y-2.5'}>
+        {/* DISTINCIÓN VISUAL DE VALIDEZ CONFIRMADA (cuando Sangre y/o Donante cuentan con respaldo verificable) */}
+        {(status.isBloodValidated || status.isDonorValidated) && (
+          <div
+            className={`relative overflow-hidden rounded-2xl border-2 shadow-xl ${
+              status.isDualVerified
+                ? 'bg-gradient-to-r from-[#1f1604] via-[#07261c] to-[#071a33] border-amber-300/85'
+                : 'bg-gradient-to-r from-[#06231d] via-[#071f26] to-[#08152e] border-emerald-400/80'
+            } ${compact ? 'p-2.5' : 'p-3.5'}`}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <ValidationSealEmblem
+                  tone={status.isDualVerified ? 'gold' : 'emerald'}
+                  size={compact ? 'sm' : 'md'}
+                />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span
+                      className={`text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-wider ${
+                        status.isDualVerified ? 'text-amber-300' : 'text-emerald-300'
+                      }`}
+                    >
+                      {status.isDualVerified
+                        ? '★ DISTINCIÓN DE VALIDEZ VERIFICADA (DOBLE RESPALDO)'
+                        : '✓ SELLO DE VALIDEZ VISUAL CONFIRMADA'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 flex-wrap mt-1">
+                    {status.isBloodValidated && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/25 text-emerald-100 border border-emerald-300/60">
+                        <BadgeCheck className="w-3 h-3 text-emerald-300" />
+                        <span>Grupo {record.sangre} Validado</span>
+                      </span>
+                    )}
+                    {status.isDonorValidated && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400/20 text-amber-100 border border-amber-300/70">
+                        <Award className="w-3 h-3 text-amber-300" />
+                        <span>Donante INCUCAI Confirmado</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden sm:flex items-center gap-1.5 shrink-0">
+                {hasBloodCertImg && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setZoomDoc({
+                        title: `Constancia Grupo Sanguíneo ${record.sangre || ''}`,
+                        subtitle: record.sangreLaboratorio || 'Estudio / carnet adjuntado por el titular',
+                        src: record.sangreCertificado!
+                      })
+                    }
+                    className="w-10 h-10 rounded-lg overflow-hidden border-2 border-emerald-300/80 shadow hover:scale-105 transition"
+                    title="Ampliar estudio de sangre"
+                  >
+                    <img
+                      src={record.sangreCertificado}
+                      alt="Miniatura estudio sanguíneo"
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                )}
+                {hasDonorCertImg && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setZoomDoc({
+                        title: 'Constancia de Donante de Órganos',
+                        subtitle: record.donanteRegistro || 'Credencial Mi Argentina / INCUCAI adjuntada por titular',
+                        src: record.donanteCertificado!
+                      })
+                    }
+                    className="w-10 h-10 rounded-lg overflow-hidden border-2 border-amber-300/80 shadow hover:scale-105 transition"
+                    title="Ampliar constancia INCUCAI"
+                  >
+                    <img
+                      src={record.donanteCertificado}
+                      alt="Miniatura constancia donante"
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Respaldo de Validación Sanguínea */}
-        {hasBlood && (
+        {status.hasBlood && (
           <div
             className={`rounded-xl border flex items-center justify-between gap-2.5 flex-wrap ${
-              hasBloodCert || hasBloodLab || hasBloodFlagOnly
-                ? 'bg-[#07182d] border-emerald-400/50'
+              status.isBloodValidated
+                ? 'bg-[#071b2e] border-emerald-400/60 shadow-md'
                 : 'bg-[#08132c] border-[#1a3366]'
             } ${compact ? 'p-2.5 text-xs' : 'p-3 text-xs sm:text-sm'}`}
           >
             <div className="flex items-start gap-2 min-w-0 flex-1">
-              {hasBloodCert || hasBloodLab || hasBloodFlagOnly ? (
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              {status.isBloodValidated ? (
+                <BadgeCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
               ) : (
                 <AlertCircle className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
               )}
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="font-bold text-white">
-                    Validación Grupo {record.sangre}:
+                    Grupo {record.sangre}:
                   </span>
-                  {hasBloodCert ? (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/50">
-                      ✓ Constancia adjunta
+                  {hasBloodCertImg ? (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/25 text-emerald-200 border border-emerald-400/60 inline-flex items-center gap-1">
+                      <span>✓ Validado con estudio</span>
                     </span>
-                  ) : hasBloodFlagOnly ? (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/50">
-                      ✓ Con constancia en nube
+                  ) : status.hasBloodCert ? (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/25 text-emerald-200 border border-emerald-400/60">
+                      ✓ Constancia en nube
                     </span>
-                  ) : hasBloodLab ? (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-cyan-500/20 text-cyan-200 border border-cyan-400/50">
-                      Lab. declarado
+                  ) : status.hasBloodLab ? (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-cyan-500/25 text-cyan-100 border border-cyan-400/60">
+                      ✓ Validado por Lab.
                     </span>
                   ) : (
                     <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-500/15 text-amber-200 border border-amber-400/40">
@@ -477,7 +794,7 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
                     </span>
                   )}
                 </div>
-                {hasBloodLab && (
+                {status.hasBloodLab && (
                   <p className="text-[11px] text-[#b4ccf0] mt-0.5 truncate">
                     Centro / Lab.: <strong className="text-white">{record.sangreLaboratorio}</strong>
                   </p>
@@ -488,7 +805,7 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
               </div>
             </div>
 
-            {hasBloodCert && (
+            {hasBloodCertImg && (
               <button
                 type="button"
                 onClick={() =>
@@ -498,7 +815,7 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
                     src: record.sangreCertificado!
                   })
                 }
-                className="px-2.5 py-1.5 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-400/60 text-emerald-200 hover:text-white text-[11px] font-bold flex items-center gap-1 shrink-0 transition active:scale-95"
+                className="px-2.5 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/70 text-emerald-100 hover:text-white text-[11px] font-bold flex items-center gap-1 shrink-0 transition active:scale-95"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
                 <span>Ver estudio</span>
@@ -508,26 +825,33 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
         )}
 
         {/* Condición de Donante de Órganos (INCUCAI) */}
-        {donorState === 'si' && (
+        {status.donorState === 'si' && (
           <div
-            className={`rounded-2xl bg-gradient-to-r from-emerald-950/85 via-[#07261f] to-[#061326] border border-emerald-400/70 shadow-lg ${
-              compact ? 'p-3 space-y-1.5' : 'p-3.5 sm:p-4 space-y-2'
-            }`}
+            className={`rounded-2xl border shadow-lg ${
+              status.isDonorValidated
+                ? 'bg-gradient-to-r from-emerald-950/90 via-[#082b21] to-[#171d0c] border-amber-300/75'
+                : 'bg-gradient-to-r from-emerald-950/85 via-[#07261f] to-[#061326] border-emerald-400/70'
+            } ${compact ? 'p-3 space-y-1.5' : 'p-3.5 sm:p-4 space-y-2'}`}
           >
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-center gap-2">
                 <HeartHandshake className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300 shrink-0" />
-                <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-emerald-200">
+                <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-emerald-100">
                   Donante de Órganos y Tejidos
                 </span>
               </div>
-              {hasDonorCert ? (
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-emerald-500/25 text-emerald-200 border border-emerald-400/60">
-                  ✓ Constancia adjunta
+              {hasDonorCertImg ? (
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400/20 text-amber-200 border border-amber-300/70 inline-flex items-center gap-1">
+                  <Award className="w-3 h-3 text-amber-300" />
+                  <span>✓ Confirmado con constancia</span>
                 </span>
-              ) : hasDonorFlagOnly ? (
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase bg-emerald-500/25 text-emerald-200 border border-emerald-400/60">
+              ) : status.hasDonorCert ? (
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400/20 text-amber-200 border border-amber-300/70">
                   ✓ Constancia en nube
+                </span>
+              ) : status.hasDonorReg ? (
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/25 text-emerald-200 border border-emerald-400/60">
+                  ✓ Con N° de registro
                 </span>
               ) : (
                 <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-black/35 text-emerald-200 border border-emerald-500/40">
@@ -537,8 +861,8 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
             </div>
 
             {record.donanteRegistro && (
-              <div className="text-xs text-white font-semibold bg-black/35 px-2.5 py-1.5 rounded-lg border border-emerald-500/30">
-                Registro / Acta: <span className="text-emerald-200">{record.donanteRegistro}</span>
+              <div className="text-xs text-white font-semibold bg-black/35 px-2.5 py-1.5 rounded-lg border border-emerald-500/35">
+                Registro / Acta: <span className="text-amber-200">{record.donanteRegistro}</span>
               </div>
             )}
 
@@ -548,7 +872,7 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
               </p>
 
               <div className="flex items-center gap-2 shrink-0 flex-wrap">
-                {hasDonorCert && (
+                {hasDonorCertImg && (
                   <button
                     type="button"
                     onClick={() =>
@@ -579,7 +903,7 @@ export const DonorAndBloodStatusCard: React.FC<DonorAndBloodStatusCardProps> = (
           </div>
         )}
 
-        {donorState === 'no' && (
+        {status.donorState === 'no' && (
           <div
             className={`rounded-xl bg-[#161006] border border-amber-500/50 flex items-start justify-between gap-2 flex-wrap ${
               compact ? 'p-2.5 text-xs' : 'p-3 text-xs sm:text-sm'

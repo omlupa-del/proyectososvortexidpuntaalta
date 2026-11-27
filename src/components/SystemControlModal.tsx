@@ -29,7 +29,8 @@ import {
   Download,
   Search,
   Radio,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Video
 } from 'lucide-react';
 import { ColegioDutyImporterModal } from './ColegioDutyImporterModal';
 import {
@@ -1804,6 +1805,15 @@ export const SystemControlModal: React.FC<SystemControlModalProps> = ({
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Guía PDF Charla</span>
+              </a>
+              <a
+                href="/video-redes-vortex-id.mp4"
+                download="Video_Redes_Vortex_ID.mp4"
+                className="min-h-[40px] py-2 px-3.5 rounded-lg bg-[#0E1627] hover:bg-[#15223B] border border-rose-500/40 text-rose-300 hover:text-white text-xs font-semibold transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                title="Descargar video vertical 1080x1920 MP4 con música para redes sociales"
+              >
+                <Video className="w-3.5 h-3.5" />
+                <span>Video Redes MP4</span>
               </a>
               <button
                 type="submit"

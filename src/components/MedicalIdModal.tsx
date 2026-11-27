@@ -24,7 +24,9 @@ import {
   ExternalLink,
   Edit3,
   HelpCircle,
-  ZoomIn
+  ZoomIn,
+  BadgeCheck,
+  Award
 } from 'lucide-react';
 import {
   MedicalRecord,
@@ -54,7 +56,7 @@ import { getEffectiveOrigin } from '../utils/systemConfig';
 import { PhotoUploader } from './PhotoUploader';
 import { ClinicalHistorySection } from './ClinicalHistorySection';
 import { PregnancyFields } from './PregnancyFields';
-import { BloodAndDonorFields, DonorAndBloodStatusCard } from './BloodAndDonorFields';
+import { BloodAndDonorFields, DonorAndBloodStatusCard, getMedicalValidationStatus } from './BloodAndDonorFields';
 import { PersonalPinRecoveryBox } from './PersonalPinRecoveryBox';
 import { DailyMedicationSection } from './DailyMedicationSection';
 
@@ -662,9 +664,30 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                     <div className="text-xl sm:text-2xl font-extrabold font-heading text-white leading-tight">
                       {record?.nombre || 'Ficha vacía (Sin registrar)'}
                     </div>
-                    {record?.dni && (
-                      <div className="text-xs text-[#37c8ff] font-semibold mt-0.5">DNI: {record.dni}</div>
-                    )}
+                    <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                      {record?.dni && (
+                        <span className="text-xs text-[#37c8ff] font-semibold">DNI: {record.dni}</span>
+                      )}
+                      {(() => {
+                        const v = getMedicalValidationStatus(record);
+                        if (v.isDonorValidated) {
+                          return (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-300/75 text-amber-200 text-[9px] font-black uppercase">
+                              <Award className="w-2.5 h-2.5 text-amber-300" />
+                              <span>Donante Validado</span>
+                            </span>
+                          );
+                        }
+                        if (v.donorState === 'si') {
+                          return (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 text-[9px] font-bold uppercase">
+                              <span>💚 Donante</span>
+                            </span>
+                          );
+                        }
+                        return null;
+                      })()}
+                    </div>
                     {record?.domicilio && (
                       <div className="text-xs text-gray-300 flex items-center gap-1 mt-1">
                         <MapPin className="w-3.5 h-3.5 text-[#37c8ff] shrink-0" />
@@ -674,12 +697,29 @@ export const MedicalIdModal: React.FC<MedicalIdModalProps> = ({
                   </div>
                 </div>
 
-                {record?.sangre ? (
-                  <div className="shrink-0 text-center px-3.5 py-2 rounded-2xl bg-gradient-to-b from-red-600 to-rose-800 text-white border-2 border-red-300 shadow-lg shadow-red-950">
-                    <span className="text-[9px] font-bold tracking-wider block opacity-90">GRUPO</span>
-                    <span className="text-2xl sm:text-3xl font-black font-heading tracking-widest">{record.sangre}</span>
-                  </div>
-                ) : (
+                {record?.sangre ? (() => {
+                  const v = getMedicalValidationStatus(record);
+                  return (
+                    <div className="relative shrink-0">
+                      <div
+                        className={`text-center px-3.5 py-2 rounded-2xl bg-gradient-to-b from-red-600 to-rose-800 text-white border-2 shadow-lg shadow-red-950 ${
+                          v.isBloodValidated
+                            ? 'border-amber-300 ring-2 ring-emerald-400/75'
+                            : 'border-red-300'
+                        }`}
+                      >
+                        <span className="text-[9px] font-bold tracking-wider block opacity-90">GRUPO</span>
+                        <span className="text-2xl sm:text-3xl font-black font-heading tracking-widest">{record.sangre}</span>
+                      </div>
+                      {v.isBloodValidated && (
+                        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-emerald-600 border border-amber-300 text-white text-[8px] font-black uppercase tracking-wider inline-flex items-center gap-0.5 shadow whitespace-nowrap">
+                          <BadgeCheck className="w-2.5 h-2.5 text-amber-200" />
+                          <span>VALIDADO</span>
+                        </span>
+                      )}
+                    </div>
+                  );
+                })() : (
                   <div className="shrink-0 px-2.5 py-1 rounded-xl bg-gray-800 border border-gray-600 text-xs text-gray-400">
                     Sin grupo
                   </div>

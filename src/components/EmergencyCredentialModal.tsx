@@ -19,7 +19,9 @@ import {
   User,
   ShieldCheck,
   Tag,
-  Link2
+  Link2,
+  BadgeCheck,
+  Award
 } from 'lucide-react';
 import {
   MedicalRecord,
@@ -35,6 +37,7 @@ import {
 import { getEffectiveOrigin } from '../utils/systemConfig';
 import { playChirp } from '../utils/callHandler';
 import { generateVortexQrDataUrl, renderVortexQrToCanvas } from '../utils/vortexQrGenerator';
+import { getMedicalValidationStatus } from './BloodAndDonorFields';
 
 interface EmergencyCredentialModalProps {
   isOpen: boolean;
@@ -341,6 +344,8 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
       : (record?.dni ? `DNI: ${record.dni}` : 'PUNTA ALTA - BUENOS AIRES');
     ctx.fillText(dniText, textStartX, 265);
 
+    const validation = getMedicalValidationStatus(record);
+
     // Blood Badge
     if (record?.sangre) {
       ctx.fillStyle = '#ef2b3a';
@@ -348,19 +353,60 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
       ctx.roundRect(620, 195, 120, 80, 12);
       ctx.fill();
 
+      if (validation.isBloodValidated) {
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 16px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('GRUPO', 680, 222);
 
       ctx.font = 'bold 34px sans-serif';
-      ctx.fillText(record.sangre, 680, 262);
+      ctx.fillText(record.sangre, 680, 260);
+
+      if (validation.isBloodValidated) {
+        ctx.fillStyle = '#059669';
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(622, 268, 116, 22, 11);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#fef3c7';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText('✓ VALIDADO', 680, 283);
+      }
+    }
+
+    if (validation.donorState === 'si') {
+      ctx.fillStyle = validation.isDonorValidated ? '#064e3b' : '#063d2d';
+      ctx.strokeStyle = validation.isDonorValidated ? '#fbbf24' : '#34d399';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(175, 294, 450, 24, 12);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = validation.isDonorValidated ? '#fde68a' : '#a7f3d0';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(
+        validation.isDonorValidated
+          ? '★ DONANTE DE ÓRGANOS VALIDADO (INCUCAI ✓)'
+          : '💚 DONANTE DE ÓRGANOS DECLARADO (INCUCAI)',
+        400,
+        310
+      );
     }
 
     // QR Container Box (White card)
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.roundRect(175, 315, 450, 450, 24);
+    ctx.roundRect(175, 322, 450, 444, 24);
     ctx.fill();
 
     const proceedWithDownload = async () => {
@@ -372,7 +418,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
         });
         const qrImg = new Image();
         qrImg.onload = async () => {
-          ctx.drawImage(qrImg, 190, 330, 420, 420);
+          ctx.drawImage(qrImg, 190, 334, 420, 420);
 
           // Footer instructions
           ctx.fillStyle = '#ffffff';
@@ -505,19 +551,43 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
         : 'PUNTA ALTA · VORTEX ID';
       ctx.fillText(subText, 540, 636);
 
-      // Blood type + optional pregnancy badge row
-      let qrTopY = 770;
-      if (record?.sangre && pregnancy) {
-        // Blood box left
+      const validation = getMedicalValidationStatus(record);
+      const drawValidatedBloodBadge = (x: number, y: number, w: number, h: number) => {
         ctx.fillStyle = '#ef2b3a';
         ctx.beginPath();
-        ctx.roundRect(140, 660, 230, 88, 18);
+        ctx.roundRect(x, y, w, h, 20);
         ctx.fill();
+        if (validation.isBloodValidated) {
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 4;
+          ctx.stroke();
+        }
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 18px sans-serif';
-        ctx.fillText('GRUPO', 255, 690);
+        ctx.textAlign = 'center';
+        ctx.fillText(w >= 245 ? 'GRUPO Y FACTOR' : 'GRUPO', x + w / 2, y + 30);
         ctx.font = 'bold 40px sans-serif';
-        ctx.fillText(record.sangre, 255, 732);
+        ctx.fillText(record?.sangre || '', x + w / 2, y + 70);
+
+        if (validation.isBloodValidated) {
+          ctx.fillStyle = '#059669';
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.roundRect(x + 22, y + h - 14, w - 44, 26, 13);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = '#fef3c7';
+          ctx.font = 'bold 15px sans-serif';
+          ctx.fillText('✓ VALIDADO', x + w / 2, y + h + 4);
+        }
+      };
+
+      // Blood type + optional pregnancy badge row
+      let qrTopY = 778;
+      if (record?.sangre && pregnancy) {
+        // Blood box left
+        drawValidatedBloodBadge(140, 660, 230, 88);
 
         // Pregnancy alert pill right
         ctx.fillStyle = '#9d174d';
@@ -529,20 +599,13 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
         ctx.stroke();
         ctx.fillStyle = '#fbcfe8';
         ctx.font = 'bold 18px sans-serif';
+        ctx.textAlign = 'center';
         ctx.fillText('EMBARAZO EN CURSO', 665, 690);
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 28px sans-serif';
         ctx.fillText(pregnancy.detailedLabel.slice(0, 30), 665, 730);
       } else if (record?.sangre) {
-        ctx.fillStyle = '#ef2b3a';
-        ctx.beginPath();
-        ctx.roundRect(415, 660, 250, 88, 20);
-        ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 18px sans-serif';
-        ctx.fillText('GRUPO Y FACTOR', 540, 690);
-        ctx.font = 'bold 40px sans-serif';
-        ctx.fillText(record.sangre, 540, 732);
+        drawValidatedBloodBadge(415, 660, 250, 88);
       } else if (pregnancy) {
         ctx.fillStyle = '#9d174d';
         ctx.strokeStyle = '#f472b6';
@@ -553,6 +616,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
         ctx.stroke();
         ctx.fillStyle = '#fbcfe8';
         ctx.font = 'bold 18px sans-serif';
+        ctx.textAlign = 'center';
         ctx.fillText('ALERTA OBSTÉTRICA · EMBARAZO', 540, 690);
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 30px sans-serif';
@@ -591,6 +655,17 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
 
           // Clinical & Emergency Summary Lines directly visible on lock screen
           const summaryLines: Array<{ text: string; color: string }> = [];
+          if (validation.isDonorValidated) {
+            summaryLines.push({
+              text: '★ DONANTE DE ÓRGANOS VALIDADO (INCUCAI ✓)',
+              color: '#fde68a'
+            });
+          } else if (validation.donorState === 'si') {
+            summaryLines.push({
+              text: '💚 DONANTE DE ÓRGANOS DECLARADO (INCUCAI)',
+              color: '#6ee7b7'
+            });
+          }
           if (record?.enf) {
             summaryLines.push({
               text: `⚠️ Alergias/Enf: ${record.enf.slice(0, 48)}`,
@@ -607,7 +682,7 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
             record?.cirugiasPrevias ||
             record?.internacionesPrevias ||
             record?.historialClinico?.[0]?.title;
-          if (clinicalNote) {
+          if (clinicalNote && summaryLines.length < 3) {
             summaryLines.push({
               text: `📋 Clínico: ${clinicalNote.slice(0, 48)}`,
               color: '#e2e8f0'
@@ -626,10 +701,10 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
             ctx.font = '22px sans-serif';
             ctx.fillText('Abre ficha clínica completa, alergias, contactos y GPS', 540, textBaseY + 80);
           } else {
-            summaryLines.slice(0, 3).forEach((line, idx) => {
+            summaryLines.slice(0, 4).forEach((line, idx) => {
               ctx.fillStyle = line.color;
               ctx.font = 'bold 21px sans-serif';
-              ctx.fillText(line.text, 540, textBaseY + 78 + idx * 32);
+              ctx.fillText(line.text, 540, textBaseY + 78 + idx * 30);
             });
           }
 
@@ -832,16 +907,52 @@ export const EmergencyCredentialModal: React.FC<EmergencyCredentialModalProps> =
                         🏷️ #{record.keychainId}
                       </span>
                     )}
+                    {(() => {
+                      const v = getMedicalValidationStatus(record);
+                      if (v.isDonorValidated) {
+                        return (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-300/75 text-amber-200 text-[10px] font-black uppercase">
+                            <Award className="w-3 h-3 text-amber-300" />
+                            <span>Donante Validado</span>
+                          </span>
+                        );
+                      }
+                      if (v.donorState === 'si') {
+                        return (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 text-[10px] font-bold uppercase">
+                            <span>💚 Donante</span>
+                          </span>
+                        );
+                      }
+                      return null;
+                    })()}
                   </div>
                 </div>
               </div>
 
-              {record?.sangre ? (
-                <div className="shrink-0 text-center px-3 py-1.5 rounded-xl bg-gradient-to-b from-red-600 to-rose-700 text-white border border-red-300 shadow-md">
-                  <span className="text-[9px] font-bold block opacity-90">GRUPO</span>
-                  <span className="text-xl font-black font-heading">{record.sangre}</span>
-                </div>
-              ) : (
+              {record?.sangre ? (() => {
+                const v = getMedicalValidationStatus(record);
+                return (
+                  <div className="relative shrink-0">
+                    <div
+                      className={`text-center px-3 py-1.5 rounded-xl bg-gradient-to-b from-red-600 to-rose-700 text-white border shadow-md ${
+                        v.isBloodValidated
+                          ? 'border-amber-300 ring-2 ring-emerald-400/75'
+                          : 'border-red-300'
+                      }`}
+                    >
+                      <span className="text-[9px] font-bold block opacity-90">GRUPO</span>
+                      <span className="text-xl font-black font-heading">{record.sangre}</span>
+                    </div>
+                    {v.isBloodValidated && (
+                      <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-1.5 py-0.2 rounded-full bg-emerald-600 border border-amber-300 text-white text-[8px] font-black uppercase tracking-wider inline-flex items-center gap-0.5 shadow whitespace-nowrap">
+                        <BadgeCheck className="w-2.5 h-2.5 text-amber-200" />
+                        <span>VALIDADO</span>
+                      </span>
+                    )}
+                  </div>
+                );
+              })() : (
                 <span className="text-xs text-gray-400">Sin grupo</span>
               )}
             </div>
